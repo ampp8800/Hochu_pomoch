@@ -1,4 +1,4 @@
-package ru.startandroid.develop.trysecond;
+package com.ampp8800.trysecond;
 
 import androidx.appcompat.app.AppCompatActivity;
 
