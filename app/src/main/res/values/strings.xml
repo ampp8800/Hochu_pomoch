@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Помочь</string>
     <string name="loading">Загрузка...</string>
     <string name="choose_a_category_of_help">Выберите категорию помощи</string>
     <string name="news">Новости</string>
