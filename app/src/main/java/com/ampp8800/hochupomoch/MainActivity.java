@@ -2,7 +2,9 @@ package com.ampp8800.hochupomoch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
         super.onCreate(savedInstanceHelp);
+        Context context = this;
         setContentView(R.layout.activity_help);
         // инициализация тулбара
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -26,8 +29,15 @@ public class MainActivity extends AppCompatActivity {
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        OnHelpItemClicked onHelpItemClicked = new OnHelpItemClicked() {
+            @Override
+            public void invoke(String name) {
+                Toast toast = Toast.makeText(context, name, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        };
         // создаем адаптер
-        HelpAdapter adapter = new HelpAdapter(this, helps);
+        HelpAdapter adapter = new HelpAdapter(context, helps, onHelpItemClicked);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
     }

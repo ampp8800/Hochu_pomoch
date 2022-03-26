@@ -17,11 +17,13 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
     private final LayoutInflater inflater;
     private final List<HelpListItem> helpListItems;
     private final Context context;
+    private final OnHelpItemClicked onHelpItemClicked;
 
-    HelpAdapter(Context context, List<HelpListItem> helpListItems) {
+    HelpAdapter(Context context, List<HelpListItem> helpListItems, OnHelpItemClicked onHelpItemClicked) {
         this.helpListItems = helpListItems;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
+        this.onHelpItemClicked = onHelpItemClicked;
     }
 
     @Override
@@ -56,10 +58,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
                 @Override
                 public void onClick(View view) {
-                    int positionIndex = getAdapterPosition();
-                    String name = helpListItems.get(positionIndex).getName();
-                    Toast toast = Toast.makeText(context, name, Toast.LENGTH_SHORT);
-                    toast.show();
+                        onHelpItemClicked.invoke(helpListItems.get(getAdapterPosition()).getName());
                 }
             });
         }
