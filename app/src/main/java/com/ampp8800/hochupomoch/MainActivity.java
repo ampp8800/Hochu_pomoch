@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        OnHelpItemClicked onHelpItemClicked = new OnHelpItemClicked() {
+        OnHelpItemClickListner onHelpItemClickListner = new OnHelpItemClickListner() {
             @Override
             public void invoke(String name) {
                 Toast toast = Toast.makeText(context, name, Toast.LENGTH_SHORT);
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         // создаем адаптер
-        HelpAdapter adapter = new HelpAdapter(context, helps, onHelpItemClicked);
+        HelpAdapter adapter = new HelpAdapter(context, helps, onHelpItemClickListner);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
     }

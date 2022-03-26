@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -17,13 +17,13 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
     private final LayoutInflater inflater;
     private final List<HelpListItem> helpListItems;
     private final Context context;
-    private final OnHelpItemClicked onHelpItemClicked;
+    private final OnHelpItemClickListner onHelpItemClickListner;
 
-    HelpAdapter(Context context, List<HelpListItem> helpListItems, OnHelpItemClicked onHelpItemClicked) {
+    HelpAdapter(@NonNull Context context, @NonNull List<HelpListItem> helpListItems, @NonNull OnHelpItemClickListner onHelpItemClickListner) {
         this.helpListItems = helpListItems;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
-        this.onHelpItemClicked = onHelpItemClicked;
+        this.onHelpItemClickListner = onHelpItemClickListner;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
                 @Override
                 public void onClick(View view) {
-                        onHelpItemClicked.invoke(helpListItems.get(getAdapterPosition()).getName());
+                        onHelpItemClickListner.invoke(helpListItems.get(getAdapterPosition()).getName());
                 }
             });
         }
