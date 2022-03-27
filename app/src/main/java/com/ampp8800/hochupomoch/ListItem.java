@@ -1,21 +1,21 @@
 package com.ampp8800.hochupomoch;
 
-public class HelpListItem {
+public class ListItem {
     private final String name;
     private final int imageHelpResource;
 
 
-    public HelpListItem(String name, int imageHelpResource) {
+    public ListItem(String name, int imageResource) {
 
         this.name = name;
-        this.imageHelpResource = imageHelpResource;
+        this.imageHelpResource = imageResource;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public int getImageHelpResource() {
+    public int getImageResource() {
         return this.imageHelpResource;
     }
 

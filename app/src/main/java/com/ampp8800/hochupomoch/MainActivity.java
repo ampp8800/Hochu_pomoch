@@ -3,7 +3,9 @@ package com.ampp8800.hochupomoch;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<HelpListItem> helps = new ArrayList<HelpListItem>();
+    private ArrayList<ListItem> helps = new ArrayList<ListItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
@@ -29,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        OnHelpItemClickListner onHelpItemClickListner = new OnHelpItemClickListner() {
+        // добавление тоста
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
             public void invoke(String name) {
                 Toast toast = Toast.makeText(context, name, Toast.LENGTH_SHORT);
@@ -37,17 +40,30 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         // создаем адаптер
-        HelpAdapter adapter = new HelpAdapter(context, helps, onHelpItemClickListner);
+        HelpAdapter adapter = new HelpAdapter(context, helps, onItemClickListener);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
+
+        //переделать это говно
+        View view = (View) findViewById(R.id.profile_button);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
+
     private void setInitialData() {
-        helps.add(new HelpListItem("Дети", R.drawable.children));
-        helps.add(new HelpListItem("Взрослые", R.drawable.adults));
-        helps.add(new HelpListItem("Пожилые", R.drawable.elderly));
-        helps.add(new HelpListItem("Животные", R.drawable.animals));
-        helps.add(new HelpListItem("Мероприятия", R.drawable.events));
+        helps.add(new ListItem("Дети", R.drawable.children));
+        helps.add(new ListItem("Взрослые", R.drawable.adults));
+        helps.add(new ListItem("Пожилые", R.drawable.elderly));
+        helps.add(new ListItem("Животные", R.drawable.animals));
+        helps.add(new ListItem("Мероприятия", R.drawable.events));
 
     }
 }
+

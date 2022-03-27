@@ -15,11 +15,11 @@ import java.util.List;
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemViewHolder> {
 
     private final LayoutInflater inflater;
-    private final List<HelpListItem> helpListItems;
+    private final List<ListItem> helpListItems;
     private final Context context;
-    private final OnHelpItemClickListner onHelpItemClickListner;
+    private final OnItemClickListener onHelpItemClickListner;
 
-    HelpAdapter(@NonNull Context context, @NonNull List<HelpListItem> helpListItems, @NonNull OnHelpItemClickListner onHelpItemClickListner) {
+    HelpAdapter(@NonNull Context context, @NonNull List<ListItem> helpListItems, @NonNull OnItemClickListener onHelpItemClickListner) {
         this.helpListItems = helpListItems;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -28,15 +28,14 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
     @Override
     public HelpListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = inflater.inflate(R.layout.help_item, parent, false);
         return new HelpListItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(HelpListItemViewHolder holder, int position) {
-        HelpListItem help = helpListItems.get(position);
-        holder.imageHelpView.setImageResource(help.getImageHelpResource());
+        ListItem help = helpListItems.get(position);
+        holder.imageHelpView.setImageResource(help.getImageResource());
         holder.nameView.setText(help.getName());
     }
 
@@ -52,15 +51,16 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
         HelpListItemViewHolder(View view) {
             super(view);
-            imageHelpView = view.findViewById(R.id.imageHelp);
-            nameView = view.findViewById(R.id.name);
+            imageHelpView = view.findViewById(R.id.image_help);
+            nameView = view.findViewById(R.id.name_help);
             view.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                        onHelpItemClickListner.invoke(helpListItems.get(getAdapterPosition()).getName());
+                    onHelpItemClickListner.invoke(helpListItems.get(getAdapterPosition()).getName());
                 }
             });
         }
     }
 }
+
