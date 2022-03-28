@@ -5,9 +5,11 @@
     android:background="@color/leaf">
 
     <TextView
+        android:id="@+id/toolbar_name"
         style="@style/TextStyle2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="70dp"
         android:paddingRight="70dp"
         android:text="@string/help" />
 

@@ -10,22 +10,22 @@
     <ImageView
         android:id="@+id/image_friend"
         android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_height="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/name_friend"
         style="@style/TextStyle"
-        android:textColor="@color/black_87"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:padding="12dp"
         android:text="Название"
+        android:textColor="@color/black_87"
         app:layout_constraintStart_toEndOf="@id/image_friend" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

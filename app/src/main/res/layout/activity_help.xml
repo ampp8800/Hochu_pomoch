@@ -32,9 +32,9 @@
         android:paddingTop="4dp">
 
         <LinearLayout
+            android:id="@+id/news_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/news_button"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -55,9 +55,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/search_button"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -115,9 +115,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/history_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/history_button"
             android:layout_weight="1"
             android:orientation="vertical">
 

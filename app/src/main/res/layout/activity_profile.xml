@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,16 +28,17 @@
                 android:src="@drawable/image_man" />
 
             <TextView
+                android:id="@+id/profile_text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textSize="24sp"
-                android:textColor="@color/black_87"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif"
                 android:lineSpacingExtra="8sp"
-                android:text="Константинов Денис"/>
+                android:text="Константинов Денис"
+                android:textColor="@color/black_87"
+                android:textSize="24sp"
+                android:textStyle="normal" />
 
             <TextView
                 style="@style/TextStyle3"
@@ -41,14 +46,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/date_of_birth"/>
+                android:text="@string/date_of_birth" />
 
             <TextView
                 style="@style/TextStyle8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="01 февраля 1980"/>
+                android:text="01 февраля 1980" />
 
             <TextView
                 style="@style/TextStyle3"
@@ -56,33 +61,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/field_of_activity"/>
+                android:text="@string/field_of_activity" />
 
             <TextView
                 style="@style/TextStyle8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="Хирургия, травмотология"/>
+                android:text="Хирургия, травмотология" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_push_notifications"
                 style="@style/TextStyle8"
-                android:theme="@style/MySwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginRight="26dp"
                 android:layout_marginBottom="18dp"
-                android:text="@string/receive_push_notifications"/>
+                android:text="@string/receive_push_notifications"
+                android:theme="@style/MySwitch" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_with_shadow"
-                android:paddingTop="4dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="4dp">
 
                 <TextView
                     style="@style/TextStyle3"
@@ -91,7 +96,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="11dp"
-                    android:text="@string/your_friends"/>
+                    android:text="@string/your_friends" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/friends_list"
@@ -107,18 +112,18 @@
                 android:paddingTop="4dp">
 
                 <Button
+                    style="@style/TextStyle7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/TextStyle7"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="38dp"
                     android:backgroundTint="@color/leaf"
                     android:gravity="center"
-                    android:text="@string/sign_out"/>
+                    android:text="@string/sign_out"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
@@ -134,9 +139,9 @@
         android:paddingTop="4dp">
 
         <LinearLayout
+            android:id="@+id/news_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/news_button"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -157,9 +162,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/search_button"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -217,9 +222,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/history_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/history_button"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -239,9 +244,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/profile_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/profile_button"
             android:layout_weight="1"
             android:orientation="vertical">
 
