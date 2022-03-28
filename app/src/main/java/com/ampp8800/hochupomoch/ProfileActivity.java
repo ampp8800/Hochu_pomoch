@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceHelp);
         Context context = this;
         setContentView(R.layout.activity_profile);
+
+        // вставка изображения
+        ImageView targetImageView = (ImageView) findViewById(R.id.profile_image);
+        Glide
+                .with(context)
+                .load("https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=720x1080&quality=96&sign=d1a87aef8827f52ed841888c14b40e17&type=album")
+                .into(targetImageView);
 
         // начальная инициализация списка
         setInitialData();
