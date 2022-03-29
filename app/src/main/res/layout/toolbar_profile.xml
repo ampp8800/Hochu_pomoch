@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="56dp"
     android:background="@color/leaf">
+
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="end"
+        android:layout_marginRight="22dp"
+        android:src="@drawable/ic_edit" />
 
     <TextView
         android:id="@+id/toolbar_name"
         style="@style/TextStyle2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="70dp"
-        android:paddingRight="70dp"
-        android:text="@string/help" />
+        android:gravity="center_horizontal"
+        android:paddingLeft="30dp"
+        android:text="@string/profile" />
+
 
 </androidx.appcompat.widget.Toolbar>

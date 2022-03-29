@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,20 +26,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         // инициализация тулбара
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView textView = (TextView) toolbar.findViewById(R.id.toolbar_name);
-        textView.setText("Профиль");
-        setSupportActionBar(toolbar);
+
         // добавить кнопку редактирования
 
         // вставка изображения из сети
         ImageView targetImageView = (ImageView) findViewById(R.id.profile_image);
         Glide
                 .with(context)
-                .load("https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=720x1080&quality=96&sign=d1a87aef8827f52ed841888c14b40e17&type=album")
+                .load("https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png")
                 .into(targetImageView);
-
-        // вставка текста из сети
-        TextView textView1 = (TextView) findViewById(R.id.profile_text_name);
 
         // начальная инициализация списка
         setInitialData();
