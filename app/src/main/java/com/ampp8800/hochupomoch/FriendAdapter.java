@@ -10,15 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendListItemViewHolder> {
 
     private final LayoutInflater inflater;
-    private final List<ListItem> friendListItems;
+    private final List<ProfileRepository.FriendListItem> friendListItems;
     private final Context context;
+    private View view;
 
-    FriendAdapter(@NonNull Context context, @NonNull List<ListItem> friendListItems) {
+    FriendAdapter(@NonNull Context context, @NonNull List<ProfileRepository.FriendListItem> friendListItems) {
         this.friendListItems = friendListItems;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -26,14 +29,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendList
 
     @Override
     public FriendListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.friend_item, parent, false);
+        view = inflater.inflate(R.layout.friend_item, parent, false);
         return new FriendListItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(FriendListItemViewHolder holder, int position) {
-        ListItem friend = friendListItems.get(position);
-        holder.imageFriendView.setImageResource(friend.getImageResource());
+        ProfileRepository.FriendListItem friend = friendListItems.get(position);
+        holder.imageFriendView.setImageResource(targetImageViewFromUrl(friend.getImageViewURL()));
         holder.nameView.setText(friend.getName());
     }
 
@@ -51,7 +54,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendList
             super(view);
             imageFriendView = view.findViewById(R.id.image_friend);
             nameView = view.findViewById(R.id.name_friend);
-
         }
+    }
+
+    private int targetImageViewFromUrl(String imageViewURL) {
+        Glide
+                .with(context)
+                .load(imageViewURL)
+                .into((ImageView) view.findViewById(R.id.image_friend));
+        return R.drawable.avatar_frend;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,7 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
-    private ArrayList<ListItem> friends = new ArrayList<ListItem>();
+    private ArrayList<ProfileRepository.FriendListItem> friends = (ArrayList<ProfileRepository.FriendListItem>) ProfileRepository.getProfileRepository().getFrendsList();
 
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
@@ -27,17 +28,18 @@ public class ProfileActivity extends AppCompatActivity {
         // инициализация тулбара
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        // добавить кнопку редактирования
+        // вставка изображения из репозитория
+        setImageViewFromInternet(context, R.id.profile_image, ProfileRepository.getImageViewURL());
 
-        // вставка изображения из сети
-        ImageView targetImageView = (ImageView) findViewById(R.id.profile_image);
-        Glide
-                .with(context)
-                .load("https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png")
-                .into(targetImageView);
+        // вставка текста из репозитория
+        TextView textView = findViewById(R.id.profile_text_name);
+        textView.setText(ProfileRepository.getProfileRepository().getNameProfile());
+        textView = findViewById(R.id.date_of_birth);
+        textView.setText(ProfileRepository.getProfileRepository().getDateOfBirth());
+        textView = findViewById(R.id.field_of_activity);
+        textView.setText(ProfileRepository.getProfileRepository().getFieldOfActivity());
 
         // начальная инициализация списка
-        setInitialData();
         RecyclerView recyclerView = findViewById(R.id.friends_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
 
@@ -58,13 +60,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void setInitialData() {
-        friends.add(new ListItem("Дмитрий Валерьевич", R.drawable.avatar_1));
-        friends.add(new ListItem("Евгений Александров", R.drawable.avatar_2));
-        friends.add(new ListItem("Виктор Кузнецов", R.drawable.avatar_3));
-        friends.add(new ListItem("Дмитрий Валерьевич", R.drawable.avatar_1));
-        friends.add(new ListItem("Евгений Александров", R.drawable.avatar_2));
-        friends.add(new ListItem("Виктор Кузнецов", R.drawable.avatar_3));
 
+    private void setImageViewFromInternet(Context context, int idImageView, String imageViewURL) {
+        ImageView targetImageView = (ImageView) findViewById(idImageView);
+        Glide
+                .with(context)
+                .load(imageViewURL)
+                .into(targetImageView);
     }
+
 }
