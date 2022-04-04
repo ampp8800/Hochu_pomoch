@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
     private ArrayList<ProfileRepository.FriendListItem> friends = (ArrayList<ProfileRepository.FriendListItem>) ProfileRepository.getProfileRepository().getFrendsList();
-
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
         super.onCreate(savedInstanceHelp);
@@ -26,17 +26,17 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         // инициализация тулбара
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        textView = (TextView) findViewById(R.id.tv_toolbar_name);
+        textView.setText(R.string.profile);
         // вставка изображения из репозитория
-        setImageViewFromInternet(context, R.id.profile_image, ProfileRepository.getImageViewURL());
+        setImageViewFromInternet(context, R.id.iv_profile, ProfileRepository.getImageViewURL());
 
         // вставка текста из репозитория
-        TextView textView = findViewById(R.id.profile_text_name);
+        textView = findViewById(R.id.tv_profile_name);
         textView.setText(ProfileRepository.getProfileRepository().getNameProfile());
-        textView = findViewById(R.id.date_of_birth);
+        textView = findViewById(R.id.tv_date_of_birth);
         textView.setText(ProfileRepository.getProfileRepository().getDateOfBirth());
-        textView = findViewById(R.id.field_of_activity);
+        textView = findViewById(R.id.tv_field_of_activity);
         textView.setText(ProfileRepository.getProfileRepository().getFieldOfActivity());
 
         // начальная инициализация списка

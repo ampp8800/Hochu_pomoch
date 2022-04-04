@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -25,8 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
         // инициализация тулбара
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
+        imageView.setVisibility(View.INVISIBLE);
+        TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
+        textView.setText(R.string.help);
         // начальная инициализация списка
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
@@ -56,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void setInitialData() {
-        helps.add(new ListItem("Дети", R.drawable.children));
-        helps.add(new ListItem("Взрослые", R.drawable.adults));
-        helps.add(new ListItem("Пожилые", R.drawable.elderly));
-        helps.add(new ListItem("Животные", R.drawable.animals));
-        helps.add(new ListItem("Мероприятия", R.drawable.events));
+        helps.add(new ListItem((String) getText(R.string.children), R.drawable.children));
+        helps.add(new ListItem((String) getText(R.string.adults), R.drawable.adults));
+        helps.add(new ListItem((String) getText(R.string.elderly), R.drawable.elderly));
+        helps.add(new ListItem((String) getText(R.string.animals), R.drawable.animals));
+        helps.add(new ListItem((String) getText(R.string.events), R.drawable.events));
 
     }
 }

@@ -5,6 +5,7 @@
     android:background="@color/leaf">
 
     <ImageView
+        android:id="@+id/iv_edit"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_gravity="end"
@@ -12,13 +13,12 @@
         android:src="@drawable/ic_edit" />
 
     <TextView
-        android:id="@+id/toolbar_name"
+        android:id="@+id/tv_toolbar_name"
         style="@style/TextStyle2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingLeft="30dp"
-        android:text="@string/profile" />
+        android:layout_gravity="center" />
 
 
 </androidx.appcompat.widget.Toolbar>

@@ -52,8 +52,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendList
 
         FriendListItemViewHolder(View view) {
             super(view);
-            imageFriendView = view.findViewById(R.id.image_friend);
-            nameView = view.findViewById(R.id.name_friend);
+            imageFriendView = view.findViewById(R.id.civ__friend);
+            nameView = view.findViewById(R.id.tv_name_friend);
         }
     }
 
@@ -61,7 +61,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendList
         Glide
                 .with(context)
                 .load(imageViewURL)
-                .into((ImageView) view.findViewById(R.id.image_friend));
+                .into((ImageView) view.findViewById(R.id.civ__friend));
         return R.drawable.avatar_frend;
     }
 }

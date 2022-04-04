@@ -8,7 +8,7 @@
 
 
     <ProgressBar
-        android:id="@+id/pbProgressBar"
+        android:id="@+id/pb_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.555" />
 
     <TextView
-        android:id="@+id/tvTextView"
+        android:id="@+id/tv_load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
@@ -37,7 +37,7 @@
         tools:textSize="14sp" />
 
     <ImageView
-        android:id="@+id/ivIcon_logo"
+        android:id="@+id/iv_icon_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,7 @@
         app:srcCompat="@drawable/ic_icon_logo" />
 
     <ImageView
-        android:id="@+id/ivLogo_mss"
+        android:id="@+id/iv_logo_mss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

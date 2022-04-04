@@ -51,8 +51,8 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
         HelpListItemViewHolder(View view) {
             super(view);
-            imageHelpView = view.findViewById(R.id.image_help);
-            nameView = view.findViewById(R.id.name_help);
+            imageHelpView = view.findViewById(R.id.iv_help);
+            nameView = view.findViewById(R.id.tv_name_help);
             view.setOnClickListener(new View.OnClickListener() {
 
                 @Override
