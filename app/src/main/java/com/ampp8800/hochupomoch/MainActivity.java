@@ -3,10 +3,8 @@ package com.ampp8800.hochupomoch;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
         // инициализация тулбара
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle(""); //избавиться от этого костыля
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
@@ -51,16 +49,9 @@ public class MainActivity extends AppCompatActivity {
         HelpAdapter adapter = new HelpAdapter(context, helps, onItemClickListener);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
-
-        //переделать это говно
-        View view = (View) findViewById(R.id.profile_button);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+        //логика работы нижней панели навигации
+        BottomNavigationLogic bottomNavigationLogic = new BottomNavigationLogic(this, (View) findViewById(R.id.bottom_navigation));
+        bottomNavigationLogic.switchingSectionsByAccrual();
 
     }
 
