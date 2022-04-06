@@ -1,6 +1,7 @@
 package com.ampp8800.hochupomoch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
         textView.setText(ProfileRepository.getProfileRepository().getFieldOfActivity());
         // начальная инициализация списка
         RecyclerView recyclerView = findViewById(R.id.friends_list);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         // создаем адаптер
         FriendAdapter adapter = new FriendAdapter(context, friends);
         // устанавливаем для списка адаптер
@@ -56,6 +58,10 @@ public class ProfileActivity extends AppCompatActivity {
                 .with(context)
                 .load(imageViewURL)
                 .into(targetImageView);
+    }
+    public void onBackPressed() {
+        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
