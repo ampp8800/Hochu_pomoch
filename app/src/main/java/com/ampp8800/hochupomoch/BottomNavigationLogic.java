@@ -31,12 +31,16 @@ public class BottomNavigationLogic extends AppCompatActivity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.help_button:
-                        intent = new Intent(context, MainActivity.class);
-                        context.startActivity(intent);
+                        if (context.getClass() != MainActivity.class) {
+                            intent = new Intent(context, MainActivity.class);
+                            context.startActivity(intent);
+                        }
                         break;
                     case R.id.profile_button:
-                        intent = new Intent(context, ProfileActivity.class);
-                        context.startActivity(intent);
+                        if (context.getClass() != ProfileActivity.class) {
+                            intent = new Intent(context, ProfileActivity.class);
+                            context.startActivity(intent);
+                        }
                         break;
                 }
             }
