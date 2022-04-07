@@ -2,12 +2,21 @@ package com.ampp8800.hochupomoch;
 
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class ProfileItem {
-    private ImageView ivProfile;
-    private String nameProfile;
-    private List<FriendListItem> frendsList;
+    private final ImageView ivProfile;
+    private final String nameProfile;
+    private final List<FriendListItem> frendsList;
+
+
+    public ProfileItem(@NonNull String name, @NonNull ImageView imageView, @NonNull List<FriendListItem> list) {
+        this.nameProfile = name;
+        this.ivProfile = imageView;
+        this.frendsList = list;
+    }
 
     public ImageView getIvProfile() {
         return ivProfile;
@@ -21,18 +30,12 @@ public class ProfileItem {
         return frendsList;
     }
 
-    public ProfileItem(String name, ImageView imageView, List<FriendListItem> list) {
-        this.nameProfile = name;
-        this.ivProfile = imageView;
-        this.frendsList = list;
-    }
-
 
     public class FriendListItem {
-        private ImageView imageView;
-        private String name;
+        private final ImageView imageView;
+        private final String name;
 
-        public FriendListItem(String name, ImageView imageView) {
+        public FriendListItem(@NonNull String name, @NonNull ImageView imageView) {
             this.name = name;
             this.imageView = imageView;
         }

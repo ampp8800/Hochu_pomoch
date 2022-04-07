@@ -57,7 +57,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendList
         }
     }
 
-    private int targetImageViewFromUrl(String imageViewURL) {
+    private int targetImageViewFromUrl(@NonNull String imageViewURL) {
         Glide
                 .with(context)
                 .load(imageViewURL)

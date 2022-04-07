@@ -1,5 +1,6 @@
 package com.ampp8800.hochupomoch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -51,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic bottomNavigationLogic = new BottomNavigationLogic(this, (View) findViewById(R.id.bottom_navigation));
-        bottomNavigationLogic.switchingSectionsByAccrual();
+        BottomNavigationLogic.switchingSectionsByAccrual( this, (View) findViewById(R.id.bottom_navigation));
 
 
     }
