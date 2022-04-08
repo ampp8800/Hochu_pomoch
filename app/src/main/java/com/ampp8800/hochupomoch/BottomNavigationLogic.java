@@ -16,34 +16,17 @@ public class BottomNavigationLogic {
         View historyButton = (View) view.findViewById(R.id.history_button);
         View profileButton = (View) view.findViewById(R.id.profile_button);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.help_button:
-                        if (context.getClass() != MainActivity.class) {
-                            Intent intent = new Intent(context, MainActivity.class);
-                            context.startActivity(intent);
-                        }
-                        break;
-                    case R.id.profile_button:
-                        if (context.getClass() != ProfileActivity.class) {
-                            Intent intent = new Intent(context, ProfileActivity.class);
-                            context.startActivity(intent);
-                        }
-                        break;
-                }
-            }
-        };
 
-        newsButton.setOnClickListener(onClickListener);
-        searchButton.setOnClickListener(onClickListener);
-        helpButton.setOnClickListener(onClickListener);
-        historyButton.setOnClickListener(onClickListener);
-        profileButton.setOnClickListener(onClickListener);
+        if (context.getClass() != MainActivity.class) {
+            helpButton.setOnClickListener(v -> context.startActivity(new Intent(context, MainActivity.class)));
+        }
 
+        if (context.getClass() != ProfileActivity.class) {
+            profileButton.setOnClickListener(v -> context.startActivity(new Intent(context, ProfileActivity.class)));
+        }
     }
 }
+
 
 
 
