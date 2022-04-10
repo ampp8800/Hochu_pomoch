@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         // инициализация тулбара
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setCustomView(R.layout.toolbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.profile);
         // вставка изображения из репозитория

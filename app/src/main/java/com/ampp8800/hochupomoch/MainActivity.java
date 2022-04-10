@@ -1,6 +1,7 @@
 package com.ampp8800.hochupomoch;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -27,14 +28,16 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
         setContentView(R.layout.activity_help);
         // инициализация тулбара
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(""); //избавиться от этого костыля
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setCustomView(R.layout.toolbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
-        imageView.setVisibility(View.INVISIBLE);
+        imageView.setVisibility(View.GONE);
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.help);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // начальная инициализация списка
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
