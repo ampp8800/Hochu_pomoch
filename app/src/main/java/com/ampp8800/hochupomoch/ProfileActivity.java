@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
-    private ArrayList<ProfileRepository.FriendListItem> friends = (ArrayList<ProfileRepository.FriendListItem>) ProfileRepository.getInstance().getFrendsList();
+    private List<ListItem> friends = ProfileRepository.getInstance().getFrendsList();
     TextView textView;
 
     @Override
@@ -29,13 +29,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         // инициализация тулбара
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        ImageView imageView = (ImageView) findViewById(R.id.iv_icon_back);
+        imageView.setVisibility(View.GONE);
         textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.profile);
         // вставка изображения из репозитория
-        setImageViewFromInternet(context, R.id.iv_profile, ProfileRepository.getImageViewURL());
+        setImageViewFromInternet(context, R.id.iv_profile, ProfileRepository.getImageViewUrl());
         // вставка текста из репозитория
         textView = findViewById(R.id.tv_profile_name);
         textView.setText(ProfileRepository.getInstance().getNameProfile());
@@ -63,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .load(imageViewURL)
                 .into(targetImageView);
     }
+
     public void onBackPressed() {
         Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
         startActivity(intent);

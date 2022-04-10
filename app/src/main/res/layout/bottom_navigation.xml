@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_news" />
+            app:srcCompat="@drawable/ic_news" />
 
         <TextView
             style="@style/TextStyle4"
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_searh" />
+            app:srcCompat="@drawable/ic_searh" />
 
         <TextView
             style="@style/TextStyle4"
@@ -67,17 +67,17 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/red_circle"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/red_circle" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_heart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_heart" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_history" />
+            app:srcCompat="@drawable/ic_history" />
 
         <TextView
             style="@style/TextStyle4"
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_profile" />
+            app:srcCompat="@drawable/ic_profile" />
 
         <TextView
             style="@style/TextStyle4"

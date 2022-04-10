@@ -29,14 +29,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
         // инициализация тулбара
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
         imageView.setVisibility(View.GONE);
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.help);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         // начальная инициализация списка
         setInitialData();
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic.switchingSectionsByAccrual( this, (View) findViewById(R.id.bottom_navigation));
+        BottomNavigationLogic.switchingSectionsByAccrual(this, (View) findViewById(R.id.bottom_navigation));
 
 
     }
