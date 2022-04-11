@@ -16,4 +16,13 @@
     <string name="elderly">Пожилые</string>
     <string name="animals">Животные</string>
     <string name="events">Мероприятия</string>
+    <string name="greeting_at_authorization">Для участия в мероприятиях войдите в приложение через социальые сети</string>
+    <string name="or_log_in_through_the_app">Или авторизуйтесь через приложение</string>
+    <string name="E_mail">E-mail</string>
+    <string name="enter_e_mail">Введите e-mail</string>
+    <string name="password">Пароль</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter">Войти</string>
+    <string name="forgot_your_password">Забыли пароль?</string>
+    <string name="registration">Регистрация</string>
 </resources>
