@@ -66,8 +66,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+    }
+
+    public void logout(View view) {
+        startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
     }
 
 }

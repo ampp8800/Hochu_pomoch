@@ -12,12 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HochuPomoch">
         <activity
-            android:name=".AuthorizationActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.SplashActivity"
             android:exported="true">
-<!--            android:name=".SplashActivity"-->
-<!--            android:theme="@style/Theme.SplashActivity"-->
-<!--            android:exported="true">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +23,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".ProfileActivity" />
-<!--        <activity android:name=".AuthorizationActivity" />-->
+        <activity android:name=".AuthorizationActivity" />
     </application>
 
 </manifest>

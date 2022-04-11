@@ -118,6 +118,7 @@
                     android:layout_marginBottom="38dp"
                     android:backgroundTint="@color/leaf"
                     android:gravity="center"
+                    android:onClick="logout"
                     android:text="@string/sign_out"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
