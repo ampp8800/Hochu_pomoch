@@ -1,5 +1,6 @@
 package com.ampp8800.hochupomoch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,10 +33,18 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     public void login(View view) {
         profileRepository.setAuthorization(((EditText) findViewById(R.id.et_edit_e_mail)).getText().toString(), ((EditText) findViewById(R.id.et_edit_password)).getText().toString());
-        if (profileRepository.getAuthorization()) {
+        if (profileRepository.getAuthorization(this)) {
             startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
         }else {
             Toast.makeText(this, R.string.wrong_login, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+
     }
 }

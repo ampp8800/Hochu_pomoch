@@ -1,5 +1,6 @@
 package com.ampp8800.hochupomoch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,8 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ProfileRepository profileRepository = ProfileRepository.getInstance();
-                if (profileRepository.getAuthorization()) {
+                if (ProfileRepository.getAuthorization(SplashActivity.this)) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }else {
                     startActivity(new Intent(SplashActivity.this, AuthorizationActivity.class));

@@ -71,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void logout(View view) {
         startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
+        ProfileRepository.setAuthorization("","");
     }
 
 }

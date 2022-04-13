@@ -1,6 +1,7 @@
 package com.ampp8800.hochupomoch;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,8 @@ public class ProfileRepository {
         return FIELD_OF_ACTIVITY;
     }
 
-    public static boolean getAuthorization() {
+    public static boolean getAuthorization(Context context) {
+        authorization = context.getSharedPreferences(SAVED_AUTHORIZATION, Context.MODE_PRIVATE);
         return authorization.getBoolean(SAVED_AUTHORIZATION, false);
     }
 
