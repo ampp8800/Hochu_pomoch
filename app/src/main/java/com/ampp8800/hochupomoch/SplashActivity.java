@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,8 +21,12 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
+                ProfileRepository profileRepository = ProfileRepository.getInstance();
+                if (profileRepository.getAuthorization()) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }else {
+                    startActivity(new Intent(SplashActivity.this, AuthorizationActivity.class));
+                }
                 finish();
             }
         }, LOAD_SECOND * 1000);

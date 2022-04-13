@@ -1,6 +1,8 @@
 package com.ampp8800.hochupomoch;
 
 
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -13,6 +15,10 @@ public class ProfileRepository {
     private static final String NAME_PROFILE = "Сычёв Антон";
     private static final String DATE_OF_BIRTH = "01 мая 1999";
     private static final String FIELD_OF_ACTIVITY = "Эксперт, все области";
+    private static final String LOGIN = "admin";
+    private static final String PASSWORD = "password";
+    private static final String SAVED_AUTHORIZATION = "saved_authorization";
+    static SharedPreferences authorization;
     private static ArrayList<ListItem> frendsList = new ArrayList<>();
 
 
@@ -25,6 +31,20 @@ public class ProfileRepository {
 
     public static String getFieldOfActivity() {
         return FIELD_OF_ACTIVITY;
+    }
+
+    public static boolean getAuthorization() {
+        return authorization.getBoolean(SAVED_AUTHORIZATION, false);
+    }
+
+    public static void setAuthorization(String login, String password) {
+        SharedPreferences.Editor editor = authorization.edit();
+        if (login.equals(LOGIN) && password.equals(PASSWORD)) {
+            editor.putBoolean(SAVED_AUTHORIZATION, true);
+        } else {
+            editor.putBoolean(SAVED_AUTHORIZATION, false);
+        }
+        editor.commit();
     }
 
     @NonNull

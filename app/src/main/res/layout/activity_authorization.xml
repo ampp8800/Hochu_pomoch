@@ -73,6 +73,7 @@
                 android:text="@string/E_mail" />
 
             <EditText
+                android:id="@+id/et_edit_e_mail"
                 style="@style/TextStylePopupPlaceholder"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -89,12 +90,14 @@
                 android:text="@string/password" />
 
             <EditText
+                android:id="@+id/et_edit_password"
                 style="@style/TextStylePopupPlaceholder"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="20dp"
-                android:hint="@string/enter_password" />
+                android:hint="@string/enter_password"
+                android:inputType = "textPassword"/>
 
             <Button
                 style="@style/TextStyle17"
@@ -106,6 +109,7 @@
                 android:backgroundTint="@color/leaf"
                 android:gravity="center"
                 android:text="@string/enter"
+                android:onClick = "login"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
