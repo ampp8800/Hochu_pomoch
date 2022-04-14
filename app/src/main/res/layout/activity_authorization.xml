@@ -72,14 +72,20 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/E_mail" />
 
-            <EditText
-                android:id="@+id/et_edit_e_mail"
-                style="@style/TextStylePopupPlaceholder"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="18dp"
-                android:layout_marginRight="20dp"
-                android:hint="@string/enter_e_mail" />
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:id="@+id/et_edit_e_mail"
+                    style="@style/TextStylePopupPlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/enter_e_mail" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <TextView
                 style="@style/TextStyle3"
@@ -89,15 +95,23 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/password" />
 
-            <EditText
-                android:id="@+id/et_edit_password"
-                style="@style/TextStylePopupPlaceholder"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="20dp"
-                android:hint="@string/enter_password"
-                android:inputType = "textPassword"/>
+                app:passwordToggleDrawable="@drawable/visibillity_selection"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/et_edit_password"
+                    style="@style/TextStylePopupPlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/enter_password"
+                    android:password="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <Button
                 style="@style/TextStyle17"
@@ -108,8 +122,8 @@
                 android:layout_marginRight="18dp"
                 android:backgroundTint="@color/leaf"
                 android:gravity="center"
+                android:onClick="login"
                 android:text="@string/enter"
-                android:onClick = "login"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,6 +135,7 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
+                    android:id="@+id/tv_forgot_your_password"
                     style="@style/Link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,6 +145,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_registration"
                     style="@style/Link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
