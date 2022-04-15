@@ -1,6 +1,5 @@
 package com.ampp8800.hochupomoch;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic.switchingSectionsByAccrual(this, (View) findViewById(R.id.bottom_navigation));
+        BottomNavigationLogic.bottomBarInitialization(this, (View) findViewById(R.id.bottom_navigation));
 
 
     }
@@ -69,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
+        this.moveTaskToBack(true);
     }
 }
-

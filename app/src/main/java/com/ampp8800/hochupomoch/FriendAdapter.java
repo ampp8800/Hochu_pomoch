@@ -30,10 +30,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendListItemViewHolder
     }
 
     @Override
-    public void onBindViewHolder(FriendListItemViewHolder holder, int position) {
-        ListItem friend = friendListItems.get(position);
-        holder.imageFriendView.setImageResource(FriendListItemViewHolder.targetImageViewFromUrl(friend.getImageViewURL(), context));
-        holder.nameView.setText(friend.getName());
+    public void onBindViewHolder(@NonNull FriendListItemViewHolder holder, int position) {
+        holder.bind(friendListItems, position, context);
     }
 
     @Override

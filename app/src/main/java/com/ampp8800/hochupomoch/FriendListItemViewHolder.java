@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 
 public class FriendListItemViewHolder extends RecyclerView.ViewHolder {
     final ImageView imageFriendView;
@@ -20,15 +22,22 @@ public class FriendListItemViewHolder extends RecyclerView.ViewHolder {
     FriendListItemViewHolder(View view) {
         super(view);
         this.view = view;
-        imageFriendView = view.findViewById(R.id.civ__friend);
+        imageFriendView = view.findViewById(R.id.civ_friend);
         nameView = view.findViewById(R.id.tv_name_friend);
     }
 
-    public static int targetImageViewFromUrl(@NonNull String imageViewURL, @NonNull Context context) {
+    public int targetImageViewFromUrl(@NonNull String imageViewURL, @NonNull Context context) {
         Glide
                 .with(context)
                 .load(imageViewURL)
-                .into((ImageView) view.findViewById(R.id.civ__friend));
-        return R.drawable.avatar_frend;
+                .into((ImageView) view.findViewById(R.id.civ_friend));
+        return R.drawable.ic_no_photo;
     }
+
+    public void bind(List<ListItem> friendListItems, int position, Context context) {
+        ListItem friend = friendListItems.get(position);
+        imageFriendView.setImageResource(targetImageViewFromUrl(friend.getImageViewURL(), context));
+        nameView.setText(friend.getName());
+    }
+
 }

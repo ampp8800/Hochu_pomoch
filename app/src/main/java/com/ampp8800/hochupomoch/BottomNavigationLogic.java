@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 public class BottomNavigationLogic {
 
-    public static void switchingSectionsByAccrual(@NonNull Context context, @NonNull View view) {
+    public static void bottomBarInitialization(@NonNull Context context, @NonNull View view) {
         View newsButton = (View) view.findViewById(R.id.news_button);
         View searchButton = (View) view.findViewById(R.id.search_button);
         View helpButton = (View) view.findViewById(R.id.help_button);
@@ -26,7 +26,3 @@ public class BottomNavigationLogic {
         }
     }
 }
-
-
-
-

@@ -18,7 +18,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
-    private List<ListItem> friends = ProfileRepository.getInstance().getFrendsList();
+    private ProfileRepository repository = ProfileRepository.getInstance();
+    private List<ListItem> friends = repository.getFrendsList();
     TextView textView;
 
     @Override
@@ -36,14 +37,14 @@ public class ProfileActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.profile);
         // вставка изображения из репозитория
-        setImageViewFromInternet(context, R.id.iv_profile, ProfileRepository.getImageViewUrl());
+        setImageViewFromInternet(context, R.id.iv_profile, repository.getImageViewUrl());
         // вставка текста из репозитория
         textView = findViewById(R.id.tv_profile_name);
-        textView.setText(ProfileRepository.getInstance().getNameProfile());
+        textView.setText(repository.getNameProfile());
         textView = findViewById(R.id.tv_date_of_birth);
-        textView.setText(ProfileRepository.getInstance().getDateOfBirth());
+        textView.setText(repository.getDateOfBirth());
         textView = findViewById(R.id.tv_field_of_activity);
-        textView.setText(ProfileRepository.getInstance().getFieldOfActivity());
+        textView.setText(repository.getFieldOfActivity());
         // начальная инициализация списка
         RecyclerView recyclerView = findViewById(R.id.friends_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -52,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic.switchingSectionsByAccrual(this, (View) findViewById(R.id.bottom_navigation));
+        BottomNavigationLogic.bottomBarInitialization(this, (View) findViewById(R.id.bottom_navigation));
 
     }
 
@@ -62,11 +63,13 @@ public class ProfileActivity extends AppCompatActivity {
         Glide
                 .with(context)
                 .load(imageViewURL)
+                .placeholder(R.drawable.ic_no_photo)
                 .into(targetImageView);
     }
 
     public void onBackPressed() {
         Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        this.finish();
         startActivity(intent);
     }
 
