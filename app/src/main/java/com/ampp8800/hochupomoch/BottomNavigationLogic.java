@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 
 public class BottomNavigationLogic {
 
-    public static void bottomBarInitialization(@NonNull Context context, @NonNull View view) {
+    public static void initializeBottomBar(@NonNull View view) {
+        Context context = view.getContext();
         View newsButton = (View) view.findViewById(R.id.news_button);
         View searchButton = (View) view.findViewById(R.id.search_button);
         View helpButton = (View) view.findViewById(R.id.help_button);

@@ -16,24 +16,22 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
     private final LayoutInflater inflater;
     private final List<ListItem> helpListItems;
-    private final Context context;
     private final OnItemClickListener onHelpItemClickListner;
 
     HelpAdapter(@NonNull Context context, @NonNull List<ListItem> helpListItems, @NonNull OnItemClickListener onHelpItemClickListner) {
         this.helpListItems = helpListItems;
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
         this.onHelpItemClickListner = onHelpItemClickListner;
     }
 
     @Override
-    public HelpListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HelpListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @NonNull int viewType) {
         View view = inflater.inflate(R.layout.help_item, parent, false);
         return new HelpListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HelpListItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HelpListItemViewHolder holder, @NonNull int position) {
         ListItem help = helpListItems.get(position);
         holder.imageHelpView.setImageResource(help.getImageResource());
         holder.nameView.setText(help.getName());
@@ -49,7 +47,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
         final TextView nameView;
 
 
-        HelpListItemViewHolder(View view) {
+        HelpListItemViewHolder(@NonNull View view) {
             super(view);
             imageHelpView = view.findViewById(R.id.iv_help);
             nameView = view.findViewById(R.id.tv_name_help);

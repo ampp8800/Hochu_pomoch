@@ -16,6 +16,10 @@ public class ProfileRepository {
     private ProfileRepository() {
     }
 
+    public static ListItem getUserListItem() {
+        return userListItem;
+    }
+
     public static String getDateOfBirth() {
         return userListItem.getDateOfBirth();
     }

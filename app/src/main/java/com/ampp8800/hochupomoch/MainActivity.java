@@ -4,7 +4,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic.bottomBarInitialization(this, (View) findViewById(R.id.bottom_navigation));
+        BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
 
 
     }

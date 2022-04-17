@@ -18,14 +18,17 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
-    private ProfileRepository repository = ProfileRepository.getInstance();
-    private List<ListItem> friends = repository.getFrendsList();
-    TextView textView;
+    private final ProfileRepository repository = ProfileRepository.getInstance();
+    private final List<ListItem> friends = repository.getFrendsList();
+    private final ListItem userListItem = repository.getUserListItem();
+    private TextView textView;
+    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
         super.onCreate(savedInstanceHelp);
-        Context context = this;
+        context = this;
         setContentView(R.layout.activity_profile);
 
         // инициализация тулбара
@@ -37,14 +40,14 @@ public class ProfileActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.profile);
         // вставка изображения из репозитория
-        setImageViewFromInternet(context, R.id.iv_profile, repository.getImageViewUrl());
+        setImageViewFromInternet(R.id.iv_profile, userListItem.getImageViewURL());
         // вставка текста из репозитория
         textView = findViewById(R.id.tv_profile_name);
-        textView.setText(repository.getNameProfile());
+        textView.setText(userListItem.getName());
         textView = findViewById(R.id.tv_date_of_birth);
-        textView.setText(repository.getDateOfBirth());
+        textView.setText(userListItem.getDateOfBirth());
         textView = findViewById(R.id.tv_field_of_activity);
-        textView.setText(repository.getFieldOfActivity());
+        textView.setText(userListItem.getFieldOfActivity());
         // начальная инициализация списка
         RecyclerView recyclerView = findViewById(R.id.friends_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -53,12 +56,12 @@ public class ProfileActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic.bottomBarInitialization(this, (View) findViewById(R.id.bottom_navigation));
+        BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
 
     }
 
 
-    private void setImageViewFromInternet(@NonNull Context context, @NonNull int idImageView, @NonNull String imageViewURL) {
+    private void setImageViewFromInternet(@NonNull int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) findViewById(idImageView);
         Glide
                 .with(context)

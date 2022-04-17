@@ -15,23 +15,21 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendListItemViewHolder
 
     final LayoutInflater inflater;
     final List<ListItem> friendListItems;
-    final Context context;
 
     FriendAdapter(@NonNull Context context, @NonNull List<ListItem> friendListItems) {
         this.friendListItems = friendListItems;
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     @Override
-    public FriendListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FriendListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @NonNull int viewType) {
         View view = inflater.inflate(R.layout.friend_item, parent, false);
         return new FriendListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FriendListItemViewHolder holder, int position) {
-        holder.bind(friendListItems, position, context);
+    public void onBindViewHolder(@NonNull FriendListItemViewHolder holder, @NonNull int position) {
+        holder.bind(friendListItems.get(position));
     }
 
     @Override
