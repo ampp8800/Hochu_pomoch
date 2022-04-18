@@ -32,7 +32,6 @@ public class ListItem {
         return this.name;
     }
 
-    @NonNull
     public int getImageResource() {
         return this.imageHelpResource;
     }

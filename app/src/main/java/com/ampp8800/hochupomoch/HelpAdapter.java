@@ -25,13 +25,13 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
     }
 
     @Override
-    public HelpListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @NonNull int viewType) {
+    public HelpListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.help_item, parent, false);
         return new HelpListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HelpListItemViewHolder holder, @NonNull int position) {
+    public void onBindViewHolder(@NonNull HelpListItemViewHolder holder, int position) {
         ListItem help = helpListItems.get(position);
         holder.imageHelpView.setImageResource(help.getImageResource());
         holder.nameView.setText(help.getName());

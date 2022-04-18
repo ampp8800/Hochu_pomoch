@@ -21,7 +21,6 @@ public class ProfileActivity extends AppCompatActivity {
     private final ProfileRepository repository = ProfileRepository.getInstance();
     private final List<ListItem> friends = repository.getFrendsList();
     private final ListItem userListItem = repository.getUserListItem();
-    private TextView textView;
     private Context context;
 
 
@@ -37,17 +36,13 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageView imageView = (ImageView) findViewById(R.id.iv_icon_back);
         imageView.setVisibility(View.GONE);
-        textView = (TextView) findViewById(R.id.tv_toolbar_name);
-        textView.setText(R.string.profile);
+        ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.profile);
         // вставка изображения из репозитория
         setImageViewFromInternet(R.id.iv_profile, userListItem.getImageViewURL());
         // вставка текста из репозитория
-        textView = findViewById(R.id.tv_profile_name);
-        textView.setText(userListItem.getName());
-        textView = findViewById(R.id.tv_date_of_birth);
-        textView.setText(userListItem.getDateOfBirth());
-        textView = findViewById(R.id.tv_field_of_activity);
-        textView.setText(userListItem.getFieldOfActivity());
+        ((TextView) findViewById(R.id.tv_profile_name)).setText(userListItem.getName());
+        ((TextView) findViewById(R.id.tv_date_of_birth)).setText(userListItem.getDateOfBirth());
+        ((TextView) findViewById(R.id.tv_field_of_activity)).setText(userListItem.getFieldOfActivity());
         // начальная инициализация списка
         RecyclerView recyclerView = findViewById(R.id.friends_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

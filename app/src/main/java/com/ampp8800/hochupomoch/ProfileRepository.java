@@ -16,24 +16,9 @@ public class ProfileRepository {
     private ProfileRepository() {
     }
 
-    public static ListItem getUserListItem() {
+    @NonNull
+    public ListItem getUserListItem() {
         return userListItem;
-    }
-
-    public static String getDateOfBirth() {
-        return userListItem.getDateOfBirth();
-    }
-
-    public static String getFieldOfActivity() {
-        return userListItem.getFieldOfActivity();
-    }
-
-    public static String getImageViewUrl() {
-        return userListItem.getImageViewURL();
-    }
-
-    public String getNameProfile() {
-        return userListItem.getName();
     }
 
     @NonNull

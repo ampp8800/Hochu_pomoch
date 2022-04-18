@@ -22,13 +22,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendListItemViewHolder
     }
 
     @Override
-    public FriendListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @NonNull int viewType) {
+    public FriendListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.friend_item, parent, false);
         return new FriendListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FriendListItemViewHolder holder, @NonNull int position) {
+    public void onBindViewHolder(@NonNull FriendListItemViewHolder holder, int position) {
         holder.bind(friendListItems.get(position));
     }
 

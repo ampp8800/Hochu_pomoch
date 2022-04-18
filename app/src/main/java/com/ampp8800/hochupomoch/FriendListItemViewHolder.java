@@ -23,16 +23,16 @@ public class FriendListItemViewHolder extends RecyclerView.ViewHolder {
         nameView = view.findViewById(R.id.tv_name_friend);
     }
 
-    public int targetImageViewFromUrl(@NonNull String imageViewURL) {
+    private void imageUpload(@NonNull String imageViewURL) {
         Glide
                 .with(view.getContext())
                 .load(imageViewURL)
+                .placeholder(R.drawable.ic_no_photo)
                 .into((ImageView) view.findViewById(R.id.civ_friend));
-        return R.drawable.ic_no_photo;
     }
 
     public void bind(@NonNull ListItem friend) {
-        imageFriendView.setImageResource(targetImageViewFromUrl(friend.getImageViewURL()));
+        imageUpload(friend.getImageViewURL());
         nameView.setText(friend.getName());
     }
 

@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.help);
 
-
         // начальная инициализация списка
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
@@ -52,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
-
-
     }
 
     private void setInitialData() {
@@ -62,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         helps.add(new ListItem((String) getText(R.string.elderly), R.drawable.elderly));
         helps.add(new ListItem((String) getText(R.string.animals), R.drawable.animals));
         helps.add(new ListItem((String) getText(R.string.events), R.drawable.events));
-
     }
 
     public void onBackPressed() {
