@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -15,28 +15,25 @@ import java.util.List;
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemViewHolder> {
 
     private final LayoutInflater inflater;
-    private final List<HelpListItem> helpListItems;
-    private final Context context;
-    private final OnHelpItemClicked onHelpItemClicked;
+    private final List<ListItem> helpListItems;
+    private final OnItemClickListener onHelpItemClickListner;
 
-    HelpAdapter(Context context, List<HelpListItem> helpListItems, OnHelpItemClicked onHelpItemClicked) {
+    HelpAdapter(@NonNull Context context, @NonNull List<ListItem> helpListItems, @NonNull OnItemClickListener onHelpItemClickListner) {
         this.helpListItems = helpListItems;
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
-        this.onHelpItemClicked = onHelpItemClicked;
+        this.onHelpItemClickListner = onHelpItemClickListner;
     }
 
     @Override
     public HelpListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = inflater.inflate(R.layout.help_item, parent, false);
         return new HelpListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HelpListItemViewHolder holder, int position) {
-        HelpListItem help = helpListItems.get(position);
-        holder.imageHelpView.setImageResource(help.getImageHelpResource());
+    public void onBindViewHolder(@NonNull HelpListItemViewHolder holder, int position) {
+        ListItem help = helpListItems.get(position);
+        holder.imageHelpView.setImageResource(help.getImageResource());
         holder.nameView.setText(help.getName());
     }
 
@@ -50,17 +47,18 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
         final TextView nameView;
 
 
-        HelpListItemViewHolder(View view) {
+        HelpListItemViewHolder(@NonNull View view) {
             super(view);
-            imageHelpView = view.findViewById(R.id.imageHelp);
-            nameView = view.findViewById(R.id.name);
+            imageHelpView = view.findViewById(R.id.iv_help);
+            nameView = view.findViewById(R.id.tv_name_help);
             view.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                        onHelpItemClicked.invoke(helpListItems.get(getAdapterPosition()).getName());
+                    onHelpItemClickListner.invoke(helpListItems.get(getAdapterPosition()).getName());
                 }
             });
         }
     }
 }
+
