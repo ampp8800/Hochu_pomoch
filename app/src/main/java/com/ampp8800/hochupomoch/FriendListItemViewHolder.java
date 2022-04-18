@@ -17,18 +17,23 @@ public class FriendListItemViewHolder extends RecyclerView.ViewHolder {
     private static View view;
 
 
-    FriendListItemViewHolder(View view) {
+    FriendListItemViewHolder(@NonNull View view) {
         super(view);
         this.view = view;
-        imageFriendView = view.findViewById(R.id.civ__friend);
+        imageFriendView = view.findViewById(R.id.civ_friend);
         nameView = view.findViewById(R.id.tv_name_friend);
     }
 
-    public static int targetImageViewFromUrl(@NonNull String imageViewURL, @NonNull Context context) {
+    public static void imageUpload(@NonNull String imageViewURL) {
         Glide
-                .with(context)
+                .with(view.getContext())
                 .load(imageViewURL)
-                .into((ImageView) view.findViewById(R.id.civ__friend));
-        return R.drawable.avatar_frend;
+                .placeholder(R.drawable.ic_no_photo)
+                .into((ImageView) view.findViewById(R.id.civ_friend));
+    }
+
+    public void bind(@NonNull ListItem friend) {
+        imageUpload(friend.getImageViewURL());
+        nameView.setText(friend.getName());
     }
 }

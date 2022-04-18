@@ -16,13 +16,11 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
 
     private final LayoutInflater inflater;
     private final List<ListItem> helpListItems;
-    private final Context context;
     private final OnItemClickListener onHelpItemClickListner;
 
     HelpAdapter(@NonNull Context context, @NonNull List<ListItem> helpListItems, @NonNull OnItemClickListener onHelpItemClickListner) {
         this.helpListItems = helpListItems;
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
         this.onHelpItemClickListner = onHelpItemClickListner;
     }
 
@@ -33,7 +31,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
     }
 
     @Override
-    public void onBindViewHolder(HelpListItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HelpListItemViewHolder holder, int position) {
         ListItem help = helpListItems.get(position);
         holder.imageHelpView.setImageResource(help.getImageResource());
         holder.nameView.setText(help.getName());

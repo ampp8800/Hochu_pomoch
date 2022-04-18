@@ -15,12 +15,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendListItemViewHolder
 
     final LayoutInflater inflater;
     final List<ListItem> friendListItems;
-    final Context context;
 
     FriendAdapter(@NonNull Context context, @NonNull List<ListItem> friendListItems) {
         this.friendListItems = friendListItems;
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     @Override
@@ -30,10 +28,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendListItemViewHolder
     }
 
     @Override
-    public void onBindViewHolder(FriendListItemViewHolder holder, int position) {
-        ListItem friend = friendListItems.get(position);
-        holder.imageFriendView.setImageResource(FriendListItemViewHolder.targetImageViewFromUrl(friend.getImageViewURL(), context));
-        holder.nameView.setText(friend.getName());
+    public void onBindViewHolder(@NonNull FriendListItemViewHolder holder, int position) {
+        holder.bind(friendListItems.get(position));
     }
 
     @Override

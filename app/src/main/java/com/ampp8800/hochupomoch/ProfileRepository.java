@@ -12,6 +12,8 @@ import java.util.List;
 
 public class ProfileRepository {
     private static ProfileRepository profileRepository;
+    private static ArrayList<ListItem> frendsList = new ArrayList<>();
+    private static ListItem userListItem;
     private static final String IMAGE_VIEW_URL = "https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png";
     private static final String NAME_PROFILE = "Сычёв Антон";
     private static final String DATE_OF_BIRTH = "01 мая 1999";
@@ -20,18 +22,14 @@ public class ProfileRepository {
     private static final String PASSWORD = "password";
     private static final String SAVED_AUTHORIZATION = "saved_authorization";
     static SharedPreferences authorization;
-    private static ArrayList<ListItem> frendsList = new ArrayList<>();
 
 
     private ProfileRepository() {
     }
 
-    public static String getDateOfBirth() {
-        return DATE_OF_BIRTH;
-    }
-
-    public static String getFieldOfActivity() {
-        return FIELD_OF_ACTIVITY;
+    @NonNull
+    public ListItem getUserListItem() {
+        return userListItem;
     }
 
     public static boolean getAuthorization(Context context) {
@@ -54,16 +52,10 @@ public class ProfileRepository {
         if (profileRepository == null) {
             profileRepository = new ProfileRepository();
             newFrendsList();
+            userListItem = new ListItem("Сычёв Антон", "https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png",
+                    "01 мая 1999", "Эксперт, все области");
         }
         return profileRepository;
-    }
-
-    public static String getImageViewUrl() {
-        return IMAGE_VIEW_URL;
-    }
-
-    public String getNameProfile() {
-        return NAME_PROFILE;
     }
 
     public List<ListItem> getFrendsList() {

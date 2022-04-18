@@ -1,18 +1,15 @@
 package com.ampp8800.hochupomoch;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.help);
 
-
         // начальная инициализация списка
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
@@ -54,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
-        BottomNavigationLogic.switchingSectionsByAccrual(this, (View) findViewById(R.id.bottom_navigation));
-
-
+        BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
     }
 
     private void setInitialData() {
@@ -65,14 +59,9 @@ public class MainActivity extends AppCompatActivity {
         helps.add(new ListItem((String) getText(R.string.elderly), R.drawable.elderly));
         helps.add(new ListItem((String) getText(R.string.animals), R.drawable.animals));
         helps.add(new ListItem((String) getText(R.string.events), R.drawable.events));
-
     }
 
     public void onBackPressed() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
+        this.moveTaskToBack(true);
     }
 }
-

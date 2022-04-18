@@ -8,13 +8,13 @@
     android:background="@color/white">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ__friend"
+        android:id="@+id/civ_friend"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:src="@drawable/avatar_frend"
+        android:src="@drawable/ic_no_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +27,6 @@
         android:padding="12dp"
         android:text="Название"
         android:textColor="@color/black_87"
-        app:layout_constraintStart_toEndOf="@id/civ__friend" />
+        app:layout_constraintStart_toEndOf="@id/civ_friend" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
