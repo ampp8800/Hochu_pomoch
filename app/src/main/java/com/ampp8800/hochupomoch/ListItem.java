@@ -29,7 +29,7 @@ public class ListItem {
 
     @NonNull
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public int getImageResource() {

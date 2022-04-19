@@ -25,5 +25,6 @@
     <string name="enter">Войти</string>
     <string name="forgot_your_password"><u>Забыли пароль?</u></string>
     <string name="registration"><u>Регистрация</u></string>
-    <string name="wrong_login">Неверный логин или пароль</string>
+    <string name="wrong_login">Пользователь не найден</string>
+    <string name="wrong_password">Неверный пароль</string>
 </resources>

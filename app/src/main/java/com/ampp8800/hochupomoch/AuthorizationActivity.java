@@ -1,8 +1,6 @@
 package com.ampp8800.hochupomoch;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -11,15 +9,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AuthorizationActivity extends AppCompatActivity {
+    private AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
+    private EditText editEMail;
+    private EditText editPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
         super.onCreate(savedInstanceHelp);
         setContentView(R.layout.activity_authorization);
+        editEMail = (EditText) findViewById(R.id.et_edit_e_mail);
+        editPassword = (EditText) findViewById(R.id.et_edit_password);
         // инициализация тулбара
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
@@ -33,15 +37,33 @@ public class AuthorizationActivity extends AppCompatActivity {
         forgotYourPassword.setOnClickListener(clickedView -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))));
         View registration = (View) this.findViewById(R.id.tv_registration);
         registration.setOnClickListener(clickedView -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.apple.com"))));
-
+        //нажатие кнопки войти
+        ((View) findViewById(R.id.b_sign_in)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                login(view);
+            }
+        });
     }
 
     public void login(View view) {
-        ProfileRepository.setAuthorization(((EditText) findViewById(R.id.et_edit_e_mail)).getText().toString(), ((EditText) findViewById(R.id.et_edit_password)).getText().toString());
-        if (ProfileRepository.getAuthorization(this)) {
+        AuthorizationRepository.setAuthorization(authorization((editEMail).getText().toString(), (editPassword).getText().toString()));
+        if (AuthorizationRepository.getAuthorization(this)) {
             startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
-        }else {
+        }
+    }
+
+    private boolean authorization(@NonNull String login, @NonNull String password) {
+        if (authorizationRepository.getLogin().equals(login)) {
+            if (authorizationRepository.getPassword().equals(password)) {
+                return true;
+            } else {
+                Toast.makeText(this, R.string.wrong_password, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
             Toast.makeText(this, R.string.wrong_login, Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 

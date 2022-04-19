@@ -111,6 +111,7 @@
                 android:paddingTop="4dp">
 
                 <Button
+                    android:id="@+id/b_sign_out"
                     style="@style/TextStyle7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,7 +119,6 @@
                     android:layout_marginBottom="38dp"
                     android:backgroundTint="@color/leaf"
                     android:gravity="center"
-                    android:onClick="logout"
                     android:text="@string/sign_out"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

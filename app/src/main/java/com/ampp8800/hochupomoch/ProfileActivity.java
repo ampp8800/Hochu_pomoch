@@ -49,11 +49,18 @@ public class ProfileActivity extends AppCompatActivity {
         FriendAdapter adapter = new FriendAdapter(context, friends);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
+        //кнопак выхода из аккаунта
+        ((View) findViewById(R.id.b_sign_out)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
+                AuthorizationRepository.setAuthorization(false);
+            }
+        });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
 
     }
-
 
     private void setImageViewFromInternet(@NonNull int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) findViewById(idImageView);
@@ -62,11 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .load(imageViewURL)
                 .placeholder(R.drawable.ic_no_photo)
                 .into(targetImageView);
-    }
-
-    public void logout(View view) {
-        startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
-        ProfileRepository.setAuthorization("","");
     }
 
 }

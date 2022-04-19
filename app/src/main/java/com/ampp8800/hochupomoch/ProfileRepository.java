@@ -18,11 +18,6 @@ public class ProfileRepository {
     private static final String NAME_PROFILE = "Сычёв Антон";
     private static final String DATE_OF_BIRTH = "01 мая 1999";
     private static final String FIELD_OF_ACTIVITY = "Эксперт, все области";
-    private static final String LOGIN = "admin";
-    private static final String PASSWORD = "password";
-    private static final String SAVED_AUTHORIZATION = "saved_authorization";
-    static SharedPreferences authorization;
-
 
     private ProfileRepository() {
     }
@@ -32,28 +27,12 @@ public class ProfileRepository {
         return userListItem;
     }
 
-    public static boolean getAuthorization(Context context) {
-        authorization = context.getSharedPreferences(SAVED_AUTHORIZATION, Context.MODE_PRIVATE);
-        return authorization.getBoolean(SAVED_AUTHORIZATION, false);
-    }
-
-    public static void setAuthorization(String login, String password) {
-        SharedPreferences.Editor editor = authorization.edit();
-        if (login.equals(LOGIN) && password.equals(PASSWORD)) {
-            editor.putBoolean(SAVED_AUTHORIZATION, true);
-        } else {
-            editor.putBoolean(SAVED_AUTHORIZATION, false);
-        }
-        editor.commit();
-    }
-
     @NonNull
     public static ProfileRepository getInstance() {
         if (profileRepository == null) {
             profileRepository = new ProfileRepository();
             newFrendsList();
-            userListItem = new ListItem("Сычёв Антон", "https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png",
-                    "01 мая 1999", "Эксперт, все области");
+            userListItem = new ListItem(NAME_PROFILE, IMAGE_VIEW_URL, DATE_OF_BIRTH, FIELD_OF_ACTIVITY);
         }
         return profileRepository;
     }

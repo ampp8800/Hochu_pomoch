@@ -1,6 +1,5 @@
 package com.ampp8800.hochupomoch;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
