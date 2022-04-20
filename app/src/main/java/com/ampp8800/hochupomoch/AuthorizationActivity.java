@@ -34,9 +34,9 @@ public class AuthorizationActivity extends AppCompatActivity {
         textView.setText(R.string.help);
         // переход по URL
         View forgotYourPassword = (View) this.findViewById(R.id.tv_forgot_your_password);
-        forgotYourPassword.setOnClickListener(clickedView -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))));
+        forgotYourPassword.setOnClickListener(clickedView -> startActivity(setIntentWithUrl("http://www.google.com")));
         View registration = (View) this.findViewById(R.id.tv_registration);
-        registration.setOnClickListener(clickedView -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.apple.com"))));
+        registration.setOnClickListener(clickedView -> startActivity(setIntentWithUrl("http://www.apple.com")));
         //нажатие кнопки войти
         ((View) findViewById(R.id.b_sign_in)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +46,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         });
     }
 
-    public void login(View view) {
+    private Intent setIntentWithUrl(@NonNull String url) {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    }
+
+    private void login(View view) {
         AuthorizationRepository.setAuthorization(authorization((editEMail).getText().toString(), (editPassword).getText().toString()));
         if (AuthorizationRepository.getAuthorization(this)) {
             startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
