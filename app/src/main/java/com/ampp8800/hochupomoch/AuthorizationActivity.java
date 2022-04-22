@@ -1,6 +1,7 @@
 package com.ampp8800.hochupomoch;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Guideline;
 
 public class AuthorizationActivity extends AppCompatActivity {
     private AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
@@ -31,7 +33,9 @@ public class AuthorizationActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
         imageView.setVisibility(View.GONE);
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
-        textView.setText(R.string.help);
+        textView.setText(R.string.log_in);
+        //изменение макета от ориентации экрана
+        changeLayoutBasedOnOrientation(getResources().getConfiguration().orientation);
         // переход по URL
         View forgotYourPassword = (View) this.findViewById(R.id.tv_forgot_your_password);
         forgotYourPassword.setOnClickListener(clickedView -> startActivity(setIntentWithUrl("http://www.google.com")));
@@ -71,11 +75,17 @@ public class AuthorizationActivity extends AppCompatActivity {
         }
     }
 
+    private void changeLayoutBasedOnOrientation(int configuration) {
+        if (configuration == Configuration.ORIENTATION_LANDSCAPE) {
+            ((Guideline) findViewById(R.id.guide_left)).setGuidelinePercent(0.15f);
+            ((Guideline) findViewById(R.id.guide_right)).setGuidelinePercent(0.85f);
+        }
+    }
+
     public void onBackPressed() {
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
-
     }
 }

@@ -28,11 +28,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
-        imageView.setVisibility(View.GONE);
-        TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
-        textView.setText(R.string.help);
-
+        ((ImageView) findViewById(R.id.iv_edit)).setVisibility(View.GONE);
+        ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.help);
         // начальная инициализация списка
         setInitialData();
         RecyclerView recyclerView = findViewById(R.id.helps_list);
