@@ -50,4 +50,5 @@ public class ListItem {
     public String getFieldOfActivity() {
         return fieldOfActivity;
     }
+
 }

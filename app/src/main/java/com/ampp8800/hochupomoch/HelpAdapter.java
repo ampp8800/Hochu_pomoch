@@ -47,7 +47,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpListItemVi
         final TextView nameView;
 
 
-        HelpListItemViewHolder(View view) {
+        HelpListItemViewHolder(@NonNull View view) {
             super(view);
             imageHelpView = view.findViewById(R.id.iv_help);
             nameView = view.findViewById(R.id.tv_name_help);

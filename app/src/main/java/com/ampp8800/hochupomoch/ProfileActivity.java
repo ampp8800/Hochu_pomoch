@@ -62,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+
     private void setImageViewFromInternet(@NonNull int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) findViewById(idImageView);
         Glide
@@ -69,6 +70,13 @@ public class ProfileActivity extends AppCompatActivity {
                 .load(imageViewURL)
                 .placeholder(R.drawable.ic_no_photo)
                 .into(targetImageView);
+    }
+
+
+    public void onBackPressed() {
+        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        this.finish();
+        startActivity(intent);
     }
 
 }
