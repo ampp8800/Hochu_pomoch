@@ -28,7 +28,7 @@ public class AuthorizationRepository {
         return PASSWORD;
     }
 
-    public static void setAuthorization(boolean value) {
+    public static void isAuthorized(boolean value) {
         SharedPreferences.Editor editor = authorization.edit();
         editor.putBoolean(SAVED_AUTHORIZATION, value);
         editor.commit();

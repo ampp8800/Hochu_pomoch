@@ -54,14 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
-                AuthorizationRepository.setAuthorization(false);
+                AuthorizationRepository.isAuthorized(false);
             }
         });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
 
     }
-
 
     private void setImageViewFromInternet(@NonNull int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) findViewById(idImageView);
@@ -71,7 +70,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_no_photo)
                 .into(targetImageView);
     }
-
 
     public void onBackPressed() {
         Intent intent = new Intent(ProfileActivity.this, MainActivity.class);

@@ -1,7 +1,6 @@
 package com.ampp8800.hochupomoch;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.Guideline;
 
 public class AuthorizationActivity extends AppCompatActivity {
     private AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
@@ -34,13 +32,11 @@ public class AuthorizationActivity extends AppCompatActivity {
         imageView.setVisibility(View.GONE);
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.log_in);
-        //изменение макета от ориентации экрана
-        changeLayoutBasedOnOrientation(getResources().getConfiguration().orientation);
         // переход по URL
         View forgotYourPassword = (View) this.findViewById(R.id.tv_forgot_your_password);
-        forgotYourPassword.setOnClickListener(clickedView -> startActivity(setIntentWithUrl("http://www.google.com")));
+        goToWebsite(forgotYourPassword, "http://www.google.com");
         View registration = (View) this.findViewById(R.id.tv_registration);
-        registration.setOnClickListener(clickedView -> startActivity(setIntentWithUrl("http://www.apple.com")));
+        goToWebsite(registration, "http://www.apple.com");
         //нажатие кнопки войти
         ((View) findViewById(R.id.b_sign_in)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,13 +46,13 @@ public class AuthorizationActivity extends AppCompatActivity {
         });
     }
 
-    private Intent setIntentWithUrl(@NonNull String url) {
-        return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    private void goToWebsite(View view, @NonNull String url) {
+        view.setOnClickListener(clickedView -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))));
     }
 
     private void login(View view) {
-        AuthorizationRepository.setAuthorization(authorization((editEMail).getText().toString(), (editPassword).getText().toString()));
-        if (AuthorizationRepository.getAuthorization(this)) {
+        authorizationRepository.isAuthorized(authorization((editEMail).getText().toString(), (editPassword).getText().toString()));
+        if (authorizationRepository.getAuthorization(this)) {
             startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
         }
     }
@@ -72,13 +68,6 @@ public class AuthorizationActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, R.string.wrong_login, Toast.LENGTH_SHORT).show();
             return false;
-        }
-    }
-
-    private void changeLayoutBasedOnOrientation(int configuration) {
-        if (configuration == Configuration.ORIENTATION_LANDSCAPE) {
-            ((Guideline) findViewById(R.id.guide_left)).setGuidelinePercent(0.15f);
-            ((Guideline) findViewById(R.id.guide_right)).setGuidelinePercent(0.85f);
         }
     }
 
