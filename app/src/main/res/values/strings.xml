@@ -28,4 +28,6 @@
     <string name="registration"><u>Регистрация</u></string>
     <string name="wrong_login">Пользователь не найден</string>
     <string name="wrong_password">Неверный пароль</string>
+    <string name="by_events">По мероприятиям</string>
+    <string name="for_npo">По НКО</string>
 </resources>
