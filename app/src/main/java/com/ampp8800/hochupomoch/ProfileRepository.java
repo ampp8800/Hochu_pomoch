@@ -1,6 +1,9 @@
 package com.ampp8800.hochupomoch;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -11,7 +14,10 @@ public class ProfileRepository {
     private static ProfileRepository profileRepository;
     private static ArrayList<ListItem> frendsList = new ArrayList<>();
     private static ListItem userListItem;
-
+    private static final String IMAGE_VIEW_URL = "https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png";
+    private static final String NAME_PROFILE = "Сычёв Антон";
+    private static final String DATE_OF_BIRTH = "01 мая 1999";
+    private static final String FIELD_OF_ACTIVITY = "Эксперт, все области";
 
     private ProfileRepository() {
     }
@@ -26,8 +32,7 @@ public class ProfileRepository {
         if (profileRepository == null) {
             profileRepository = new ProfileRepository();
             newFrendsList();
-            userListItem = new ListItem("Сычёв Антон", "https://sun9-63.userapi.com/impf/c625318/v625318902/28050/-l1-yQ4qIQk.jpg?size=1365x2048&quality=96&sign=4a8023e5f2a744ec6004f35725341e88&type=album.png",
-                    "01 мая 1999", "Эксперт, все области");
+            userListItem = new ListItem(NAME_PROFILE, IMAGE_VIEW_URL, DATE_OF_BIRTH, FIELD_OF_ACTIVITY);
         }
         return profileRepository;
     }

@@ -3,9 +3,7 @@ package com.ampp8800.hochupomoch;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -20,8 +18,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (AuthorizationRepository.getInstance().isAuthorized(SplashActivity.this)) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, AuthorizationActivity.class));
+                }
                 finish();
             }
         }, LOAD_SECOND * 1000);

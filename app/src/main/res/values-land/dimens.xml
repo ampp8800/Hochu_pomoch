@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="left_guide_value">0.15</dimen>
+    <dimen name="right_guide_value">0.85</dimen>
+</resources>

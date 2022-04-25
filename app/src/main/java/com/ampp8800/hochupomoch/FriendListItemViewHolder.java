@@ -23,6 +23,7 @@ public class FriendListItemViewHolder extends RecyclerView.ViewHolder {
         nameView = view.findViewById(R.id.tv_name_friend);
     }
 
+
     private void imageUpload(@NonNull String imageViewURL) {
         Glide
                 .with(view.getContext())

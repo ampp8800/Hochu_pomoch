@@ -19,10 +19,10 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     private final ProfileRepository repository = ProfileRepository.getInstance();
+    private final AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
     private final List<ListItem> friends = repository.getFrendsList();
     private final ListItem userListItem = repository.getUserListItem();
     private Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceHelp) {
@@ -50,11 +50,18 @@ public class ProfileActivity extends AppCompatActivity {
         FriendAdapter adapter = new FriendAdapter(context, friends);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
+        //кнопак выхода из аккаунта
+        ((View) findViewById(R.id.b_sign_out)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
+                authorizationRepository.setAuthorized(false);
+            }
+        });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
 
     }
-
 
     private void setImageViewFromInternet(@NonNull int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) findViewById(idImageView);
