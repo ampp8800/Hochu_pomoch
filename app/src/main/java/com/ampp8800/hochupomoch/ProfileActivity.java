@@ -54,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
-                AuthorizationRepository.isAuthorized(false);
+                AuthorizationRepository.getInstance().setAuthorized(false);
             }
         });
         //логика работы нижней панели навигации
