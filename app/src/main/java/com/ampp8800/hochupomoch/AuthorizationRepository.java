@@ -15,7 +15,7 @@ public class AuthorizationRepository {
     private AuthorizationRepository() {
     }
 
-    public  boolean isAuthorization(Context context) {
+    public boolean isAuthorized(Context context) {
         authorization = context.getSharedPreferences(SAVED_AUTHORIZATION, Context.MODE_PRIVATE);
         return authorization.getBoolean(SAVED_AUTHORIZATION, false);
     }

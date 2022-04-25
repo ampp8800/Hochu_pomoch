@@ -52,7 +52,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     private void login(View view) {
         authorizationRepository.setAuthorized(authorization((editEMail).getText().toString(), (editPassword).getText().toString()));
-        if (authorizationRepository.isAuthorization(this)) {
+        if (authorizationRepository.isAuthorized(this)) {
             startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
         }
     }

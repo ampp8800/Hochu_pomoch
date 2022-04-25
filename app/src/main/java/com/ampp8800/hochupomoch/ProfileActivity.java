@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     private final ProfileRepository repository = ProfileRepository.getInstance();
+    private final AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
     private final List<ListItem> friends = repository.getFrendsList();
     private final ListItem userListItem = repository.getUserListItem();
     private Context context;
@@ -54,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ProfileActivity.this, AuthorizationActivity.class));
-                AuthorizationRepository.getInstance().setAuthorized(false);
+                authorizationRepository.setAuthorized(false);
             }
         });
         //логика работы нижней панели навигации

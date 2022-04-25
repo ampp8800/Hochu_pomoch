@@ -18,9 +18,9 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (AuthorizationRepository.getInstance().isAuthorization(SplashActivity.this)) {
+                if (AuthorizationRepository.getInstance().isAuthorized(SplashActivity.this)) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                }else {
+                } else {
                     startActivity(new Intent(SplashActivity.this, AuthorizationActivity.class));
                 }
                 finish();
