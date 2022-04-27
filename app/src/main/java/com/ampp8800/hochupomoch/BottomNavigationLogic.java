@@ -17,6 +17,9 @@ public class BottomNavigationLogic {
         View historyButton = (View) view.findViewById(R.id.history_button);
         View profileButton = (View) view.findViewById(R.id.profile_button);
 
+        if (context.getClass() != SearchActivity.class) {
+            searchButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, SearchActivity.class)));
+        }
 
         if (context.getClass() != MainActivity.class) {
             helpButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, MainActivity.class)));

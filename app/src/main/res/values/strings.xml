@@ -30,4 +30,6 @@
     <string name="wrong_password">Неверный пароль</string>
     <string name="by_events">По мероприятиям</string>
     <string name="for_npo">По НКО</string>
+    <string name="keywords">Ключевые слова</string>
+    <string name="searching_result">Результаты поиска</string>
 </resources>

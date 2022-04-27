@@ -13,14 +13,15 @@
         android:theme="@style/Theme.HochuPomoch">
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SearchActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".AuthorizationActivity" />
