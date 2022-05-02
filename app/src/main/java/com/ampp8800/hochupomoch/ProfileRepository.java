@@ -1,9 +1,6 @@
 package com.ampp8800.hochupomoch;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -23,11 +20,6 @@ public class ProfileRepository {
     }
 
     @NonNull
-    public ListItem getUserListItem() {
-        return userListItem;
-    }
-
-    @NonNull
     public static ProfileRepository getInstance() {
         if (profileRepository == null) {
             profileRepository = new ProfileRepository();
@@ -35,6 +27,11 @@ public class ProfileRepository {
             userListItem = new ListItem(NAME_PROFILE, IMAGE_VIEW_URL, DATE_OF_BIRTH, FIELD_OF_ACTIVITY);
         }
         return profileRepository;
+    }
+
+    @NonNull
+    public ListItem getUserListItem() {
+        return userListItem;
     }
 
     public List<ListItem> getFrendsList() {
