@@ -32,4 +32,5 @@
     <string name="for_npo">По НКО</string>
     <string name="keywords">Ключевые слова</string>
     <string name="searching_result">Результаты поиска</string>
+    <string name="enter_the_name_of_the_organization">Введите название организации</string>
 </resources>

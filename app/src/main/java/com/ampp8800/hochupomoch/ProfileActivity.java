@@ -36,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageView imageView = (ImageView) findViewById(R.id.iv_icon_back);
         imageView.setVisibility(View.GONE);
+        findViewById(R.id.search_layout).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.profile);
         // вставка изображения из репозитория
         setImageViewFromInternet(R.id.iv_profile, userListItem.getImageViewURL());

@@ -30,6 +30,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
         imageView.setVisibility(View.GONE);
+        findViewById(R.id.search_layout).setVisibility(View.GONE);
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.log_in);
         // переход по URL

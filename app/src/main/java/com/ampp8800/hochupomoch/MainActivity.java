@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ((ImageView) findViewById(R.id.iv_edit)).setVisibility(View.GONE);
+        findViewById(R.id.search_layout).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.help);
         // начальная инициализация списка
         setInitialData();
