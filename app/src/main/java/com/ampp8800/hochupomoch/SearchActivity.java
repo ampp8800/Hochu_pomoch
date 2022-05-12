@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +29,8 @@ public class SearchActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
         // две страницы с результатами поиска
         ViewPager2 pager = findViewById(R.id.vp_search);
-        FragmentStateAdapter pageAdapter = new SearchAdapter(this);
+//        FragmentStateAdapter pageAdapter = new SearchAdapter(this);
+        SearchAdapter pageAdapter = new SearchAdapter(this);
         pager.setAdapter(pageAdapter);
         // добавление заголовков страниц
         TabLayout tabLayout = findViewById(R.id.tab_search);
@@ -43,6 +45,15 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         tabLayoutMediator.attach();
+        // нажатие кнопки поиска
+        ((View) findViewById(R.id.iv_search_event)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String searchQuery = ((EditText) findViewById(R.id.et_search_query)).getText().toString();
+                pageAdapter.getSearchPageFragment().setInitialData(searchQuery);
+                pageAdapter.notifyDataSetChanged();
+            }
+        });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
     }

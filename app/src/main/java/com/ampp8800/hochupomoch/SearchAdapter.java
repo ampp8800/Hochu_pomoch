@@ -7,19 +7,26 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SearchAdapter extends FragmentStateAdapter {
     private final int NUMBER_OF_TABS = 2;
+    private SearchPageFragment searchPageFragment;
 
     public SearchAdapter(FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
+    public SearchPageFragment getSearchPageFragment() {
+        return searchPageFragment;
+    }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return (SearchPageFragment.newInstance(position));
+        searchPageFragment = SearchPageFragment.newInstance(position);
+        return searchPageFragment;
     }
 
     @Override
     public int getItemCount() {
         return NUMBER_OF_TABS;
     }
+
 }

@@ -48,7 +48,7 @@ public class SearchPageFragment extends Fragment {
         View result = inflater.inflate(R.layout.fragment_search_page, container, false);
         context = result.getContext();
         // начальная инициализация списка
-        setInitialData();
+        setInitialData("");
         RecyclerView recyclerView = result.findViewById(R.id.searches_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         // добавление тоста
@@ -65,9 +65,13 @@ public class SearchPageFragment extends Fragment {
         return result;
     }
 
-    private void setInitialData() {
-        for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
-            searches.add(eventsRepository.getEvents().get(i).getOrganization());
+    public void setInitialData(String searchQuery) {
+        searches.removeAll(searches);
+        if (searchQuery.equals("")) {
+            searches.removeAll(searches);
+            for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
+                searches.add(eventsRepository.getEvents().get(i).getOrganization());
+            }
         }
     }
 
