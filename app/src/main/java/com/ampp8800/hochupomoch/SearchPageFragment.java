@@ -23,6 +23,7 @@ public class SearchPageFragment extends Fragment {
     private ArrayList<String> searches = new ArrayList<>();
     private Context context;
     private EventsRepository eventsRepository = EventsRepository.getInstance();
+    private SearchListAdapter searchListAdapter;
 
 
     public static SearchPageFragment newInstance(int page) {
@@ -59,9 +60,9 @@ public class SearchPageFragment extends Fragment {
                 toast.show();
             }
         };
-        SearchListAdapter adapter = new SearchListAdapter(context, searches, onItemClickListener);
+        searchListAdapter = new SearchListAdapter(context, searches, onItemClickListener);
         // устанавливаем для списка адаптер
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(searchListAdapter);
         return result;
     }
 
@@ -72,7 +73,33 @@ public class SearchPageFragment extends Fragment {
             for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
                 searches.add(eventsRepository.getEvents().get(i).getOrganization());
             }
+        } else {
+            String queryWords[] = searchQuery.split(" ");
+            for (EventItem eventItem : eventsRepository.getEvents()) {
+                for (String queryWord : queryWords) {
+
+
+                    // ну, за работу!
+                }
+            }
         }
+    }
+
+    public void updatePageFragment(String searchQery) {
+        setInitialData(searchQery);
+        searchListAdapter.notifyDataSetChanged();
+    }
+
+    public boolean wordComparison(@NonNull String desired, @NonNull String original) {
+        boolean result = false;
+        for(int i = 0; i <= (original.length() - desired.length()); i++) {
+            if (desired.equals(original.substring(0, (original.length() - i)))) {
+                return true;
+            } else if (desired.equals(original.substring(i, original.length()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
