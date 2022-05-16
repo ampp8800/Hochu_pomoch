@@ -26,8 +26,8 @@ public class SearchAdapter extends FragmentStateAdapter {
         return NUMBER_OF_TABS;
     }
 
-    public void updatePageAttachment(String searchQery) {
-        searchPageFragment.updatePageFragment(searchQery);
+    public void updatePageAttachment(String searchQery, int currentItem) {
+        searchPageFragment.updatePageFragment(searchQery, currentItem);
     }
 
 }

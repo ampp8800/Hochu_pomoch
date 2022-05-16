@@ -16,6 +16,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class SearchActivity extends AppCompatActivity {
     private SearchAdapter pageAdapter;
+    private ViewPager2 pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class SearchActivity extends AppCompatActivity {
         ((ImageView) findViewById(R.id.iv_icon_back)).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
         // две страницы с результатами поиска
-        ViewPager2 pager = findViewById(R.id.vp_search);
+        pager = findViewById(R.id.vp_search);
         pageAdapter = new SearchAdapter(this);
         pager.setAdapter(pageAdapter);
         // добавление заголовков страниц
@@ -51,7 +52,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String searchQuery = ((EditText) findViewById(R.id.et_search_query)).getText().toString();
-                pageAdapter.updatePageAttachment(searchQuery);
+                int currentItem = pager.getCurrentItem();
+                pageAdapter.updatePageAttachment(searchQuery, currentItem);
             }
         });
         //логика работы нижней панели навигации
