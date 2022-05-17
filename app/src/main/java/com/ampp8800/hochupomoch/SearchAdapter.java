@@ -13,7 +13,6 @@ public class SearchAdapter extends FragmentStateAdapter {
         super(fragmentActivity);
     }
 
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -26,7 +25,7 @@ public class SearchAdapter extends FragmentStateAdapter {
         return NUMBER_OF_TABS;
     }
 
-    public void updatePageAttachment(String searchQery, int currentItem) {
+    public void updatePageAttachment(String searchQery, @NonNull int currentItem) {
         searchPageFragment.updatePageFragment(searchQery, currentItem);
     }
 

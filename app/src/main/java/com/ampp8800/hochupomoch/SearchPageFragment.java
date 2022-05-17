@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,10 +33,6 @@ public class SearchPageFragment extends Fragment {
         args.putInt("num", page);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public SearchListAdapter getSearchListAdapter() {
-        return searchListAdapter;
     }
 
     @Override
@@ -117,7 +114,7 @@ public class SearchPageFragment extends Fragment {
 
     public void updatePageFragment(String searchQery, int currentItem) {
         setInitialData(searchQery, currentItem);
-        newInstance(currentItem).getSearchListAdapter().notifyDataSetChanged();
+        ((SearchPageFragment) getActivity().getSupportFragmentManager().findFragmentByTag("f" + currentItem)).searchListAdapter.notifyDataSetChanged();
     }
 
     public boolean wordComparison(@NonNull String desired, @NonNull String original) {
