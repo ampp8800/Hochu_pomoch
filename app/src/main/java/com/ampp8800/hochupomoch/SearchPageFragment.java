@@ -5,26 +5,23 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchPageFragment extends Fragment {
     private int pageNumber;
     private ArrayList<String> searches = new ArrayList<>();
     private Context context;
     private SearchListAdapter searchListAdapter;
+    private View view;
     private EventsRepository eventsRepository = EventsRepository.getInstance();
 
     public static SearchPageFragment newInstance(int page) {
@@ -48,9 +45,10 @@ public class SearchPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.fragment_search_page, container, false);
+        view = result;
         context = result.getContext();
         // начальная инициализация списка
-        setInitialData();
+        setDataInFragmentBody();
         RecyclerView recyclerView = result.findViewById(R.id.searches_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         // добавление тоста
@@ -67,13 +65,13 @@ public class SearchPageFragment extends Fragment {
         return result;
     }
 
-    public void setInitialData() {
+    public void setDataInFragmentBody() {
         for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
             searches.add(eventsRepository.getEvents().get(i).getOrganization());
         }
     }
 
-    public void setInitialData(@NonNull String searchQuery, @NonNull int currentItem) {
+    public int setDataInFragmentBody(@NonNull String searchQuery, @NonNull int currentItem) {
         searches.removeAll(searches);
         // Если пустой запрос
         if (searchQuery.equals("")) {
@@ -110,14 +108,17 @@ public class SearchPageFragment extends Fragment {
                 }
             }
         }
+        return searches.size();
     }
 
     public void updatePageFragment(String searchQery, int currentItem) {
-        setInitialData(searchQery, currentItem);
-        ((SearchPageFragment) getActivity().getSupportFragmentManager().findFragmentByTag("f" + currentItem)).searchListAdapter.notifyDataSetChanged();
+        int eventsFound = setDataInFragmentBody(searchQery, currentItem);
+        searchListAdapter.notifyDataSetChanged();
+        ((TextView) view.findViewById(R.id.tv_keywords)).setText(extractionOfKeywords(searchQery));
+        ((TextView) view.findViewById(R.id.tv_searching_result)).setText(getString(R.string.searching_result) + " " + eventsFound);
     }
 
-    public boolean wordComparison(@NonNull String desired, @NonNull String original) {
+    private boolean wordComparison(@NonNull String desired, @NonNull String original) {
         if (original.length() >= desired.length()) {
             for (int i = 0; i <= (original.length() - desired.length()); i++) {
                 for (int j = 0; j <= (original.length() - desired.length() - i); j++) {
@@ -128,6 +129,16 @@ public class SearchPageFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    private String extractionOfKeywords(String keywords) {
+        String result = getString(R.string.keywords) + " ";
+        String str[] = keywords.split(" ");
+        for (String word : str) {
+            result += word + ", ";
+        }
+        result = result.substring(0, (result.length() - 2));
+        return result;
     }
 
 }

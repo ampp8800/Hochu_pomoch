@@ -7,7 +7,7 @@ import java.util.List;
 
 public class EventsRepository {
     private static EventsRepository eventsRepository;
-    private static List<EventItem> events = new ArrayList<>() ;
+    private static List<EventItem> events = new ArrayList<>();
 
     private EventsRepository() {
     }
@@ -32,8 +32,5 @@ public class EventsRepository {
         events.add(new EventItem("Детские домики", "Опека"));
         events.add(new EventItem("Мозайка счастья", "Сбор средств"));
     }
-
-
-
 
 }

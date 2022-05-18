@@ -2,10 +2,10 @@ package com.ampp8800.hochupomoch;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,13 +51,25 @@ public class SearchActivity extends AppCompatActivity {
         ((View) findViewById(R.id.iv_search_event)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String searchQuery = ((EditText) findViewById(R.id.et_search_query)).getText().toString();
-                int currentItem = pager.getCurrentItem();
-                pageAdapter.updatePageAttachment(searchQuery, currentItem);
+                executeSearch();
+            }
+        });
+        ((EditText) findViewById(R.id.et_search_query)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                executeSearch();
+                return false;
             }
         });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
+
+    }
+
+    private void executeSearch() {
+        String searchQuery = ((EditText) findViewById(R.id.et_search_query)).getText().toString();
+        int currentItem = pager.getCurrentItem();
+        pageAdapter.updatePageAttachment(searchQuery, currentItem);
     }
 }
 
