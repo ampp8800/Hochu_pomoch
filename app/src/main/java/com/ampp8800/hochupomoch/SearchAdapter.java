@@ -28,8 +28,7 @@ public class SearchAdapter extends FragmentStateAdapter {
     }
 
     public void updatePageAttachment(String searchQery, @NonNull int currentItem) {
-        ((SearchPageFragment) fragmentActivity.getSupportFragmentManager().findFragmentByTag("f" + currentItem))
-                .updatePageFragment(searchQery, currentItem);
+        ((SearchPageFragment) fragmentActivity.getSupportFragmentManager().findFragmentByTag("f" + currentItem)).updatePageFragment(searchQery);
     }
 
 }

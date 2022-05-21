@@ -67,18 +67,19 @@ public class SearchPageFragment extends Fragment {
 
     public void setDataInFragmentBody() {
         for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
-            searches.add(eventsRepository.getEvents().get(i).getOrganization());
+            if (pageNumber == 0) {
+                searches.add(eventsRepository.getEvents().get(i).getName());
+            } else {
+                searches.add(eventsRepository.getEvents().get(i).getOrganization());
+            }
         }
     }
 
-    public int setDataInFragmentBody(@NonNull String searchQuery, @NonNull int currentItem) {
+    public int setDataInFragmentBody(@NonNull String searchQuery) {
         searches.removeAll(searches);
         // Если пустой запрос
         if (searchQuery.equals("")) {
-            searches.removeAll(searches);
-            for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
-                searches.add(eventsRepository.getEvents().get(i).getOrganization());
-            }
+            setDataInFragmentBody();
         }
         // Если не пустой запрос
         else {
@@ -87,7 +88,7 @@ public class SearchPageFragment extends Fragment {
             for (EventItem eventItem : eventsRepository.getEvents()) {
                 String events[];
                 boolean isStopCycle = false;
-                if (currentItem == 0) {
+                if (pageNumber == 0) {
                     events = eventItem.getName().split(" ");
                 } else {
                     events = eventItem.getOrganization().split(" ");
@@ -97,7 +98,11 @@ public class SearchPageFragment extends Fragment {
                     // Перебираем все слова в запросе
                     for (String queryWord : queryWords) {
                         if (wordComparison(queryWord, event)) {
-                            searches.add(eventItem.getOrganization());
+                            if (pageNumber == 0) {
+                                searches.add(eventItem.getName());
+                            } else {
+                                searches.add(eventItem.getOrganization());
+                            }
                             isStopCycle = true;
                             break;
                         }
@@ -111,8 +116,8 @@ public class SearchPageFragment extends Fragment {
         return searches.size();
     }
 
-    public void updatePageFragment(String searchQery, int currentItem) {
-        int eventsFound = setDataInFragmentBody(searchQery, currentItem);
+    public void updatePageFragment(String searchQery) {
+        int eventsFound = setDataInFragmentBody(searchQery);
         searchListAdapter.notifyDataSetChanged();
         ((TextView) view.findViewById(R.id.tv_keywords)).setText(extractionOfKeywords(searchQery));
         ((TextView) view.findViewById(R.id.tv_searching_result)).setText(getString(R.string.searching_result) + " " + eventsFound);
