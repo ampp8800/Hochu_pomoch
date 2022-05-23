@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,8 +38,10 @@ public class SearchPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             pageNumber = getArguments().getInt("num");
+            PageFragmentViewModel pageFragmentViewModel = new ViewModelProvider(this).get(PageFragmentViewModel.class);
         } else {
             pageNumber = 1;
+            PageFragmentViewModel pageFragmentViewModel = new ViewModelProvider(this).get(PageFragmentViewModel.class);
         }
     }
 
@@ -86,23 +89,21 @@ public class SearchPageFragment extends Fragment {
             String queryWords[] = searchQuery.split(" ");
             // Перебираем все элементы репозитория
             for (EventItem eventItem : eventsRepository.getEvents()) {
-                String events[];
+                String eventWords[];
                 boolean isStopCycle = false;
+                String event;
                 if (pageNumber == 0) {
-                    events = eventItem.getName().split(" ");
+                    event = eventItem.getName();
                 } else {
-                    events = eventItem.getOrganization().split(" ");
+                    event = eventItem.getOrganization();
                 }
+                eventWords = event.split(" ");
                 // Перебираем все слова в элементе репозитория
-                for (String event : events) {
+                for (String eventWord : eventWords) {
                     // Перебираем все слова в запросе
                     for (String queryWord : queryWords) {
-                        if (wordComparison(queryWord, event)) {
-                            if (pageNumber == 0) {
-                                searches.add(eventItem.getName());
-                            } else {
-                                searches.add(eventItem.getOrganization());
-                            }
+                        if (wordComparison(queryWord, eventWord)) {
+                            searches.add(event);
                             isStopCycle = true;
                             break;
                         }
