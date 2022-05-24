@@ -2,7 +2,6 @@ package com.ampp8800.hochupomoch;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -64,7 +63,6 @@ public class SearchActivity extends AppCompatActivity {
         });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
-
     }
 
     private void executeSearch() {

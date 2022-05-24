@@ -5,13 +5,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +38,8 @@ public class SearchPageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             pageNumber = getArguments().getInt("num");
-            PageFragmentViewModel pageFragmentViewModel = new ViewModelProvider(this).get(PageFragmentViewModel.class);
         } else {
             pageNumber = 1;
-            PageFragmentViewModel pageFragmentViewModel = new ViewModelProvider(this).get(PageFragmentViewModel.class);
         }
     }
 
@@ -50,8 +48,22 @@ public class SearchPageFragment extends Fragment {
         View result = inflater.inflate(R.layout.fragment_search_page, container, false);
         view = result;
         context = result.getContext();
+        setRetainInstance(true);
+        // загрузка предыдущего отображения
+        if (savedInstanceState == null) {
+            setDataInFragmentBody();
+        }
+        if (savedInstanceState != null) {
+            if (pageNumber == 0) {
+                insertSearchDescription(savedInstanceState.getString("keywords0", ""),
+                        savedInstanceState.getString("searchingResult0", ""));
+
+            } else {
+                insertSearchDescription(savedInstanceState.getString("keywords1", ""),
+                        savedInstanceState.getString("searchingResult1", ""));
+            }
+        }
         // начальная инициализация списка
-        setDataInFragmentBody();
         RecyclerView recyclerView = result.findViewById(R.id.searches_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         // добавление тоста
@@ -66,6 +78,20 @@ public class SearchPageFragment extends Fragment {
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(searchListAdapter);
         return result;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle onState) {
+        super.onSaveInstanceState(onState);
+        String keywords = ((TextView) view.findViewById(R.id.tv_keywords)).getText().toString();
+        String searchingResult = ((TextView) view.findViewById(R.id.tv_searching_result)).getText().toString();
+        if (pageNumber == 0) {
+            onState.putString("keywords0", keywords);
+            onState.putString("searchingResult0", searchingResult);
+        } else {
+            onState.putString("keywords1", keywords);
+            onState.putString("searchingResult1", searchingResult);
+        }
     }
 
     public void setDataInFragmentBody() {
@@ -120,9 +146,9 @@ public class SearchPageFragment extends Fragment {
     public void updatePageFragment(String searchQery) {
         int eventsFound = setDataInFragmentBody(searchQery);
         searchListAdapter.notifyDataSetChanged();
-        ((TextView) view.findViewById(R.id.tv_keywords)).setText(extractionOfKeywords(searchQery));
-        ((TextView) view.findViewById(R.id.tv_searching_result)).setText(getString(R.string.searching_result) + " " + eventsFound);
-    }
+        insertSearchDescription(extractionOfKeywords(searchQery),
+                getString(R.string.searching_result) + " " + eventsFound);
+        }
 
     private boolean wordComparison(@NonNull String desired, @NonNull String original) {
         if (original.length() >= desired.length()) {
@@ -145,6 +171,11 @@ public class SearchPageFragment extends Fragment {
         }
         result = result.substring(0, (result.length() - 2));
         return result;
+    }
+
+    private void insertSearchDescription(String searchQery, String searchingResult) {
+        ((TextView) view.findViewById(R.id.tv_keywords)).setText(searchQery);
+        ((TextView) view.findViewById(R.id.tv_searching_result)).setText(searchingResult);
     }
 
 }
