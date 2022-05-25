@@ -35,6 +35,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         holder.nameView.setText(search);
         if (position != (getItemCount() - 1)) {
             holder.itemView.setBackgroundResource(R.drawable.background_with_shadow_bottom);
+        } else {
+            holder.itemView.setBackgroundResource(R.color.white);
         }
     }
 

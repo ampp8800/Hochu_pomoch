@@ -58,7 +58,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 executeSearch();
-                return false;
+                return true;
             }
         });
         //логика работы нижней панели навигации
