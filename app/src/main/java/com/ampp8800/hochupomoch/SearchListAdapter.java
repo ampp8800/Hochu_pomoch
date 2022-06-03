@@ -14,13 +14,11 @@ import java.util.List;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListItemViewHolder> {
     private final LayoutInflater inflater;
-    private final List<String> searchListItems;
-    private final OnItemClickListener onSearchItemClickListner;
+    private List<String> searchListItems;
 
-    SearchListAdapter(@NonNull Context context, @NonNull List<String> searchListItems, @NonNull OnItemClickListener onSearchItemClickListner) {
-        this.searchListItems = searchListItems;
+    SearchListAdapter(@NonNull Context context) {
+        searchListItems = EventsRepository.getReturnedList();
         this.inflater = LayoutInflater.from(context);
-        this.onSearchItemClickListner = onSearchItemClickListner;
     }
 
     @Override
@@ -38,6 +36,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         } else {
             holder.itemView.setBackgroundResource(R.color.white);
         }
+
     }
 
     @Override
@@ -51,14 +50,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         SearchListItemViewHolder(@NonNull View view) {
             super(view);
             nameView = view.findViewById(R.id.tv_search_item_name);
-
-            view.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    onSearchItemClickListner.invoke(searchListItems.get(getAdapterPosition()));
-                }
-            });
         }
     }
 }

@@ -7,12 +7,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SearchAdapter extends FragmentStateAdapter {
     private final int NUMBER_OF_TABS = 2;
-    private FragmentActivity fragmentActivity;
-
 
     public SearchAdapter(FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        this.fragmentActivity = fragmentActivity;
     }
 
     @NonNull
@@ -27,7 +24,7 @@ public class SearchAdapter extends FragmentStateAdapter {
         return NUMBER_OF_TABS;
     }
 
-    public void updatePageAttachment(String searchQery, @NonNull int currentItem) {
+    public void updatePageContent(FragmentActivity fragmentActivity, @NonNull String searchQery, int currentItem) {
         ((SearchPageFragment) fragmentActivity.getSupportFragmentManager().findFragmentByTag("f" + currentItem)).updatePageFragment(searchQery);
     }
 

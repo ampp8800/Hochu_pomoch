@@ -3,7 +3,6 @@ package com.ampp8800.hochupomoch;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,16 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class SearchPageFragment extends Fragment {
     private int pageNumber;
-    private ArrayList<String> searches = new ArrayList<>();
-    private Context context;
     private SearchListAdapter searchListAdapter;
     private View view;
     private EventsRepository eventsRepository = EventsRepository.getInstance();
@@ -45,39 +38,30 @@ public class SearchPageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View result = inflater.inflate(R.layout.fragment_search_page, container, false);
-        view = result;
-        context = result.getContext();
+        view = inflater.inflate(R.layout.fragment_search_page, container, false);
         setRetainInstance(true);
-        // загрузка предыдущего отображения
         if (savedInstanceState == null) {
-            setDataInFragmentBody();
-        }
-        if (savedInstanceState != null) {
+            EventsRepository.setDataInListOfEvents(pageNumber);
+        } else {
+            // загрузка предыдущего отображения
             if (pageNumber == 0) {
+//                EventsRepository.setDataInListOfEvents(savedInstanceState.getString("eventsList0", ""), pageNumber);
                 insertSearchDescription(savedInstanceState.getString("keywords0", ""),
                         savedInstanceState.getString("searchingResult0", ""));
 
             } else {
+//                EventsRepository.setDataInListOfEvents(savedInstanceState.getString("eventsList1", ""), pageNumber);
                 insertSearchDescription(savedInstanceState.getString("keywords1", ""),
                         savedInstanceState.getString("searchingResult1", ""));
             }
         }
         // начальная инициализация списка
-        RecyclerView recyclerView = result.findViewById(R.id.searches_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        // добавление тоста
-        OnItemClickListener onItemClickListener = new OnItemClickListener() {
-            @Override
-            public void invoke(String name) {
-                Toast toast = Toast.makeText(context, name, Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        };
-        searchListAdapter = new SearchListAdapter(context, searches, onItemClickListener);
+        searchListAdapter = new SearchListAdapter(view.getContext());
+        RecyclerView recyclerView = view.findViewById(R.id.searches_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(searchListAdapter);
-        return result;
+        return view;
     }
 
     @Override
@@ -85,85 +69,29 @@ public class SearchPageFragment extends Fragment {
         super.onSaveInstanceState(onState);
         String keywords = ((TextView) view.findViewById(R.id.tv_keywords)).getText().toString();
         String searchingResult = ((TextView) view.findViewById(R.id.tv_searching_result)).getText().toString();
+//        String eventsList = null;
+//        for (String word : EventsRepository.getReturnedList()) {
+//            eventsList += word;
+//        }
         if (pageNumber == 0) {
             onState.putString("keywords0", keywords);
             onState.putString("searchingResult0", searchingResult);
+//            onState.putString("eventsList0", eventsList);
         } else {
             onState.putString("keywords1", keywords);
             onState.putString("searchingResult1", searchingResult);
+//            onState.putString("eventsList1", eventsList);
         }
-    }
-
-    public void setDataInFragmentBody() {
-        for (int i = 0; i < eventsRepository.getEvents().size(); i++) {
-            if (pageNumber == 0) {
-                searches.add(eventsRepository.getEvents().get(i).getName());
-            } else {
-                searches.add(eventsRepository.getEvents().get(i).getOrganization());
-            }
-        }
-    }
-
-    public int setDataInFragmentBody(@NonNull String searchQuery) {
-        searches.removeAll(searches);
-        // Если пустой запрос
-        if (searchQuery.equals("")) {
-            setDataInFragmentBody();
-        }
-        // Если не пустой запрос
-        else {
-            String queryWords[] = searchQuery.split(" ");
-            // Перебираем все элементы репозитория
-            for (EventItem eventItem : eventsRepository.getEvents()) {
-                String eventWords[];
-                boolean isStopCycle = false;
-                String event;
-                if (pageNumber == 0) {
-                    event = eventItem.getName();
-                } else {
-                    event = eventItem.getOrganization();
-                }
-                eventWords = event.split(" ");
-                // Перебираем все слова в элементе репозитория
-                for (String eventWord : eventWords) {
-                    // Перебираем все слова в запросе
-                    for (String queryWord : queryWords) {
-                        if (wordComparison(queryWord, eventWord)) {
-                            searches.add(event);
-                            isStopCycle = true;
-                            break;
-                        }
-                    }
-                    if (isStopCycle) {
-                        break;
-                    }
-                }
-            }
-        }
-        return searches.size();
     }
 
     public void updatePageFragment(String searchQery) {
-        int eventsFound = setDataInFragmentBody(searchQery);
+        int eventsFound = EventsRepository.updateListOfEvents(searchQery, pageNumber);
         searchListAdapter.notifyDataSetChanged();
-        insertSearchDescription(extractionOfKeywords(searchQery),
+        insertSearchDescription(extractKeywords(searchQery),
                 getString(R.string.searching_result) + " " + eventsFound);
-        }
-
-    private boolean wordComparison(@NonNull String desired, @NonNull String original) {
-        if (original.length() >= desired.length()) {
-            for (int i = 0; i <= (original.length() - desired.length()); i++) {
-                for (int j = 0; j <= (original.length() - desired.length() - i); j++) {
-                    if (desired.equalsIgnoreCase(original.substring(j, (original.length() - i)))) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
-    private String extractionOfKeywords(String keywords) {
+    private String extractKeywords(String keywords) {
         String result = getString(R.string.keywords) + " ";
         String str[] = keywords.split(" ");
         for (String word : str) {
