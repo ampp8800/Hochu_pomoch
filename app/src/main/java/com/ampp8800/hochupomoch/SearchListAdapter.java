@@ -14,11 +14,17 @@ import java.util.List;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListItemViewHolder> {
     private final LayoutInflater inflater;
-    private List<String> searchListItems;
+    private List<EventItem> searchListItems;
+    private int pageNumber;
 
-    SearchListAdapter(@NonNull Context context) {
-        searchListItems = EventsRepository.getReturnedList();
+    SearchListAdapter(@NonNull Context context, @NonNull int pageNumber) {
+        searchListItems = EventsRepository.getListOfEvents();
         this.inflater = LayoutInflater.from(context);
+        this.pageNumber = pageNumber;
+    }
+
+    public void setSearchListItems(List<EventItem> searchListItems) {
+        this.searchListItems = searchListItems;
     }
 
     @Override
@@ -29,14 +35,16 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull SearchListAdapter.SearchListItemViewHolder holder, int position) {
-        String search = searchListItems.get(position);
-        holder.nameView.setText(search);
+        if (pageNumber == 0) {
+            holder.nameView.setText(searchListItems.get(position).getName());
+        } else {
+            holder.nameView.setText(searchListItems.get(position).getOrganization());
+        }
         if (position != (getItemCount() - 1)) {
             holder.itemView.setBackgroundResource(R.drawable.background_with_shadow_bottom);
         } else {
             holder.itemView.setBackgroundResource(R.color.white);
         }
-
     }
 
     @Override

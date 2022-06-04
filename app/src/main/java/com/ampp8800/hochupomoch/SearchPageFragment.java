@@ -1,6 +1,5 @@
 package com.ampp8800.hochupomoch;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class SearchPageFragment extends Fragment {
     private int pageNumber;
+    private String searchQery;
     private SearchListAdapter searchListAdapter;
     private View view;
     private EventsRepository eventsRepository = EventsRepository.getInstance();
@@ -39,24 +41,26 @@ public class SearchPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_search_page, container, false);
-        setRetainInstance(true);
+        searchListAdapter = new SearchListAdapter(view.getContext(), pageNumber);
         if (savedInstanceState == null) {
-            EventsRepository.setDataInListOfEvents(pageNumber);
+//            EventsRepository.getListOfEvents();
         } else {
             // загрузка предыдущего отображения
+
             if (pageNumber == 0) {
-//                EventsRepository.setDataInListOfEvents(savedInstanceState.getString("eventsList0", ""), pageNumber);
+                searchQery = savedInstanceState.getString("eventsList0", "");
+                searchListAdapter.setSearchListItems(EventsRepository.getListOfEvents(searchQery, pageNumber));
                 insertSearchDescription(savedInstanceState.getString("keywords0", ""),
                         savedInstanceState.getString("searchingResult0", ""));
 
             } else {
-//                EventsRepository.setDataInListOfEvents(savedInstanceState.getString("eventsList1", ""), pageNumber);
+                searchQery = savedInstanceState.getString("eventsList1", "");
+                searchListAdapter.setSearchListItems(EventsRepository.getListOfEvents(searchQery, pageNumber));
                 insertSearchDescription(savedInstanceState.getString("keywords1", ""),
                         savedInstanceState.getString("searchingResult1", ""));
             }
         }
         // начальная инициализация списка
-        searchListAdapter = new SearchListAdapter(view.getContext());
         RecyclerView recyclerView = view.findViewById(R.id.searches_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         // устанавливаем для списка адаптер
@@ -69,26 +73,24 @@ public class SearchPageFragment extends Fragment {
         super.onSaveInstanceState(onState);
         String keywords = ((TextView) view.findViewById(R.id.tv_keywords)).getText().toString();
         String searchingResult = ((TextView) view.findViewById(R.id.tv_searching_result)).getText().toString();
-//        String eventsList = null;
-//        for (String word : EventsRepository.getReturnedList()) {
-//            eventsList += word;
-//        }
         if (pageNumber == 0) {
             onState.putString("keywords0", keywords);
             onState.putString("searchingResult0", searchingResult);
-//            onState.putString("eventsList0", eventsList);
+            onState.putString("eventsList0", searchQery);
         } else {
             onState.putString("keywords1", keywords);
             onState.putString("searchingResult1", searchingResult);
-//            onState.putString("eventsList1", eventsList);
+            onState.putString("eventsList1", searchQery);
         }
     }
 
     public void updatePageFragment(String searchQery) {
-        int eventsFound = EventsRepository.updateListOfEvents(searchQery, pageNumber);
+        this.searchQery = searchQery;
+        List<EventItem> eventsFound = EventsRepository.getListOfEvents(searchQery, pageNumber);
+        searchListAdapter.setSearchListItems(eventsFound);
         searchListAdapter.notifyDataSetChanged();
         insertSearchDescription(extractKeywords(searchQery),
-                getString(R.string.searching_result) + " " + eventsFound);
+                getString(R.string.searching_result) + " " + eventsFound.size());
     }
 
     private String extractKeywords(String keywords) {

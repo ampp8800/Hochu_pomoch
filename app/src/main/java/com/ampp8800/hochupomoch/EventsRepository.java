@@ -8,7 +8,6 @@ import java.util.List;
 public class EventsRepository {
     private static EventsRepository eventsRepository;
     private static List<EventItem> events = new ArrayList<>();
-    private static List<String> returnedList = new ArrayList<>();
 
     private EventsRepository() {
     }
@@ -26,31 +25,15 @@ public class EventsRepository {
         return eventsRepository;
     }
 
-    public static List<String> getReturnedList() {
-        return returnedList;
+    public static List<EventItem> getListOfEvents() {
+        return events;
     }
 
-    public static int updateListOfEvents(String searchQery, int pageNumber) {
-        int eventsFound = setDataInListOfEvents(searchQery, pageNumber);
-        return eventsFound;
-    }
-
-    public static void setDataInListOfEvents(@NonNull int pageNumber) {
-        returnedList.removeAll(returnedList);
-        for (int i = 0; i < events.size(); i++) {
-            if (pageNumber == 0) {
-                returnedList.add(events.get(i).getName());
-            } else {
-                returnedList.add(events.get(i).getOrganization());
-            }
-        }
-    }
-
-    public static int setDataInListOfEvents(@NonNull String searchQuery, @NonNull int pageNumber) {
-        returnedList.removeAll(returnedList);
+    public static List<EventItem> getListOfEvents(@NonNull String searchQuery, @NonNull int pageNumber) {
+        List<EventItem> result = new ArrayList<>();
         // Если пустой запрос
         if (searchQuery.equals("")) {
-            setDataInListOfEvents(pageNumber);
+            result.addAll(events);
         }
         // Если не пустой запрос
         else {
@@ -66,13 +49,13 @@ public class EventsRepository {
                 // Перебираем все слова в запросе
                 for (String queryWord : queryWords) {
                     if (event.toLowerCase().contains(queryWord.toLowerCase())) {
-                        returnedList.add(event);
+                        result.add(eventItem);
                         break;
                     }
                 }
             }
         }
-        return returnedList.size();
+        return result;
     }
 
 }
