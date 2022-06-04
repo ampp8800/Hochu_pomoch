@@ -17,7 +17,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     private List<EventItem> searchListItems;
     private int pageNumber;
 
-    SearchListAdapter(@NonNull Context context, @NonNull int pageNumber) {
+    SearchListAdapter(@NonNull Context context, int pageNumber) {
         searchListItems = EventsRepository.getListOfEvents();
         this.inflater = LayoutInflater.from(context);
         this.pageNumber = pageNumber;
@@ -28,7 +28,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     }
 
     @Override
-    public SearchListAdapter.SearchListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public SearchListAdapter.SearchListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.search_item, parent, false);
         return new SearchListAdapter.SearchListItemViewHolder(view);
     }

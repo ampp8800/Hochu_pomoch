@@ -1,5 +1,6 @@
 package com.ampp8800.hochupomoch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -31,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout_search);
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
-            public void onConfigureTab(TabLayout.Tab tab, int position) {
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 if (position == 0) {
                     tab.setText(R.string.by_events);
                 } else {
@@ -41,7 +42,7 @@ public class SearchActivity extends AppCompatActivity {
         });
         tabLayoutMediator.attach();
         // нажатие кнопки поиска
-        ((View) findViewById(R.id.iv_search_event)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_search_event).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 executeSearch();
@@ -55,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         //логика работы нижней панели навигации
-        BottomNavigationLogic.initializeBottomBar((View) findViewById(R.id.bottom_navigation));
+        BottomNavigationLogic.initializeBottomBar(findViewById(R.id.bottom_navigation));
     }
 
     private void executeSearch() {
@@ -69,8 +70,8 @@ public class SearchActivity extends AppCompatActivity {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setElevation(0);
-        ((ImageView) findViewById(R.id.iv_edit)).setVisibility(View.GONE);
-        ((ImageView) findViewById(R.id.iv_icon_back)).setVisibility(View.GONE);
+        findViewById(R.id.iv_edit).setVisibility(View.GONE);
+        findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
     }
 

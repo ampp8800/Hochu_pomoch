@@ -29,7 +29,7 @@ public class EventsRepository {
         return events;
     }
 
-    public static List<EventItem> getListOfEvents(@NonNull String searchQuery, @NonNull int pageNumber) {
+    public static List<EventItem> getListOfEvents(@NonNull String searchQuery, int pageNumber) {
         List<EventItem> result = new ArrayList<>();
         // Если пустой запрос
         if (searchQuery.equals("")) {

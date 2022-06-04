@@ -15,8 +15,7 @@ public class SearchAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        SearchPageFragment searchPageFragment = SearchPageFragment.newInstance(position);
-        return searchPageFragment;
+        return SearchPageFragment.newInstance(position);
     }
 
     @Override
