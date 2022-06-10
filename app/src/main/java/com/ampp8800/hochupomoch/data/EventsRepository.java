@@ -1,6 +1,8 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.data;
 
 import androidx.annotation.NonNull;
+
+import com.ampp8800.hochupomoch.ui.EventItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,27 +31,27 @@ public class EventsRepository {
         return events;
     }
 
-    public static List<EventItem> getListOfEvents(@NonNull String searchQuery, int pageNumber) {
+    public static List<EventItem> getListOfEvents(@NonNull String searchQuery, SearchType currentSearchType) {
         List<EventItem> result = new ArrayList<>();
         // Если пустой запрос
-        if (searchQuery.equals("")) {
+        if (searchQuery.isEmpty()) {
             result.addAll(events);
         }
         // Если не пустой запрос
         else {
             String queryWords[] = searchQuery.split(" ");
             // Перебираем все элементы репозитория
-            for (EventItem eventItem : events) {
+            for (EventItem itemFromSearchArea : events) {
                 String event;
-                if (pageNumber == 0) {
-                    event = eventItem.getName();
+                if (currentSearchType == SearchType.EVENT) {
+                    event = itemFromSearchArea.getName();
                 } else {
-                    event = eventItem.getOrganization();
+                    event = itemFromSearchArea.getOrganization();
                 }
                 // Перебираем все слова в запросе
                 for (String queryWord : queryWords) {
                     if (event.toLowerCase().contains(queryWord.toLowerCase())) {
-                        result.add(eventItem);
+                        result.add(itemFromSearchArea);
                         break;
                     }
                 }

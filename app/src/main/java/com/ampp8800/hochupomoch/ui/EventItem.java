@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import androidx.annotation.NonNull;
 

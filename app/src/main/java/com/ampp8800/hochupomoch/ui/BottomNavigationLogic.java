@@ -1,10 +1,12 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+
+import com.ampp8800.hochupomoch.R;
 
 
 public class BottomNavigationLogic {

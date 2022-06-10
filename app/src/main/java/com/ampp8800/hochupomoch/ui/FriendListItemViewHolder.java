@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,13 +7,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ampp8800.hochupomoch.data.ListItem;
+import com.ampp8800.hochupomoch.R;
 import com.bumptech.glide.Glide;
 
 
 public class FriendListItemViewHolder extends RecyclerView.ViewHolder {
     final ImageView imageFriendView;
     final TextView nameView;
-    private static View view;
+    private View view;
 
 
     FriendListItemViewHolder(@NonNull View view) {

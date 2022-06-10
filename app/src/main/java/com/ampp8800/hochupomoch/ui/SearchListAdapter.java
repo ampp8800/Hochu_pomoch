@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 
 import android.content.Context;
@@ -10,17 +10,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ampp8800.hochupomoch.R;
+import com.ampp8800.hochupomoch.data.SearchType;
+import com.ampp8800.hochupomoch.data.EventsRepository;
+
 import java.util.List;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListItemViewHolder> {
     private final LayoutInflater inflater;
     private List<EventItem> searchListItems;
-    private int pageNumber;
+    private SearchType currentSearchType;
 
-    SearchListAdapter(@NonNull Context context, int pageNumber) {
+    SearchListAdapter(@NonNull Context context, SearchType currentSearchType) {
         searchListItems = EventsRepository.getListOfEvents();
         this.inflater = LayoutInflater.from(context);
-        this.pageNumber = pageNumber;
+        this.currentSearchType = currentSearchType;
     }
 
     public void setSearchListItems(List<EventItem> searchListItems) {
@@ -36,7 +40,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull SearchListAdapter.SearchListItemViewHolder holder, int position) {
-        if (pageNumber == 0) {
+        if (currentSearchType == SearchType.EVENT) {
             holder.nameView.setText(searchListItems.get(position).getName());
         } else {
             holder.nameView.setText(searchListItems.get(position).getOrganization());

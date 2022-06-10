@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -6,18 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ampp8800.hochupomoch.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class SearchActivity extends AppCompatActivity {
     private SearchAdapter pageAdapter;
     private ViewPager2 pager;
+    private final int AUTOMATIC_SEARCH_SECOND = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,15 @@ public class SearchActivity extends AppCompatActivity {
         });
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar(findViewById(R.id.bottom_navigation));
+        //автоматический поиск
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!((EditText) findViewById(R.id.et_search_query)).getText().toString().equals("")){
+                    executeSearch();
+                }
+            }
+        }, AUTOMATIC_SEARCH_SECOND * 1000);
     }
 
     private void executeSearch() {
@@ -70,8 +81,8 @@ public class SearchActivity extends AppCompatActivity {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setElevation(0);
-        findViewById(R.id.iv_edit).setVisibility(View.GONE);
         findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
+        findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
     }
 

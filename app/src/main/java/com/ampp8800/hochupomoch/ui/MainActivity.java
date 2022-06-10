@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ampp8800.hochupomoch.data.OnItemClickListener;
+import com.ampp8800.hochupomoch.R;
+import com.ampp8800.hochupomoch.data.ListItem;
 
 import java.util.ArrayList;
 
@@ -28,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ((ImageView) findViewById(R.id.iv_edit)).setVisibility(View.GONE);
-        findViewById(R.id.search_layout).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.help);
         // начальная инициализация списка
         setInitialData();
