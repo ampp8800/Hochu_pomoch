@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch.data;
+package com.ampp8800.hochupomoch.ui;
 
 public enum SearchType {
     EVENT,

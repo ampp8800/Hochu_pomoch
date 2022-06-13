@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.SearchType;
 import com.ampp8800.hochupomoch.data.EventsRepository;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     private SearchType currentSearchType;
 
     SearchListAdapter(@NonNull Context context, SearchType currentSearchType) {
-        searchListItems = EventsRepository.getListOfEvents();
+        searchListItems = EventsRepository.getInstance().getListOfEvents();
         this.inflater = LayoutInflater.from(context);
         this.currentSearchType = currentSearchType;
     }

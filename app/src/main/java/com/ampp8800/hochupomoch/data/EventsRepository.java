@@ -3,35 +3,36 @@ package com.ampp8800.hochupomoch.data;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.ui.EventItem;
+import com.ampp8800.hochupomoch.ui.SearchType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventsRepository {
     private static EventsRepository eventsRepository;
-    private static List<EventItem> events = new ArrayList<>();
+    private List<EventItem> events = new ArrayList<>();
 
     private EventsRepository() {
+        events.add(new EventItem("Благотворительный фонд Алины", "Сбор средств"));
+        events.add(new EventItem("Во имя жизни", "Волонтерство"));
+        events.add(new EventItem("Благотворительный фонд Панина", "Работа в питомнике"));
+        events.add(new EventItem("Детские домики", "Опека"));
+        events.add(new EventItem("Мозайка счастья", "Сбор средств"));
     }
 
     @NonNull
     public static EventsRepository getInstance() {
         if (eventsRepository == null) {
             eventsRepository = new EventsRepository();
-            events.add(new EventItem("Благотворительный фонд Алины", "Сбор средств"));
-            events.add(new EventItem("Во имя жизни", "Волонтерство"));
-            events.add(new EventItem("Благотворительный фонд Панина", "Работа в питомнике"));
-            events.add(new EventItem("Детские домики", "Опека"));
-            events.add(new EventItem("Мозайка счастья", "Сбор средств"));
         }
         return eventsRepository;
     }
 
-    public static List<EventItem> getListOfEvents() {
+    public List<EventItem> getListOfEvents() {
         return events;
     }
 
-    public static List<EventItem> getListOfEvents(@NonNull String searchQuery, SearchType currentSearchType) {
+    public List<EventItem> getListOfEvents(@NonNull String searchQuery, @NonNull SearchType currentSearchType) {
         List<EventItem> result = new ArrayList<>();
         // Если пустой запрос
         if (searchQuery.isEmpty()) {
@@ -43,10 +44,15 @@ public class EventsRepository {
             // Перебираем все элементы репозитория
             for (EventItem itemFromSearchArea : events) {
                 String event;
-                if (currentSearchType == SearchType.EVENT) {
-                    event = itemFromSearchArea.getName();
-                } else {
-                    event = itemFromSearchArea.getOrganization();
+                switch (currentSearchType) {
+                    case EVENT:
+                        event = itemFromSearchArea.getName();
+                        break;
+                    case ORGANIZATION:
+                        event = itemFromSearchArea.getOrganization();
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
                 }
                 // Перебираем все слова в запросе
                 for (String queryWord : queryWords) {

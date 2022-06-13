@@ -7,6 +7,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -60,14 +62,28 @@ public class SearchActivity extends AppCompatActivity {
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar(findViewById(R.id.bottom_navigation));
         //автоматический поиск
-        new Handler().postDelayed(new Runnable() {
+        ((EditText) findViewById(R.id.et_search_query)).addTextChangedListener(new TextWatcher() {
             @Override
-            public void run() {
-                if (!((EditText) findViewById(R.id.et_search_query)).getText().toString().equals("")){
-                    executeSearch();
-                }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-        }, AUTOMATIC_SEARCH_SECOND * 1000);
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        if (!s.toString().isEmpty()) {
+                            executeSearch();
+                        }
+                    }
+                }, AUTOMATIC_SEARCH_SECOND * 1000);
+            }
+
+        });
+
     }
 
     private void executeSearch() {

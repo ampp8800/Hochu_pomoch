@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.SearchType;
 import com.ampp8800.hochupomoch.data.EventsRepository;
 
 import java.util.List;
@@ -36,12 +35,15 @@ public class SearchPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (getArguments().getInt("num")){
-            case 0: currentSearchType = SearchType.EVENT;
+        switch (getArguments().getInt("num")) {
+            case 0:
+                currentSearchType = SearchType.EVENT;
                 break;
-            case 1: currentSearchType = SearchType.ORGANIZATION;
+            case 1:
+                currentSearchType = SearchType.ORGANIZATION;
                 break;
-            default: throw new IllegalArgumentException();
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -71,7 +73,7 @@ public class SearchPageFragment extends Fragment {
     public void updatePageFragment(String searchQery) {
         if (this.searchQery != searchQery) {
             this.searchQery = searchQery;
-            List<EventItem> eventsFound = EventsRepository.getListOfEvents(searchQery, currentSearchType);
+            List<EventItem> eventsFound = EventsRepository.getInstance().getListOfEvents(searchQery, currentSearchType);
             searchListAdapter.setSearchListItems(eventsFound);
             searchListAdapter.notifyDataSetChanged();
             insertSearchDescription(extractKeywords(searchQery),
