@@ -62,27 +62,8 @@ public class SearchActivity extends AppCompatActivity {
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar(findViewById(R.id.bottom_navigation));
         //автоматический поиск
-        ((EditText) findViewById(R.id.et_search_query)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        autoSearch(findViewById(R.id.et_search_query));
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        if (!s.toString().isEmpty()) {
-                            executeSearch();
-                        }
-                    }
-                }, AUTOMATIC_SEARCH_SECOND * 1000);
-            }
-
-        });
 
     }
 
@@ -100,6 +81,35 @@ public class SearchActivity extends AppCompatActivity {
         findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
         findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
+    }
+
+    private void autoSearch(EditText editText) {
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                executeSearch();
+            }
+        };
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacks(runnable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    handler.postDelayed(runnable, AUTOMATIC_SEARCH_SECOND * 1000);
+                }
+            }
+
+        });
     }
 
 }
