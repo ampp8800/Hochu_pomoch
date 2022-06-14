@@ -62,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar(findViewById(R.id.bottom_navigation));
         //автоматический поиск
-        autoSearch(findViewById(R.id.et_search_query));
+        initAutoSearch(findViewById(R.id.et_search_query));
 
 
     }
@@ -83,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
     }
 
-    private void autoSearch(EditText editText) {
+    private void initAutoSearch(@NonNull EditText editText) {
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
