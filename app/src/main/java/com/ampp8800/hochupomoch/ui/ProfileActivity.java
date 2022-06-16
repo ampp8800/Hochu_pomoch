@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ampp8800.hochupomoch.data.ProfileRepository;
+import com.ampp8800.hochupomoch.R;
+import com.ampp8800.hochupomoch.data.AuthorizationRepository;
+import com.ampp8800.hochupomoch.data.ListItem;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -34,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        findViewById(R.id.iv_edit).setVisibility(View.VISIBLE);
         ImageView imageView = (ImageView) findViewById(R.id.iv_icon_back);
         imageView.setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_toolbar_name)).setText(R.string.profile);

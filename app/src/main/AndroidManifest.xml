@@ -12,18 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HochuPomoch">
         <activity
-            android:name=".SplashActivity"
-            android:theme="@style/Theme.SplashActivity"
-            android:exported="true">
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".AuthorizationActivity" />
+        <activity
+            android:name=".ui.SearchActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.ProfileActivity" />
+        <activity android:name=".ui.AuthorizationActivity" />
     </application>
 
 </manifest>

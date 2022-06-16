@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ampp8800.hochupomoch.R;
+import com.ampp8800.hochupomoch.data.AuthorizationRepository;
 
 public class AuthorizationActivity extends AppCompatActivity {
     private AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
@@ -30,6 +33,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ImageView imageView = (ImageView) findViewById(R.id.iv_edit);
         imageView.setVisibility(View.GONE);
+        findViewById(R.id.search_layout).setVisibility(View.GONE);
         TextView textView = (TextView) findViewById(R.id.tv_toolbar_name);
         textView.setText(R.string.log_in);
         // переход по URL

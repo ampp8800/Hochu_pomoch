@@ -1,10 +1,13 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ampp8800.hochupomoch.R;
+import com.ampp8800.hochupomoch.data.AuthorizationRepository;
 
 
 public class SplashActivity extends AppCompatActivity {

@@ -19,8 +19,8 @@
             <ImageView
                 android:id="@+id/iv_profile"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
+                android:layout_height="@dimen/height"
+                android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_no_photo" />
 
             <TextView
@@ -83,7 +83,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/background_with_shadow"
+                android:background="@drawable/background_with_shadow_top"
                 android:orientation="vertical"
                 android:paddingTop="4dp">
 
@@ -106,7 +106,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/background_with_shadow"
+                android:background="@drawable/background_with_shadow_top"
                 android:paddingTop="4dp">
 
                 <Button

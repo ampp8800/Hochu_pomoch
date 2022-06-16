@@ -1,10 +1,12 @@
-package com.ampp8800.hochupomoch;
+package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+
+import com.ampp8800.hochupomoch.R;
 
 
 public class BottomNavigationLogic {
@@ -17,6 +19,9 @@ public class BottomNavigationLogic {
         View historyButton = (View) view.findViewById(R.id.history_button);
         View profileButton = (View) view.findViewById(R.id.profile_button);
 
+        if (context.getClass() != SearchActivity.class) {
+            searchButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, SearchActivity.class)));
+        }
 
         if (context.getClass() != MainActivity.class) {
             helpButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, MainActivity.class)));
