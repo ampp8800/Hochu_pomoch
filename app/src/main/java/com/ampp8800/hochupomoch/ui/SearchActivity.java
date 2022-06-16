@@ -64,7 +64,6 @@ public class SearchActivity extends AppCompatActivity {
         //автоматический поиск
         initAutoSearch(findViewById(R.id.et_search_query));
 
-
     }
 
     private void executeSearch() {
@@ -95,18 +94,19 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                handler.removeCallbacks(runnable);
+                if (!s.toString().isEmpty()) {
+                    handler.postDelayed(runnable, AUTOMATIC_SEARCH_SECOND * 1000);
+                }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeCallbacks(runnable);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()) {
-                    handler.postDelayed(runnable, AUTOMATIC_SEARCH_SECOND * 1000);
-                }
             }
 
         });

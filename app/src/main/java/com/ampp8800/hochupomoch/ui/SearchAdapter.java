@@ -15,7 +15,18 @@ public class SearchAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return SearchPageFragment.newInstance(position);
+        SearchType currentSearchType;
+        switch (position) {
+            case 0:
+                currentSearchType = SearchType.EVENT;
+                break;
+            case 1:
+                currentSearchType = SearchType.ORGANIZATION;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        return SearchPageFragment.newInstance(currentSearchType);
     }
 
     @Override

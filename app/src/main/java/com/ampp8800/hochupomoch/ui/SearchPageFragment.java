@@ -23,11 +23,12 @@ public class SearchPageFragment extends Fragment {
     private EventsRepository eventsRepository = EventsRepository.getInstance();
     private SearchType currentSearchType;
     private final String EVENT_LIST_BY_NAME = "eventListByName";
+    private static final String PAGE_NAME ="pageName";
 
-    public static SearchPageFragment newInstance(int page) {
+    public static SearchPageFragment newInstance(SearchType page) {
         SearchPageFragment fragment = new SearchPageFragment();
         Bundle args = new Bundle();
-        args.putInt("num", page);
+        args.putSerializable(PAGE_NAME, page);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,11 +36,11 @@ public class SearchPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (getArguments().getInt("num")) {
-            case 0:
+        switch ((SearchType) getArguments().getSerializable(PAGE_NAME)) {
+            case EVENT:
                 currentSearchType = SearchType.EVENT;
                 break;
-            case 1:
+            case ORGANIZATION:
                 currentSearchType = SearchType.ORGANIZATION;
                 break;
             default:
@@ -53,8 +54,7 @@ public class SearchPageFragment extends Fragment {
         searchListAdapter = new SearchListAdapter(view.getContext(), currentSearchType);
         if (savedInstanceState != null) {
             // загрузка предыдущего отображения
-            searchQery = savedInstanceState.getString(EVENT_LIST_BY_NAME, "");
-            updatePageFragment(searchQery);
+            updatePageFragment(savedInstanceState.getString(EVENT_LIST_BY_NAME, ""));
         }
         // начальная инициализация списка
         RecyclerView recyclerView = view.findViewById(R.id.searches_list);
@@ -71,14 +71,12 @@ public class SearchPageFragment extends Fragment {
     }
 
     public void updatePageFragment(String searchQery) {
-        if (this.searchQery != searchQery) {
-            this.searchQery = searchQery;
-            List<EventItem> eventsFound = EventsRepository.getInstance().getListOfEvents(searchQery, currentSearchType);
-            searchListAdapter.setSearchListItems(eventsFound);
-            searchListAdapter.notifyDataSetChanged();
-            insertSearchDescription(extractKeywords(searchQery),
-                    getString(R.string.searching_result) + " " + eventsFound.size());
-        }
+        this.searchQery = searchQery;
+        List<EventItem> eventsFound = EventsRepository.getInstance().getListOfEvents(searchQery, currentSearchType);
+        searchListAdapter.setSearchListItems(eventsFound);
+        searchListAdapter.notifyDataSetChanged();
+        insertSearchDescription(extractKeywords(searchQery),
+                getString(R.string.searching_result) + " " + eventsFound.size());
     }
 
     private String extractKeywords(String keywords) {
