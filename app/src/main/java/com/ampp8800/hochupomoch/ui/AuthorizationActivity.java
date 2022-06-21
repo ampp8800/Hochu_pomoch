@@ -57,7 +57,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     private void login(View view) {
         authorizationRepository.setAuthorized(authorization((editEMail).getText().toString(), (editPassword).getText().toString()));
         if (authorizationRepository.isAuthorized(this)) {
-            startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
+            startActivity(new Intent(AuthorizationActivity.this, HelpActivity.class));
         }
     }
 

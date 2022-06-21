@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, HelpActivity.class);
         this.finish();
         startActivity(intent);
     }

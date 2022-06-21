@@ -23,8 +23,8 @@ public class BottomNavigationLogic {
             searchButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, SearchActivity.class)));
         }
 
-        if (context.getClass() != MainActivity.class) {
-            helpButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, MainActivity.class)));
+        if (context.getClass() != HelpActivity.class) {
+            helpButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, HelpActivity.class)));
         }
 
         if (context.getClass() != ProfileActivity.class) {
