@@ -36,11 +36,11 @@ public class HelpFragment extends Fragment {
                              @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.activity_help, container, false);
         Context context = view.getContext();
-
         // начальная инициализация списка
         setInitialData();
-        RecyclerView recyclerView = requireActivity().findViewById(R.id.helps_list);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity().getApplicationContext(), 2));
+        RecyclerView recyclerView = view.findViewById(R.id.helps_list);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         // добавление тоста
         OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
@@ -55,7 +55,6 @@ public class HelpFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         //логика работы нижней панели навигации
         BottomNavigationLogic.initializeBottomBar((View) requireActivity().findViewById(R.id.bottom_navigation));
-
         return view;
     }
 
