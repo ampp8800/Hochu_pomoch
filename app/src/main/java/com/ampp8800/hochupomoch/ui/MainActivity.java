@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            HelpFragment helpFragment = new HelpFragment();
+            ProfileFragment helpFragment = ProfileFragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, helpFragment).commitNow();
             helpFragment.setUpAppBar(getSupportActionBar());
         }

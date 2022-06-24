@@ -25,16 +25,14 @@ public class HelpFragment extends Fragment {
 
     private ArrayList<ListItem> helps = new ArrayList<ListItem>();
 
-
     public static HelpFragment newInstance() {
         return new HelpFragment();
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
-                             @Nullable Bundle saveInstanceState) {
-        View view = inflater.inflate(R.layout.activity_help, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle saveInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_help, container, false);
         Context context = view.getContext();
         // начальная инициализация списка
         setInitialData();

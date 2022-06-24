@@ -26,7 +26,7 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceHelp) {
         super.onCreate(savedInstanceHelp);
         Context context = this;
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.fragment_help);
         // инициализация тулбара
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
