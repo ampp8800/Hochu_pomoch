@@ -26,8 +26,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="6dp"
             android:layout_weight="2"
-            android:text="@string/news"
-            android:textColor="@color/turtle_green" />
+            android:text="@string/news" />
     </LinearLayout>
 
     <LinearLayout

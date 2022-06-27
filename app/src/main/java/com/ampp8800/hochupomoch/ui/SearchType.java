@@ -1,6 +1,9 @@
 package com.ampp8800.hochupomoch.ui;
 
-public enum SearchType {
+import java.io.Serializable;
+
+
+public enum SearchType implements Serializable{
     EVENT,
     ORGANIZATION
 }

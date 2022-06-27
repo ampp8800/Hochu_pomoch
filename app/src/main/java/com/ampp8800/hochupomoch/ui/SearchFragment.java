@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -34,6 +35,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
         // две страницы с результатами поиска
         pager = view.findViewById(R.id.vp_search);
         pageAdapter = new SearchAdapter(getActivity());
@@ -51,22 +53,6 @@ public class SearchFragment extends Fragment {
             }
         });
         tabLayoutMediator.attach();
-        return view;
-    }
-
-    private void executeSearch() {
-        String searchQuery = ((EditText) getActivity().findViewById(R.id.et_search_query)).getText().toString();
-        int currentItem = pager.getCurrentItem();
-        pageAdapter.updatePageContent(getActivity(), searchQuery, currentItem);
-    }
-
-    public void setUpAppBar(ActionBar actionBar) {
-        actionBar.setCustomView(R.layout.toolbar);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        actionBar.setElevation(0);
-        getActivity().findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
-        ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
         //ввод текста
         ((EditText) getActivity().findViewById(R.id.et_search_query)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -84,6 +70,22 @@ public class SearchFragment extends Fragment {
         });
         //автоматический поиск
         initAutoSearch(getActivity().findViewById(R.id.et_search_query));
+        return view;
+    }
+
+    private void executeSearch() {
+        String searchQuery = ((EditText) getActivity().findViewById(R.id.et_search_query)).getText().toString();
+        int currentItem = pager.getCurrentItem();
+        pageAdapter.updatePageContent(getActivity(), searchQuery, currentItem);
+    }
+
+    private void setUpAppBar(ActionBar actionBar) {
+        actionBar.setCustomView(R.layout.toolbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setElevation(0);
+        getActivity().findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+        ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
     }
 
     private void initAutoSearch(@NonNull EditText editText) {
@@ -98,18 +100,18 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                handler.removeCallbacks(runnable);
+                if (!s.toString().isEmpty()) {
+                    handler.postDelayed(runnable, AUTOMATIC_SEARCH_SECOND * 1000);
+                }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeCallbacks(runnable);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().isEmpty()) {
-                    handler.postDelayed(runnable, AUTOMATIC_SEARCH_SECOND * 1000);
-                }
             }
 
         });

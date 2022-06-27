@@ -1,34 +1,53 @@
 package com.ampp8800.hochupomoch.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.ampp8800.hochupomoch.R;
 
 
 public class BottomNavigationLogic {
+    private static Fragment helpFragment = HelpFragment.newInstance();
+    private static Fragment searchFragment = SearchFragment.newInstance();
+    private static Fragment profileFragment = ProfileFragment.newInstance();
 
-    public static void initializeBottomBar(@NonNull View view) {
-        Context context = view.getContext();
+    public static void initializeBottomBar(FragmentActivity fragmentActivity, @NonNull View view) {
         View newsButton = (View) view.findViewById(R.id.news_button);
         View searchButton = (View) view.findViewById(R.id.search_button);
         View helpButton = (View) view.findViewById(R.id.help_button);
         View historyButton = (View) view.findViewById(R.id.history_button);
         View profileButton = (View) view.findViewById(R.id.profile_button);
 
-        if (context.getClass() != SearchActivity.class) {
-            searchButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, SearchActivity.class)));
+        if (!searchFragment.isInLayout()) {
+            searchButton.setOnClickListener(clickedView -> fragmentActivity.
+                    getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.fragmentContainerView, searchFragment).commit());
         }
 
-        if (context.getClass() != HelpActivity.class) {
-            helpButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, HelpActivity.class)));
+        if (!helpFragment.isInLayout()) {
+            helpButton.setOnClickListener(clickedView -> startMainFragment(fragmentActivity));
         }
 
-        if (context.getClass() != ProfileActivity.class) {
-            profileButton.setOnClickListener(clickedView -> context.startActivity(new Intent(context, ProfileActivity.class)));
+        if (!profileFragment.isInLayout()) {
+            profileButton.setOnClickListener(clickedView -> fragmentActivity.
+                    getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.fragmentContainerView, profileFragment).commit());
         }
+
+    }
+
+    public static void startMainFragment(@NonNull FragmentActivity fragmentActivity) {
+        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, helpFragment).commit();
     }
 }

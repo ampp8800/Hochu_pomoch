@@ -1,8 +1,10 @@
 package com.ampp8800.hochupomoch.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.ampp8800.hochupomoch.R;
 
@@ -15,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            ProfileFragment helpFragment = ProfileFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainerView, helpFragment).commitNow();
-            helpFragment.setUpAppBar(getSupportActionBar());
+            BottomNavigationLogic.startMainFragment(this);
         }
+        //логика работы нижней панели навигации
+        BottomNavigationLogic.initializeBottomBar(this, (View) findViewById(R.id.bottom_navigation));
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ public class HelpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_help, container, false);
         Context context = view.getContext();
+        setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
         // начальная инициализация списка
         setInitialData();
         RecyclerView recyclerView = view.findViewById(R.id.helps_list);
@@ -51,12 +53,11 @@ public class HelpFragment extends Fragment {
         HelpAdapter adapter = new HelpAdapter(context, helps, onItemClickListener);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
-        //логика работы нижней панели навигации
-        BottomNavigationLogic.initializeBottomBar((View) requireActivity().findViewById(R.id.bottom_navigation));
         return view;
     }
 
     private void setInitialData() {
+        helps.removeAll(helps);
         helps.add(new ListItem((String) getText(R.string.children), R.drawable.children));
         helps.add(new ListItem((String) getText(R.string.adults), R.drawable.adults));
         helps.add(new ListItem((String) getText(R.string.elderly), R.drawable.elderly));
@@ -64,7 +65,7 @@ public class HelpFragment extends Fragment {
         helps.add(new ListItem((String) getText(R.string.events), R.drawable.events));
     }
 
-    public void setUpAppBar(ActionBar actionBar) {
+    private void setUpAppBar(ActionBar actionBar) {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.help);

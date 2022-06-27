@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle saveInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         context = view.getContext();
+        setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
         // вставка изображения из репозитория
         setImageViewFromInternet(R.id.iv_profile, userListItem.getImageViewURL());
         // вставка текста из репозитория
@@ -62,9 +64,6 @@ public class ProfileFragment extends Fragment {
                 authorizationRepository.setAuthorized(false);
             }
         });
-        //логика работы нижней панели навигации
-        BottomNavigationLogic.initializeBottomBar((View) requireActivity().findViewById(R.id.bottom_navigation));
-
         return view;
     }
 
@@ -77,7 +76,7 @@ public class ProfileFragment extends Fragment {
                 .into(targetImageView);
     }
 
-    public void setUpAppBar(ActionBar actionBar) {
+    private void setUpAppBar(ActionBar actionBar) {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getActivity().findViewById(R.id.iv_edit).setVisibility(View.VISIBLE);
