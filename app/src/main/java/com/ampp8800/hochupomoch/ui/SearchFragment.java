@@ -27,6 +27,8 @@ public class SearchFragment extends Fragment {
     private ViewPager2 pager;
     private final int AUTOMATIC_SEARCH_SECOND = 2;
 
+    Handler handler = new Handler();
+
     public static SearchFragment newInstance() {
         return new SearchFragment();
     }
@@ -89,7 +91,6 @@ public class SearchFragment extends Fragment {
     }
 
     private void initAutoSearch(@NonNull EditText editText) {
-        Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -117,4 +118,9 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
 }

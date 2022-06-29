@@ -19,6 +19,11 @@ public class BottomNavigationLogic {
     private static Fragment helpFragment = HelpFragment.newInstance();
     private static Fragment searchFragment = SearchFragment.newInstance();
     private static Fragment profileFragment = ProfileFragment.newInstance();
+    private final static String MAIN_FRAGMENT = "mainFragment";
+
+    public static String getMainFragmentTag() {
+        return MAIN_FRAGMENT;
+    }
 
     public static void initializeBottomBar(FragmentActivity fragmentActivity, @NonNull View view) {
         View newsButton = (View) view.findViewById(R.id.news_button);
@@ -48,6 +53,7 @@ public class BottomNavigationLogic {
     }
 
     public static void startMainFragment(@NonNull FragmentActivity fragmentActivity) {
-        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, helpFragment).commit();
+        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, helpFragment, MAIN_FRAGMENT).commit();
     }
+
 }
