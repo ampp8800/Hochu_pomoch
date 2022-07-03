@@ -39,7 +39,7 @@ public class ProfileFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle saveInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         context = view.getContext();
         setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    private void setImageViewFromInternet(@NonNull int idImageView, @NonNull String imageViewURL) {
+    private void setImageViewFromInternet(int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) view.findViewById(idImageView);
         Glide
                 .with(context)

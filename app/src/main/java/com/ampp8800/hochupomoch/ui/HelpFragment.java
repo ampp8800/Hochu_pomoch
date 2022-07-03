@@ -32,7 +32,7 @@ public class HelpFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container, @Nullable Bundle saveInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_help, container, false);
         Context context = view.getContext();
         setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
@@ -57,12 +57,13 @@ public class HelpFragment extends Fragment {
     }
 
     private void setInitialData() {
-        helps.removeAll(helps);
-        helps.add(new ListItem((String) getText(R.string.children), R.drawable.children));
-        helps.add(new ListItem((String) getText(R.string.adults), R.drawable.adults));
-        helps.add(new ListItem((String) getText(R.string.elderly), R.drawable.elderly));
-        helps.add(new ListItem((String) getText(R.string.animals), R.drawable.animals));
-        helps.add(new ListItem((String) getText(R.string.events), R.drawable.events));
+        if (helps.isEmpty()) {
+            helps.add(new ListItem((String) getText(R.string.children), R.drawable.children));
+            helps.add(new ListItem((String) getText(R.string.adults), R.drawable.adults));
+            helps.add(new ListItem((String) getText(R.string.elderly), R.drawable.elderly));
+            helps.add(new ListItem((String) getText(R.string.animals), R.drawable.animals));
+            helps.add(new ListItem((String) getText(R.string.events), R.drawable.events));
+        }
     }
 
     private void setUpAppBar(ActionBar actionBar) {

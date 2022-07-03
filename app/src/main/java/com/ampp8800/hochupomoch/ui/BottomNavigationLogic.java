@@ -1,9 +1,7 @@
 package com.ampp8800.hochupomoch.ui;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +22,7 @@ public class BottomNavigationLogic {
     private View profileButton;
     private FragmentActivity fragmentActivity;
     private View view;
-    private final String MAIN_FRAGMENT = "mainFragment";
-    private View buttonWasPreviouslyPress;
+    private BottomMenuButton buttonWasPreviouslyPress;
 
     public BottomNavigationLogic(FragmentActivity fragmentActivity, @NonNull View view) {
         this.fragmentActivity = fragmentActivity;
@@ -50,65 +47,76 @@ public class BottomNavigationLogic {
 
     }
 
-    public String getMainFragmentTag() {
-        return MAIN_FRAGMENT;
-    }
-
-    public int getIdOfPressedButton() {
-        if (buttonWasPreviouslyPress == null) {
-            return R.id.help_button;
-        }
-        return buttonWasPreviouslyPress.getId();
-    }
-
-    public void setButtonWasPreviouslyPress(View buttonWasPreviouslyPress) {
-        this.buttonWasPreviouslyPress = buttonWasPreviouslyPress;
+    public BottomMenuButton getEnumOfPressedButton() {
+        return buttonWasPreviouslyPress;
     }
 
     public void startSearchFragment() {
         fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, searchFragment).commit();
-        ((ImageView) view.findViewById(R.id.iv_search_button)).setImageResource(R.drawable.ic_search_green);
-        ((TextView) view.findViewById(R.id.tv_search_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.leaf));
-        removeColorSelection();
-        buttonWasPreviouslyPress = searchButton;
+        selectButtonSearch();
     }
 
     public void startHelpFragment() {
-        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, helpFragment, MAIN_FRAGMENT).commit();
-        ((ImageView) view.findViewById(R.id.iv_help_button)).setImageResource(R.drawable.green_circle);
-        ((TextView) view.findViewById(R.id.tv_help_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.leaf));
-        removeColorSelection();
-        buttonWasPreviouslyPress = helpButton;
+        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, helpFragment).commit();
+        selectButtonHelp();
     }
 
     public void startProfileFragment() {
         fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, profileFragment).commit();
+        selectButtonProfile();
+    }
+
+    private void selectButtonSearch() {
+        ((ImageView) view.findViewById(R.id.iv_search_button)).setImageResource(R.drawable.ic_search_green);
+        ((TextView) view.findViewById(R.id.tv_search_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.leaf));
+        removeColorSelection();
+        buttonWasPreviouslyPress = BottomMenuButton.SEARCH_BUTTON;
+    }
+
+    private void selectButtonHelp () {
+        ((ImageView) view.findViewById(R.id.iv_help_button)).setImageResource(R.drawable.green_circle);
+        ((TextView) view.findViewById(R.id.tv_help_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.leaf));
+        removeColorSelection();
+        buttonWasPreviouslyPress = BottomMenuButton.HELP_BUTTON;
+    }
+
+    private void selectButtonProfile () {
         ((ImageView) view.findViewById(R.id.iv_profile_button)).setImageResource(R.drawable.ic_profile_green);
         ((TextView) view.findViewById(R.id.tv_profile_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.leaf));
         removeColorSelection();
-        buttonWasPreviouslyPress = profileButton;
+        buttonWasPreviouslyPress = BottomMenuButton.PROFILE_BUTTON;
     }
 
     private void removeColorSelection(){
-        if (searchButton.equals(buttonWasPreviouslyPress)) {
-            ((ImageView) view.findViewById(R.id.iv_search_button)).setImageResource(R.drawable.ic_search_grey);
-            ((TextView) view.findViewById(R.id.tv_search_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
-        } else if (helpButton.equals(buttonWasPreviouslyPress)) {
-            ((ImageView) view.findViewById(R.id.iv_help_button)).setImageResource(R.drawable.red_circle);
-            ((TextView) view.findViewById(R.id.tv_help_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
-        } else if (profileButton.equals(buttonWasPreviouslyPress)) {
-            ((ImageView) view.findViewById(R.id.iv_profile_button)).setImageResource(R.drawable.ic_profile_grey);
-            ((TextView) view.findViewById(R.id.tv_profile_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
+        if (buttonWasPreviouslyPress != null) {
+            switch (buttonWasPreviouslyPress) {
+                case SEARCH_BUTTON:
+                    ((ImageView) view.findViewById(R.id.iv_search_button)).setImageResource(R.drawable.ic_search_grey);
+                    ((TextView) view.findViewById(R.id.tv_search_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
+                    break;
+                case HELP_BUTTON:
+                    ((ImageView) view.findViewById(R.id.iv_help_button)).setImageResource(R.drawable.red_circle);
+                    ((TextView) view.findViewById(R.id.tv_help_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
+                    break;
+                case PROFILE_BUTTON:
+                    ((ImageView) view.findViewById(R.id.iv_profile_button)).setImageResource(R.drawable.ic_profile_grey);
+                    ((TextView) view.findViewById(R.id.tv_profile_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
+                    break;
+            }
         }
     }
 
-    public void showPreviousApp() {
-        if (searchButton.equals(buttonWasPreviouslyPress)) {
-            startSearchFragment();
-        } else if (helpButton.equals(buttonWasPreviouslyPress)) {
-            startHelpFragment();
-        } else if (profileButton.equals(buttonWasPreviouslyPress)) {
-            startProfileFragment();
+    public void showPreviousApp(BottomMenuButton buttonWasPreviouslyPress) {
+        switch (buttonWasPreviouslyPress) {
+            case SEARCH_BUTTON:
+                selectButtonSearch();
+                break;
+            case HELP_BUTTON:
+                selectButtonHelp();
+                break;
+            case PROFILE_BUTTON:
+                selectButtonProfile();
+                break;
         }
     }
 

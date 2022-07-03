@@ -7,14 +7,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SearchAdapter extends FragmentStateAdapter {
     private final int NUMBER_OF_TABS = 2;
-    private FragmentActivity fragmentActivity;
 
     public SearchAdapter(FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-    }
-
-    public FragmentActivity getFragmentActivity() {
-        return fragmentActivity;
     }
 
     @NonNull
