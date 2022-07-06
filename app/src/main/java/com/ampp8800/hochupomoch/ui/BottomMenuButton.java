@@ -3,26 +3,19 @@ package com.ampp8800.hochupomoch.ui;
 import java.io.Serializable;
 
 public enum BottomMenuButton implements Serializable {
-    NEWS_BUTTON("newsButton", false),
-    SEARCH_BUTTON("searchButton", false),
-    HELP_BUTTON("helpButton", false),
-    HISTORY_BUTTON("historyButton", false),
-    PROFILE_BUTTON("profileButton", false);
+    NEWS_BUTTON("newsButton"),
+    SEARCH_BUTTON("searchButton"),
+    HELP_BUTTON("helpButton"),
+    HISTORY_BUTTON("historyButton"),
+    PROFILE_BUTTON("profileButton");
     private String tag;
-    private boolean isSelect;
 
-    BottomMenuButton(String tag, boolean isSelect) {
+    BottomMenuButton(String tag) {
+        this.tag = tag;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public boolean isSelect() {
-        return isSelect;
-    }
-
-    public void setSelect(boolean select) {
-        isSelect = select;
-    }
 }

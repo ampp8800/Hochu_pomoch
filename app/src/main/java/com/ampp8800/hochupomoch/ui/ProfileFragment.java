@@ -33,6 +33,7 @@ public class ProfileFragment extends Fragment {
     private Context context;
     private View view;
 
+    @NonNull
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
     }

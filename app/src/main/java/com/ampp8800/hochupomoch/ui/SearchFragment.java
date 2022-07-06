@@ -26,9 +26,9 @@ public class SearchFragment extends Fragment {
     private SearchAdapter pageAdapter;
     private ViewPager2 pager;
     private final int AUTOMATIC_SEARCH_SECOND = 2;
+    private final Handler handler = new Handler();
 
-    Handler handler = new Handler();
-
+    @NonNull
     public static SearchFragment newInstance() {
         return new SearchFragment();
     }
@@ -37,10 +37,10 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
+        setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
         // две страницы с результатами поиска
         pager = view.findViewById(R.id.vp_search);
-        pageAdapter = new SearchAdapter(getActivity());
+        pageAdapter = new SearchAdapter(requireActivity());
         pager.setAdapter(pageAdapter);
         // добавление заголовков страниц
         TabLayout tabLayout = view.findViewById(R.id.tab_layout_search);
@@ -56,7 +56,7 @@ public class SearchFragment extends Fragment {
         });
         tabLayoutMediator.attach();
         //ввод текста
-        ((EditText) getActivity().findViewById(R.id.et_search_query)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        ((EditText) requireActivity().findViewById(R.id.et_search_query)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 executeSearch();
@@ -64,30 +64,30 @@ public class SearchFragment extends Fragment {
             }
         });
         // нажатие кнопки поиска
-        getActivity().findViewById(R.id.iv_search_event).setOnClickListener(new View.OnClickListener() {
+        requireActivity().findViewById(R.id.iv_search_event).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 executeSearch();
             }
         });
         //автоматический поиск
-        initAutoSearch(getActivity().findViewById(R.id.et_search_query));
+        initAutoSearch(requireActivity().findViewById(R.id.et_search_query));
         return view;
     }
 
     private void executeSearch() {
-        String searchQuery = ((EditText) getActivity().findViewById(R.id.et_search_query)).getText().toString();
+        String searchQuery = ((EditText) requireActivity().findViewById(R.id.et_search_query)).getText().toString();
         int currentItem = pager.getCurrentItem();
-        pageAdapter.updatePageContent(getActivity(), searchQuery, currentItem);
+        pageAdapter.updatePageContent(requireActivity(), searchQuery, currentItem);
     }
 
-    private void setUpAppBar(ActionBar actionBar) {
+    private void setUpAppBar(@NonNull ActionBar actionBar) {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setElevation(0);
-        getActivity().findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
-        getActivity().findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
-        ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
+        requireActivity().findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
+        requireActivity().findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+        ((TextView) requireActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.search);
     }
 
     private void initAutoSearch(@NonNull EditText editText) {

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -23,9 +24,10 @@ public class BottomNavigationLogic {
     private View view;
     private BottomMenuButton selectedButton;
 
-    public BottomNavigationLogic(@NonNull FragmentActivity fragmentActivity, @NonNull View view) {
+    public BottomNavigationLogic(@NonNull FragmentActivity fragmentActivity, @NonNull View view, @NonNull BottomMenuButton selectedButton) {
         this.fragmentActivity = fragmentActivity;
         this.view = view;
+        this.selectedButton = selectedButton;
         newsButton = (View) view.findViewById(R.id.news_button);
         searchButton = (View) view.findViewById(R.id.search_button);
         helpButton = (View) view.findViewById(R.id.help_button);
@@ -37,65 +39,63 @@ public class BottomNavigationLogic {
     }
 
     @NonNull
-    public BottomMenuButton getEnumOfPressedButton() {
+    public BottomMenuButton getPressedButton() {
         return selectedButton;
     }
 
     public void startSearchFragment() {
-        startFragment(SearchFragment.newInstance(), R.id.iv_search_button, R.drawable.ic_search_green, R.id.tv_search_button, BottomMenuButton.SEARCH_BUTTON);
+        startFragment(SearchFragment.newInstance(), BottomMenuButton.SEARCH_BUTTON);
     }
 
     public void startHelpFragment() {
-        startFragment(HelpFragment.newInstance(), R.id.iv_help_button, R.drawable.green_circle, R.id.tv_help_button, BottomMenuButton.HELP_BUTTON);
+        startFragment(HelpFragment.newInstance(), BottomMenuButton.HELP_BUTTON);
     }
 
     public void startProfileFragment() {
-        startFragment(ProfileFragment.newInstance(), R.id.iv_profile_button, R.drawable.ic_profile_green, R.id.tv_profile_button, BottomMenuButton.PROFILE_BUTTON);
+        startFragment(ProfileFragment.newInstance(), BottomMenuButton.PROFILE_BUTTON);
     }
 
-    private void startFragment (@NonNull Fragment fragment, @IdRes int idCurrentButton, @DrawableRes int drawbleNewImage, @IdRes int idCurrentTitle, BottomMenuButton newPressedButton) {
-        if () {
-            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment, newPressedButton.getTag()).commit();
-            setSelectedButton(idCurrentButton, drawbleNewImage, idCurrentTitle, newPressedButton);
+    private void startFragment(@NonNull Fragment newFragment, BottomMenuButton newPressedButton) {
+        Fragment fragment = fragmentActivity.getSupportFragmentManager().findFragmentByTag(newPressedButton.getTag());
+        if (fragment == null || !fragment.isVisible()) {
+            fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, newFragment, newPressedButton.getTag()).commit();
+            removeColorFromButton();
+            recolorPressedButton(newPressedButton);
         }
     }
 
-    private void setSelectedButton(@IdRes int idCurrentButton, @DrawableRes int drawbleNewImage, @IdRes int idCurrentTitle, BottomMenuButton newPressedButton) {
+    private void recolorButton(@IdRes int idCurrentButton, @DrawableRes int drawbleNewImage, @IdRes int idCurrentTitle, @ColorInt int color) {
         ((ImageView) view.findViewById(idCurrentButton)).setImageResource(drawbleNewImage);
-        ((TextView) view.findViewById(idCurrentTitle)).setTextColor(fragmentActivity.getResources().getColor(R.color.leaf));
-        removeColorSelection();
-        selectedButton = newPressedButton;
+        ((TextView) view.findViewById(idCurrentTitle)).setTextColor(color);
     }
 
-    private void removeColorSelection(){
-        if (selectedButton != null) {
-            switch (selectedButton) {
-                case SEARCH_BUTTON:
-                    ((ImageView) view.findViewById(R.id.iv_search_button)).setImageResource(R.drawable.ic_search_grey);
-                    ((TextView) view.findViewById(R.id.tv_search_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
-                    break;
-                case HELP_BUTTON:
-                    ((ImageView) view.findViewById(R.id.iv_help_button)).setImageResource(R.drawable.red_circle);
-                    ((TextView) view.findViewById(R.id.tv_help_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
-                    break;
-                case PROFILE_BUTTON:
-                    ((ImageView) view.findViewById(R.id.iv_profile_button)).setImageResource(R.drawable.ic_profile_grey);
-                    ((TextView) view.findViewById(R.id.tv_profile_button)).setTextColor(fragmentActivity.getResources().getColor(R.color.warm_grey));
-                    break;
-            }
-        }
-    }
-
-    public void showPreviousApp(BottomMenuButton buttonWasPreviouslyPress) {
-        switch (buttonWasPreviouslyPress) {
+    private void removeColorFromButton() {
+        int color = fragmentActivity.getResources().getColor(R.color.warm_grey);
+        switch (selectedButton) {
             case SEARCH_BUTTON:
-                setSelectedButton(R.id.iv_search_button, R.drawable.ic_search_green, R.id.tv_search_button, BottomMenuButton.SEARCH_BUTTON);
+                recolorButton(R.id.iv_search_button, R.drawable.ic_search_grey, R.id.tv_search_button, color);
                 break;
             case HELP_BUTTON:
-                setSelectedButton(R.id.iv_help_button, R.drawable.green_circle, R.id.tv_help_button, BottomMenuButton.HELP_BUTTON);
+                recolorButton(R.id.iv_help_button, R.drawable.red_circle, R.id.tv_help_button, color);
                 break;
             case PROFILE_BUTTON:
-                setSelectedButton(R.id.iv_profile_button, R.drawable.ic_profile_green, R.id.tv_profile_button, BottomMenuButton.PROFILE_BUTTON);
+                recolorButton(R.id.iv_profile_button, R.drawable.ic_profile_grey, R.id.tv_profile_button, color);
+                break;
+        }
+    }
+
+    public void recolorPressedButton(BottomMenuButton selectedButton) {
+        this.selectedButton = selectedButton;
+        int color = fragmentActivity.getResources().getColor(R.color.leaf);
+        switch (selectedButton) {
+            case SEARCH_BUTTON:
+                recolorButton(R.id.iv_search_button, R.drawable.ic_search_green, R.id.tv_search_button, color);
+                break;
+            case HELP_BUTTON:
+                recolorButton(R.id.iv_help_button, R.drawable.green_circle, R.id.tv_help_button, color);
+                break;
+            case PROFILE_BUTTON:
+                recolorButton(R.id.iv_profile_button, R.drawable.ic_profile_green, R.id.tv_profile_button, color);
                 break;
         }
     }

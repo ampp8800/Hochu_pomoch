@@ -10,33 +10,32 @@ import android.view.View;
 import com.ampp8800.hochupomoch.R;
 
 
-
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationLogic bottomNavigationLogic;
-    private final String PRESS_BUTTON = "pressButton";
+    private final String ARG_PRESS_BUTTON = "argPressButton";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //логика работы нижней панели навигации
-        bottomNavigationLogic = new BottomNavigationLogic(this, (View) findViewById(R.id.bottom_navigation));
+        bottomNavigationLogic = new BottomNavigationLogic(this, (View) findViewById(R.id.bottom_navigation), BottomMenuButton.HELP_BUTTON);
         //
         if (savedInstanceState == null) {
             bottomNavigationLogic.startHelpFragment();
         } else {
-            bottomNavigationLogic.showPreviousApp((BottomMenuButton) savedInstanceState.getSerializable(PRESS_BUTTON));
+            bottomNavigationLogic.recolorPressedButton((BottomMenuButton) savedInstanceState.getSerializable(ARG_PRESS_BUTTON));
         }
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(PRESS_BUTTON, bottomNavigationLogic.getEnumOfPressedButton());
+        outState.putSerializable(ARG_PRESS_BUTTON, bottomNavigationLogic.getPressedButton());
     }
 
     public void onBackPressed() {
-        if (bottomNavigationLogic.getEnumOfPressedButton() != BottomMenuButton.HELP_BUTTON) {
+        if (bottomNavigationLogic.getPressedButton() == BottomMenuButton.HELP_BUTTON) {
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
