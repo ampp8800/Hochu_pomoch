@@ -32,6 +32,7 @@ public class BottomNavigationLogic {
         helpButton = (View) view.findViewById(R.id.help_button);
         historyButton = (View) view.findViewById(R.id.history_button);
         profileButton = (View) view.findViewById(R.id.profile_button);
+        newsButton.setOnClickListener(clickedView -> startFragment(NewsFragment.newInstante(), BottomMenuButton.NEWS_BUTTON));
         searchButton.setOnClickListener(clickedView -> startFragment(SearchFragment.newInstance(), BottomMenuButton.SEARCH_BUTTON));
         helpButton.setOnClickListener(clickedView -> startFragment(HelpFragment.newInstance(), BottomMenuButton.HELP_BUTTON));
         profileButton.setOnClickListener(clickedView -> startFragment(ProfileFragment.newInstance(), BottomMenuButton.PROFILE_BUTTON));
