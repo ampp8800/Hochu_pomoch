@@ -2,6 +2,7 @@ package com.ampp8800.hochupomoch.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +21,10 @@ public class SearchPageFragment extends Fragment {
     private String searchQery;
     private SearchListAdapter searchListAdapter;
     private View view;
-    private EventsRepository eventsRepository = EventsRepository.getInstance();
     private SearchType currentSearchType;
     private final String EVENT_LIST_BY_NAME = "eventListByName";
     private static final String PAGE_NAME ="pageName";
+
 
     public static SearchPageFragment newInstance(SearchType page) {
         SearchPageFragment fragment = new SearchPageFragment();
@@ -65,7 +66,7 @@ public class SearchPageFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle onState) {
+    public void onSaveInstanceState(@NonNull Bundle onState) {
         super.onSaveInstanceState(onState);
         onState.putString(EVENT_LIST_BY_NAME, searchQery);
     }

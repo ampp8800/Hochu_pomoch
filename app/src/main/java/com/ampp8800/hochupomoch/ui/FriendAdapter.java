@@ -25,7 +25,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendListItemViewHolder
     }
 
     @Override
-    public FriendListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public FriendListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.friend_item, parent, false);
         return new FriendListItemViewHolder(view);
     }

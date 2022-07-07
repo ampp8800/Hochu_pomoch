@@ -10,7 +10,7 @@ public class ListItem {
     private String fieldOfActivity;
 
 
-    public ListItem(@NonNull String name, @NonNull int imageResource) {
+    public ListItem(@NonNull String name, int imageResource) {
         this.name = name;
         this.imageHelpResource = imageResource;
     }

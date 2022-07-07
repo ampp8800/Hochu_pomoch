@@ -129,8 +129,4 @@
 
     </ScrollView>
 
-    <include
-        android:id="@+id/bottom_navigation"
-        layout="@layout/bottom_navigation" />
-
 </LinearLayout>
