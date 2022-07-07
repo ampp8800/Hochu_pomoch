@@ -39,7 +39,7 @@ public class HelpFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_help, container, false);
         setUpAppBar(((AppCompatActivity) getActivity()).getSupportActionBar());
         setInitialData();
-        setCategoryList(view, view.getContext());
+        initializeListOfCategories(view, view.getContext());
         return view;
     }
 
@@ -63,7 +63,7 @@ public class HelpFragment extends Fragment {
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.help);
     }
 
-    private void setCategoryList(@NonNull View view, @NonNull Context context) {
+    private void initializeListOfCategories(@NonNull View view, @NonNull Context context) {
         RecyclerView recyclerView = view.findViewById(R.id.helps_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));

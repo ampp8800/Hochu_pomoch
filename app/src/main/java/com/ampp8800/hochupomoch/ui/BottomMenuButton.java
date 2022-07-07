@@ -9,7 +9,6 @@ import com.ampp8800.hochupomoch.R;
 import java.io.Serializable;
 
 public enum BottomMenuButton implements Serializable {
-    //    NEWS_BUTTON("newsButton", R.color.leaf, R.color.warm_grey, iconSelect, iconUnselect, button, title),
     SEARCH_BUTTON("searchButton",
             R.color.leaf,
             R.color.warm_grey,
@@ -24,7 +23,6 @@ public enum BottomMenuButton implements Serializable {
             R.drawable.red_circle,
             R.id.iv_help_button,
             R.id.tv_help_button),
-    //    HISTORY_BUTTON("historyButton", R.color.leaf, R.color.warm_grey, iconSelect, iconUnselect, button, title),
     PROFILE_BUTTON("profileButton",
             R.color.leaf,
             R.color.warm_grey,
@@ -33,26 +31,32 @@ public enum BottomMenuButton implements Serializable {
             R.id.iv_profile_button,
             R.id.tv_profile_button);
     private final String tag;
-    private final int colorSelect;
-    private final int colorUnselect;
-    private final int iconSelect;
-    private final int iconUnselect;
+    @ColorInt
+    private final int textColorSelected;
+    @ColorInt
+    private final int textColorUnselected;
+    @DrawableRes
+    private final int iconSelected;
+    @DrawableRes
+    private final int iconUnselected;
+    @IdRes
     private final int button;
+    @IdRes
     private final int title;
 
 
     BottomMenuButton(String tag,
-                     @ColorInt int colorSelect,
-                     @ColorInt int colorUnselect,
-                     @DrawableRes int iconSelect,
-                     @DrawableRes int iconUnselect,
+                     @ColorInt int textColorSelected,
+                     @ColorInt int textColorUnselected,
+                     @DrawableRes int iconSelected,
+                     @DrawableRes int iconUnselected,
                      @IdRes int button,
                      @IdRes int title) {
         this.tag = tag;
-        this.colorSelect = colorSelect;
-        this.colorUnselect = colorUnselect;
-        this.iconSelect = iconSelect;
-        this.iconUnselect = iconUnselect;
+        this.textColorSelected = textColorSelected;
+        this.textColorUnselected = textColorUnselected;
+        this.iconSelected = iconSelected;
+        this.iconUnselected = iconUnselected;
         this.button = button;
         this.title = title;
     }
@@ -61,26 +65,32 @@ public enum BottomMenuButton implements Serializable {
         return tag;
     }
 
-    public int getColorSelect() {
-        return colorSelect;
+    @ColorInt
+    public int getTextColorSelected() {
+        return textColorSelected;
     }
 
-    public int getColorUnselect() {
-        return colorUnselect;
+    @ColorInt
+    public int getTextColorUnselected() {
+        return textColorUnselected;
     }
 
-    public int getIconSelect() {
-        return iconSelect;
+    @DrawableRes
+    public int getIconSelected() {
+        return iconSelected;
     }
 
-    public int getIconUnselect() {
-        return iconUnselect;
+    @DrawableRes
+    public int getIconUnselected() {
+        return iconUnselected;
     }
 
+    @IdRes
     public int getButton() {
         return button;
     }
 
+    @IdRes
     public int getTitle() {
         return title;
     }

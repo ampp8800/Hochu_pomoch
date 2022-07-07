@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -33,9 +32,9 @@ public class BottomNavigationLogic {
         helpButton = (View) view.findViewById(R.id.help_button);
         historyButton = (View) view.findViewById(R.id.history_button);
         profileButton = (View) view.findViewById(R.id.profile_button);
-        searchButton.setOnClickListener(clickedView -> startSearchFragment());
-        helpButton.setOnClickListener(clickedView -> startHelpFragment());
-        profileButton.setOnClickListener(clickedView -> startProfileFragment());
+        searchButton.setOnClickListener(clickedView -> startFragment(SearchFragment.newInstance(), BottomMenuButton.SEARCH_BUTTON));
+        helpButton.setOnClickListener(clickedView -> startFragment(HelpFragment.newInstance(), BottomMenuButton.HELP_BUTTON));
+        profileButton.setOnClickListener(clickedView -> startFragment(ProfileFragment.newInstance(), BottomMenuButton.PROFILE_BUTTON));
     }
 
     @NonNull
@@ -43,19 +42,7 @@ public class BottomNavigationLogic {
         return selectedButton;
     }
 
-    public void startSearchFragment() {
-        startFragment(SearchFragment.newInstance(), BottomMenuButton.SEARCH_BUTTON);
-    }
-
-    public void startHelpFragment() {
-        startFragment(HelpFragment.newInstance(), BottomMenuButton.HELP_BUTTON);
-    }
-
-    public void startProfileFragment() {
-        startFragment(ProfileFragment.newInstance(), BottomMenuButton.PROFILE_BUTTON);
-    }
-
-    private void startFragment(@NonNull Fragment newFragment, BottomMenuButton newPressedButton) {
+    public void startFragment(@NonNull Fragment newFragment, @NonNull BottomMenuButton newPressedButton) {
         Fragment fragment = fragmentActivity.getSupportFragmentManager().findFragmentByTag(newPressedButton.getTag());
         if (fragment == null || !fragment.isVisible()) {
             fragmentActivity.getSupportFragmentManager()
@@ -67,20 +54,20 @@ public class BottomNavigationLogic {
         }
     }
 
-    private void recolorButton(@DrawableRes int drawbleNewImage, @ColorInt int color) {
+    private void repaintButton(@DrawableRes int drawbleNewImage, @ColorInt int color) {
         ((ImageView) view.findViewById(selectedButton.getButton())).setImageResource(drawbleNewImage);
         ((TextView) view.findViewById(selectedButton.getTitle())).setTextColor(color);
     }
 
     private void removeColorFromButton() {
-        recolorButton(selectedButton.getIconUnselect(),
-                fragmentActivity.getResources().getColor(selectedButton.getColorUnselect()));
+        repaintButton(selectedButton.getIconUnselected(),
+                fragmentActivity.getResources().getColor(selectedButton.getTextColorUnselected()));
     }
 
     public void recolorPressedButton(BottomMenuButton selectedButton) {
         this.selectedButton = selectedButton;
-        recolorButton(selectedButton.getIconSelect(),
-                fragmentActivity.getResources().getColor(selectedButton.getColorSelect()));
+        repaintButton(selectedButton.getIconSelected(),
+                fragmentActivity.getResources().getColor(selectedButton.getTextColorSelected()));
     }
 
 }

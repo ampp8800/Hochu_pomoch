@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationLogic = new BottomNavigationLogic(this, (View) findViewById(R.id.bottom_navigation), BottomMenuButton.HELP_BUTTON);
         //
         if (savedInstanceState == null) {
-            bottomNavigationLogic.startHelpFragment();
+            bottomNavigationLogic.startFragment(HelpFragment.newInstance(), BottomMenuButton.HELP_BUTTON);
         } else {
             bottomNavigationLogic.recolorPressedButton((BottomMenuButton) savedInstanceState.getSerializable(ARG_PRESS_BUTTON));
         }
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
         } else {
-            bottomNavigationLogic.startHelpFragment();
+            bottomNavigationLogic.startFragment(HelpFragment.newInstance(), BottomMenuButton.HELP_BUTTON);
         }
     }
 
