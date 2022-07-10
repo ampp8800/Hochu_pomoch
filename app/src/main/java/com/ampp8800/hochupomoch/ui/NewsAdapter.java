@@ -34,10 +34,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.NewsListItemViewHolder holder, int position) {
         NewsItem news = newsListItems.get(position);
-        holder.photoNews.setImageResource(news.getPhotoNews());
-        holder.newsHeadline.setText(news.getNewsHeadline());
-        holder.briefDescriptionOfNews.setText(news.getBriefDescriptionOfNews());
-        holder.date.setText(news.getDate());
+        holder.bind(news);
     }
 
     @Override
@@ -46,10 +43,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
     }
 
     public class NewsListItemViewHolder extends RecyclerView.ViewHolder {
-        final ImageView photoNews;
-        final TextView newsHeadline;
-        final TextView briefDescriptionOfNews;
-        final TextView date;
+        private final ImageView photoNews;
+        private final TextView newsHeadline;
+        private final TextView briefDescriptionOfNews;
+        private final TextView date;
 
 
         NewsListItemViewHolder(@NonNull View view) {
@@ -58,6 +55,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
             newsHeadline = view.findViewById(R.id.tv_news_headline);
             briefDescriptionOfNews = view.findViewById(R.id.tv_brief_description_of_news);
             date = view.findViewById(R.id.tv_date);
+        }
+
+        public void bind(@NonNull NewsItem newsItem) {
+            photoNews.setImageResource(newsItem.getPhotoNews());
+            newsHeadline.setText(newsItem.getNewsHeadline());
+            briefDescriptionOfNews.setText(newsItem.getBriefDescriptionOfNews());
+            date.setText(newsItem.getDate());
         }
     }
 }

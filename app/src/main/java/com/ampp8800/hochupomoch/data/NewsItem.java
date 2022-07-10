@@ -10,25 +10,29 @@ public class NewsItem {
     private final String briefDescriptionOfNews;
     private final String date;
 
-    public NewsItem(int photoNews, @NonNull String newsHeadline, @NonNull String briefDescriptionOfNews, @NonNull String date) {
+    public NewsItem(@DrawableRes int photoNews, @NonNull String newsHeadline, @NonNull String briefDescriptionOfNews, @NonNull String date) {
         this.photoNews = photoNews;
         this.newsHeadline = newsHeadline;
         this.briefDescriptionOfNews = briefDescriptionOfNews;
         this.date = date;
     }
 
+    @DrawableRes
     public int getPhotoNews() {
         return photoNews;
     }
 
+    @NonNull
     public String getNewsHeadline() {
         return newsHeadline;
     }
 
+    @NonNull
     public String getBriefDescriptionOfNews() {
         return briefDescriptionOfNews;
     }
 
+    @NonNull
     public String getDate() {
         return date;
     }
