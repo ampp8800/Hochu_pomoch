@@ -12,11 +12,11 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_gravity="end"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_edit"
-        android:visibility="gone"/>
+        app:srcCompat="@drawable/ic_edit" />
 
     <ImageView
         android:id="@+id/iv_icon_back"
@@ -39,6 +39,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="ffgfgfgf" />
+
+    <ImageView
+        android:id="@+id/iv_filter"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_filter" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_layout"
