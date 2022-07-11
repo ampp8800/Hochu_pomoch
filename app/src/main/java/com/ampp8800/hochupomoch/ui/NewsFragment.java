@@ -32,13 +32,13 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
-        initializeListOfCategories(view, view.getContext());
+        initializeListOfNews(view, view.getContext());
         return view;
     }
 
-    private void initializeListOfCategories(@NonNull View view, @NonNull Context context) {
+    private void initializeListOfNews(@NonNull View view, @NonNull Context context) {
         RecyclerView recyclerView = view.findViewById(R.id.news_list);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
             recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         } else {
