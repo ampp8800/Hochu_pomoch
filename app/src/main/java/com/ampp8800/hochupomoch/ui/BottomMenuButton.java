@@ -9,6 +9,13 @@ import com.ampp8800.hochupomoch.R;
 import java.io.Serializable;
 
 public enum BottomMenuButton implements Serializable {
+    NEWS_BUTTON("newsButton",
+            R.color.leaf,
+            R.color.warm_grey,
+            R.drawable.ic_news_green,
+            R.drawable.ic_news_grey,
+            R.id.iv_news_button,
+            R.id.tv_news_button),
     SEARCH_BUTTON("searchButton",
             R.color.leaf,
             R.color.warm_grey,
