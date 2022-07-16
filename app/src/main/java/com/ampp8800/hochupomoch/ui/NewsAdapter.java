@@ -12,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.NewsItem;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemViewHolder> {
     private final LayoutInflater inflater;
-    private final List<NewsItem> newsListItems;
+    private List<NewsItem> newsListItems;
+    private Context context;
 
     NewsAdapter(@NonNull Context context, @NonNull List<NewsItem> newsListItems) {
+        this.context = context;
         this.newsListItems = newsListItems;
         this.inflater = LayoutInflater.from(context);
     }
@@ -42,6 +45,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
         return newsListItems.size();
     }
 
+
     public class NewsListItemViewHolder extends RecyclerView.ViewHolder {
         private final ImageView photoNews;
         private final TextView newsHeadline;
@@ -58,10 +62,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
         }
 
         public void bind(@NonNull NewsItem newsItem) {
-            photoNews.setImageResource(newsItem.getPhotoNews());
+            setImageFromServer(photoNews, newsItem.getPhotoNews());
             newsHeadline.setText(newsItem.getNewsHeadline());
             briefDescriptionOfNews.setText(newsItem.getBriefDescriptionOfNews());
             date.setText(newsItem.getDate());
         }
+    }
+
+    private void setImageFromServer(@NonNull ImageView targetImageView, @NonNull String imageViewURL) {
+        Glide
+                .with(context)
+                .load(imageViewURL)
+                .placeholder(R.drawable.ic_no_photo)
+                .into(targetImageView);
+    }
+
+    public void updateNewsListItems(@NonNull List<NewsItem> newsListItems) {
+        this.newsListItems.clear();
+        this.newsListItems.addAll(newsListItems);
+        notifyDataSetChanged();
     }
 }
