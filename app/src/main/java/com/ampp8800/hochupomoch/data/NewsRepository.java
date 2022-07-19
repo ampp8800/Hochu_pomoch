@@ -34,10 +34,10 @@ public class NewsRepository {
 
     @NonNull
     public ArrayList<NewsItem> getNews() {
-        return news;
+        return new ArrayList<>(news);
     }
 
-    public void loadNews(@NonNull OnNewsLoaded onNewsLoaded){
+    public void loadNews(@NonNull OnNewsLoaded onNewsLoaded) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://eithernor.github.io/help-server/")
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
@@ -51,19 +51,15 @@ public class NewsRepository {
             @Override
             public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
                 news.clear();
+
                 for (NewsModel item : response.body()) {
                     news.add(new NewsItem(item.getImages().get(0),
-                            item.getName(),
                             item.getFundName(),
+                            item.getDescription(),
                             item.getStartDate(),
                             item.getEndDate()));
                 }
                 onNewsLoaded.onNewsLoaded(news);
-//                if (response.isSuccessful()) {
-//                    System.out.println("response " + response.body());
-//                } else {
-//                    System.out.println("response code " + response.code());
-//                }
             }
 
             @Override

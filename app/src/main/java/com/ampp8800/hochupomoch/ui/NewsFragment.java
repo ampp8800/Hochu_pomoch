@@ -55,6 +55,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void onNewsLoaded(List<NewsItem> newsListItems) {
                 adapter.updateNewsListItems(newsListItems);
+                requireActivity().findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
             }
         });
     }
