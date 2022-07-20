@@ -1,10 +1,12 @@
 package com.ampp8800.hochupomoch.data;
 
-import androidx.annotation.NonNull;
+import android.os.AsyncTask;
+import android.view.View;
 
+import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.api.MessagesApi;
 import com.ampp8800.hochupomoch.api.NewsModel;
-import com.ampp8800.hochupomoch.ui.OnNewsLoaded;
+import com.ampp8800.hochupomoch.ui.NewsAdapter;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
@@ -17,27 +19,35 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class NewsRepository {
-    private static NewsRepository newsRepository;
+public class NewsRepository extends AsyncTask<Void, Void, Void> {
     private final ArrayList<NewsItem> news = new ArrayList<>();
+    private View view;
+    private NewsAdapter adapter;
 
-    private NewsRepository() {
+    public  NewsRepository (View view, NewsAdapter adapter) {
+        this.view = view;
+        this.adapter = adapter;
     }
 
-    @NonNull
-    public static NewsRepository getInstance() {
-        if (newsRepository == null) {
-            newsRepository = new NewsRepository();
-        }
-        return newsRepository;
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        view.findViewById(R.id.pb_progress_bar).setVisibility(View.VISIBLE);
     }
 
-    @NonNull
-    public ArrayList<NewsItem> getNews() {
-        return new ArrayList<>(news);
+    @Override
+    protected Void doInBackground(Void... params) {
+        return null;
     }
 
-    public void loadNews(@NonNull OnNewsLoaded onNewsLoaded) {
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        loadNews();
+        view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+    }
+
+    public void loadNews() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://eithernor.github.io/help-server/")
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
@@ -51,7 +61,6 @@ public class NewsRepository {
             @Override
             public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
                 news.clear();
-
                 for (NewsModel item : response.body()) {
                     news.add(new NewsItem(item.getImages().get(0),
                             item.getFundName(),
@@ -59,7 +68,8 @@ public class NewsRepository {
                             item.getStartDate(),
                             item.getEndDate()));
                 }
-                onNewsLoaded.onNewsLoaded(news);
+                adapter.updateNewsListItems(news);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

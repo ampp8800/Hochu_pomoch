@@ -14,6 +14,7 @@ import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.NewsItem;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemViewHolder> {
@@ -21,9 +22,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
     private List<NewsItem> newsListItems;
     private Context context;
 
-    NewsAdapter(@NonNull Context context, @NonNull List<NewsItem> newsListItems) {
+    NewsAdapter(@NonNull Context context) {
         this.context = context;
-        this.newsListItems = newsListItems;
+        this.newsListItems = new ArrayList<>();
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -80,6 +81,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
     public void updateNewsListItems(@NonNull List<NewsItem> newsListItems) {
         this.newsListItems.clear();
         this.newsListItems.addAll(newsListItems);
-        notifyDataSetChanged();
     }
 }
