@@ -19,12 +19,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class NewsRepository extends AsyncTask<Void, Void, Void> {
-    private final ArrayList<NewsItem> news = new ArrayList<>();
+public class NewsRepository extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
     private View view;
     private NewsAdapter adapter;
 
-    public  NewsRepository (View view, NewsAdapter adapter) {
+    public NewsRepository(View view, NewsAdapter adapter) {
         this.view = view;
         this.adapter = adapter;
     }
@@ -36,31 +35,17 @@ public class NewsRepository extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        loadNews();
-        view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
-    }
-
-    public void loadNews() {
+    protected ArrayList<NewsItem> doInBackground(Void... params) {
+        ArrayList<NewsItem> news = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://eithernor.github.io/help-server/")
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .build();
-
         MessagesApi messagesApi = retrofit.create(MessagesApi.class);
-
         Call<List<NewsModel>> messages = messagesApi.messages();
-
         messages.enqueue(new Callback<List<NewsModel>>() {
             @Override
             public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
-                news.clear();
                 for (NewsModel item : response.body()) {
                     news.add(new NewsItem(item.getImages().get(0),
                             item.getFundName(),
@@ -68,8 +53,6 @@ public class NewsRepository extends AsyncTask<Void, Void, Void> {
                             item.getStartDate(),
                             item.getEndDate()));
                 }
-                adapter.updateNewsListItems(news);
-                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -77,6 +60,15 @@ public class NewsRepository extends AsyncTask<Void, Void, Void> {
                 System.out.println("failure " + t);
             }
         });
+        return news;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<NewsItem> news) {
+        super.onPostExecute(news);
+        adapter.updateNewsListItems(news);
+        adapter.notifyDataSetChanged();
+        view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
     }
 
 }
