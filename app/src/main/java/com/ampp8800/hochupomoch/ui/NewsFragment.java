@@ -49,8 +49,8 @@ public class NewsFragment extends Fragment {
         }
         NewsAdapter adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
-        newsRepository = new NewsRepository(view, adapter);
-        newsRepository.execute();
+        newsRepository = NewsRepository.newInstance(view, adapter);
+        newsRepository.getNewsLoadingAsyncTask();
     }
 
     private boolean isScreenRotatedHorizontally() {

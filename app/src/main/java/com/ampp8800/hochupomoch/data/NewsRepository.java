@@ -9,66 +9,72 @@ import com.ampp8800.hochupomoch.api.NewsModel;
 import com.ampp8800.hochupomoch.ui.NewsAdapter;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class NewsRepository extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
-    private View view;
-    private NewsAdapter adapter;
+public class NewsRepository {
+    private NewsRepository newsRepository;
+    private static View view;
+    private static NewsAdapter adapter;
+    private ArrayList<NewsItem> news = new ArrayList<>();
 
-    public NewsRepository(View view, NewsAdapter adapter) {
-        this.view = view;
-        this.adapter = adapter;
+    private NewsRepository(){}
+
+    public static NewsRepository newInstance(View view, NewsAdapter adapter) {
+        NewsRepository.view = view;
+        NewsRepository.adapter = adapter;
+        return new NewsRepository();
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        view.findViewById(R.id.pb_progress_bar).setVisibility(View.VISIBLE);
+    public void getNewsLoadingAsyncTask() {
+        DateLoader dateLoader = new DateLoader();
+        dateLoader.execute();
     }
 
-    @Override
-    protected ArrayList<NewsItem> doInBackground(Void... params) {
-        ArrayList<NewsItem> news = new ArrayList<>();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://eithernor.github.io/help-server/")
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
-                .build();
-        MessagesApi messagesApi = retrofit.create(MessagesApi.class);
-        Call<List<NewsModel>> messages = messagesApi.messages();
-        messages.enqueue(new Callback<List<NewsModel>>() {
-            @Override
-            public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
-                for (NewsModel item : response.body()) {
+    private class DateLoader extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            view.findViewById(R.id.pb_progress_bar).setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected ArrayList<NewsItem> doInBackground(Void... params) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://eithernor.github.io/help-server/")
+                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
+                    .build();
+            MessagesApi messagesApi = retrofit.create(MessagesApi.class);
+            Call<List<NewsModel>> messages = messagesApi.messages();
+            try {
+                news.clear();
+                for (NewsModel item :  messages.execute().body()) {
                     news.add(new NewsItem(item.getImages().get(0),
                             item.getFundName(),
                             item.getDescription(),
                             item.getStartDate(),
                             item.getEndDate()));
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            return news;
+        }
 
-            @Override
-            public void onFailure(Call<List<NewsModel>> call, Throwable t) {
-                System.out.println("failure " + t);
-            }
-        });
-        return news;
+        @Override
+        protected void onPostExecute(ArrayList<NewsItem> news) {
+            super.onPostExecute(news);
+            adapter.updateNewsListItems(news);
+            adapter.notifyDataSetChanged();
+            view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+        }
+
     }
-
-    @Override
-    protected void onPostExecute(ArrayList<NewsItem> news) {
-        super.onPostExecute(news);
-        adapter.updateNewsListItems(news);
-        adapter.notifyDataSetChanged();
-        view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
-    }
-
 }
