@@ -1,108 +1,87 @@
 package com.ampp8800.hochupomoch.api;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class NewsModel {
 
-
+    @NonNull
     private String guid;
+    @NonNull
     private String name;
+    @NonNull
     private String fundName;
+    @NonNull
     private String description;
+    @NonNull
     private String address;
+    @NonNull
     private Long startDate;
+    @NonNull
     private Long endDate;
-    private List<Long> phones = null;
-    private List<String> images = null;
+    @NonNull
+    private List<Long> phones;
+    @NonNull
+    private List<String> images;
+    @NonNull
     private String email;
+    @NonNull
     private String website;
 
+    @NonNull
     public String getGuid() {
         return guid;
     }
 
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @NonNull
     public String getFundName() {
         return fundName;
     }
 
-    public void setFundName(String fundName) {
-        this.fundName = fundName;
-    }
-
+    @NonNull
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    @NonNull
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    @NonNull
     public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Long startDate) {
-        this.startDate = startDate;
-    }
-
+    @NonNull
     public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Long endDate) {
-        this.endDate = endDate;
-    }
-
+    @NonNull
     public List<Long> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<Long> phones) {
-        this.phones = phones;
-    }
-
+    @NonNull
     public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
+    @NonNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    @NonNull
     public String getWebsite() {
         return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
     }
 
 }

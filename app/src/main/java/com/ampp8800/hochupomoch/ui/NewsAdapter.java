@@ -19,8 +19,8 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemViewHolder> {
     private final LayoutInflater inflater;
-    private List<NewsItem> newsListItems;
-    private Context context;
+    private final List<NewsItem> newsListItems;
+    private final Context context;
 
     NewsAdapter(@NonNull Context context) {
         this.context = context;
@@ -81,5 +81,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
     public void updateNewsListItems(@NonNull List<NewsItem> newsListItems) {
         this.newsListItems.clear();
         this.newsListItems.addAll(newsListItems);
+        notifyDataSetChanged();
     }
 }

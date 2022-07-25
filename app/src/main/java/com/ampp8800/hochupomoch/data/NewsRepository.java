@@ -1,12 +1,12 @@
 package com.ampp8800.hochupomoch.data;
 
 import android.os.AsyncTask;
-import android.view.View;
 
-import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.api.MessagesApi;
+import androidx.annotation.NonNull;
+
 import com.ampp8800.hochupomoch.api.NewsModel;
-import com.ampp8800.hochupomoch.ui.NewsAdapter;
+import com.ampp8800.hochupomoch.api.newsInformation;
+import com.ampp8800.hochupomoch.ui.NewsScreenUpdater;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -19,30 +19,36 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class NewsRepository {
-    private NewsRepository newsRepository;
-    private static View view;
-    private static NewsAdapter adapter;
-    private ArrayList<NewsItem> news = new ArrayList<>();
+    private static NewsRepository newsRepository;
+    @NonNull
+    private static final ArrayList<NewsItem> news = new ArrayList<>();
 
-    private NewsRepository(){}
-
-    public static NewsRepository newInstance(View view, NewsAdapter adapter) {
-        NewsRepository.view = view;
-        NewsRepository.adapter = adapter;
-        return new NewsRepository();
+    private NewsRepository() {
     }
 
-    public void getNewsLoadingAsyncTask() {
-        DateLoader dateLoader = new DateLoader();
-        dateLoader.execute();
+    public static NewsRepository newInstance() {
+        if (newsRepository == null) {
+            newsRepository = new NewsRepository();
+        }
+        return newsRepository;
     }
 
-    private class DateLoader extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
+    public void executeNewsLoadingAsyncTask(@NonNull NewsScreenUpdater newsScreenUpdater) {
+        NewsItemsLoader newsItemsLoader = new NewsItemsLoader(newsScreenUpdater);
+        newsItemsLoader.execute();
+    }
+
+
+    private static class NewsItemsLoader extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
+        private final NewsScreenUpdater newsScreenUpdater;
+
+        public NewsItemsLoader(@NonNull NewsScreenUpdater newsScreenUpdater) {
+            this.newsScreenUpdater = newsScreenUpdater;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            view.findViewById(R.id.pb_progress_bar).setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -51,11 +57,11 @@ public class NewsRepository {
                     .baseUrl("https://eithernor.github.io/help-server/")
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
-            MessagesApi messagesApi = retrofit.create(MessagesApi.class);
-            Call<List<NewsModel>> messages = messagesApi.messages();
+            newsInformation newsInformation = retrofit.create(newsInformation.class);
+            Call<List<NewsModel>> messages = newsInformation.getNewsInformation();
             try {
                 news.clear();
-                for (NewsModel item :  messages.execute().body()) {
+                for (NewsModel item : messages.execute().body()) {
                     news.add(new NewsItem(item.getImages().get(0),
                             item.getFundName(),
                             item.getDescription(),
@@ -71,9 +77,8 @@ public class NewsRepository {
         @Override
         protected void onPostExecute(ArrayList<NewsItem> news) {
             super.onPostExecute(news);
-            adapter.updateNewsListItems(news);
-            adapter.notifyDataSetChanged();
-            view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+            newsScreenUpdater.newsScreenUpdate(news);
+            newsScreenUpdater.hideProgressBar();
         }
 
     }

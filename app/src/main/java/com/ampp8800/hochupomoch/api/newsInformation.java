@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 
-public interface MessagesApi {
+public interface newsInformation {
     @GET("static-response.json")
-    Call<List<NewsModel>> messages();
+    Call<List<NewsModel>> getNewsInformation();
 }
