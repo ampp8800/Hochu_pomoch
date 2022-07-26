@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.NewsItem;
 import com.ampp8800.hochupomoch.data.NewsRepository;
 
 import java.util.List;
@@ -53,14 +52,10 @@ public class NewsFragment extends Fragment {
         NewsAdapter adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
         newsRepository = NewsRepository.newInstance();
-        newsRepository.executeNewsLoadingAsyncTask(new NewsScreenUpdater() {
+        newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
             @Override
-            public void newsScreenUpdate(List<NewsItem> newsListItems) {
+            public void newsScreenUpdate(List newsListItems) {
                 adapter.updateNewsListItems(newsListItems);
-            }
-
-            @Override
-            public void hideProgressBar() {
                 view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
             }
         });

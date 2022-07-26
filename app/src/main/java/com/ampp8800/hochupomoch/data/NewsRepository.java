@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsModel;
-import com.ampp8800.hochupomoch.api.newsInformation;
-import com.ampp8800.hochupomoch.ui.NewsScreenUpdater;
+import com.ampp8800.hochupomoch.api.NewsInformation;
+import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -33,17 +33,17 @@ public class NewsRepository {
         return newsRepository;
     }
 
-    public void executeNewsLoadingAsyncTask(@NonNull NewsScreenUpdater newsScreenUpdater) {
-        NewsItemsLoader newsItemsLoader = new NewsItemsLoader(newsScreenUpdater);
-        newsItemsLoader.execute();
+    public void executeNewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
+        NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new NewsItemsLoaderAsyncTask(newsLoadingCallback);
+        newsItemsLoaderAsyncTask.execute();
     }
 
 
-    private static class NewsItemsLoader extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
-        private final NewsScreenUpdater newsScreenUpdater;
+    private static class NewsItemsLoaderAsyncTask extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
+        private final NewsLoadingCallback newsLoadingCallback;
 
-        public NewsItemsLoader(@NonNull NewsScreenUpdater newsScreenUpdater) {
-            this.newsScreenUpdater = newsScreenUpdater;
+        public NewsItemsLoaderAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
+            this.newsLoadingCallback = newsLoadingCallback;
         }
 
         @Override
@@ -57,7 +57,7 @@ public class NewsRepository {
                     .baseUrl("https://eithernor.github.io/help-server/")
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
-            newsInformation newsInformation = retrofit.create(newsInformation.class);
+            NewsInformation newsInformation = retrofit.create(NewsInformation.class);
             Call<List<NewsModel>> messages = newsInformation.getNewsInformation();
             try {
                 news.clear();
@@ -77,8 +77,7 @@ public class NewsRepository {
         @Override
         protected void onPostExecute(ArrayList<NewsItem> news) {
             super.onPostExecute(news);
-            newsScreenUpdater.newsScreenUpdate(news);
-            newsScreenUpdater.hideProgressBar();
+            newsLoadingCallback.newsScreenUpdate(news);
         }
 
     }
