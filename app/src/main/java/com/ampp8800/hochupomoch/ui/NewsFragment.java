@@ -20,7 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.NewsRepository;
 
+import java.util.List;
+
 public class NewsFragment extends Fragment {
+
+    private NewsRepository newsRepository;
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -37,6 +41,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void initializeListOfNews(@NonNull View view, @NonNull Context context) {
+
         RecyclerView recyclerView = view.findViewById(R.id.news_list);
         recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
@@ -44,8 +49,16 @@ public class NewsFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        NewsAdapter adapter = new NewsAdapter(context, NewsRepository.getInstance().getNews());
+        NewsAdapter adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
+        newsRepository = NewsRepository.newInstance();
+        newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
+            @Override
+            public void onNewsUpdate(List newsListItems) {
+                adapter.updateNewsListItems(newsListItems);
+                view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+            }
+        });
     }
 
     private boolean isScreenRotatedHorizontally() {
