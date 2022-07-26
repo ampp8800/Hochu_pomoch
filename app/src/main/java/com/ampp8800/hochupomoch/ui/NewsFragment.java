@@ -54,7 +54,7 @@ public class NewsFragment extends Fragment {
         newsRepository = NewsRepository.newInstance();
         newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
             @Override
-            public void newsScreenUpdate(List newsListItems) {
+            public void onNewsUpdate(List newsListItems) {
                 adapter.updateNewsListItems(newsListItems);
                 view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
             }

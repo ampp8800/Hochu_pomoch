@@ -77,7 +77,7 @@ public class NewsRepository {
         @Override
         protected void onPostExecute(ArrayList<NewsItem> news) {
             super.onPostExecute(news);
-            newsLoadingCallback.newsScreenUpdate(news);
+            newsLoadingCallback.onNewsUpdate(news);
         }
 
     }
