@@ -2,6 +2,8 @@ package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,14 +53,24 @@ public class NewsFragment extends Fragment {
         }
         NewsAdapter adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
-        newsRepository = NewsRepository.newInstance();
-        newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
-            @Override
-            public void onNewsUpdate(List newsListItems) {
-                adapter.updateNewsListItems(newsListItems);
-                view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
-            }
-        });
+
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null || networkInfo.isConnected()) {
+            newsRepository = NewsRepository.newInstance();
+            newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
+                @Override
+                public void onNewsUpdate(List newsListItems) {
+                    adapter.updateNewsListItems(newsListItems);
+                    view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+                }
+            });
+
+
+        }
+
+
+
     }
 
     private boolean isScreenRotatedHorizontally() {
