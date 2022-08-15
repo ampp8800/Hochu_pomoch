@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class NewsEntity {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     private long guid;

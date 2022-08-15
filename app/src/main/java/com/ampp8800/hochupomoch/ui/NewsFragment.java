@@ -20,8 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
+import com.ampp8800.hochupomoch.data.NewsItem;
 import com.ampp8800.hochupomoch.data.NewsRepository;
+import com.ampp8800.hochupomoch.db.AppDatabase;
+import com.ampp8800.hochupomoch.db.HochuPomochApplication;
+import com.ampp8800.hochupomoch.db.NewsEntity;
+import com.ampp8800.hochupomoch.db.NewsEntityDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFragment extends Fragment {
@@ -54,6 +60,10 @@ public class NewsFragment extends Fragment {
         NewsAdapter adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
 
+//        AppDatabase appDatabase = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "database").build();
+
+        AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
+        NewsEntityDao newsEntityDao = database.newsEntityDao();
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null || networkInfo.isConnected()) {
@@ -63,14 +73,28 @@ public class NewsFragment extends Fragment {
                 public void onNewsUpdate(List newsListItems) {
                     adapter.updateNewsListItems(newsListItems);
                     view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+                    newsEntityDao.clearAll();
+                    for (Object newsItem : newsListItems) {
+
+                    }
                 }
             });
-
-
+        } else {
+            List<NewsEntity> newsEntities = newsEntityDao.getAll();
+            List <NewsItem> newsItems = new ArrayList<>();
+            for (NewsEntity newsEntity : newsEntities) {
+                newsItems.add(new NewsItem(newsEntity.getImages(),
+                        newsEntity.getFundName(),
+                        newsEntity.getDescription(),
+                        newsEntity.getStartDate(),
+                        newsEntity.getEndDate()));
+            }
+            adapter.updateNewsListItems(newsItems);
+            view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
         }
 
 
-
+//  end new cod
     }
 
     private boolean isScreenRotatedHorizontally() {
