@@ -14,8 +14,8 @@ public interface NewsEntityDao {
     List<NewsEntity> getAll();
 
     @Delete
-    List<NewsEntity> clearAll();
+    void clearAll(List<NewsEntity> newsEntities);
 
     @Insert
-    List<Long> insert(List<NewsEntity> newsEntities);
+    void insert(NewsEntity newsEntity);
 }

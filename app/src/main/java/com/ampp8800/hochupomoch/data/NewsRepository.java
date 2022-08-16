@@ -4,8 +4,12 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
-import com.ampp8800.hochupomoch.api.NewsModel;
 import com.ampp8800.hochupomoch.api.NewsInformation;
+import com.ampp8800.hochupomoch.api.NewsModel;
+import com.ampp8800.hochupomoch.db.AppDatabase;
+import com.ampp8800.hochupomoch.db.HochuPomochApplication;
+import com.ampp8800.hochupomoch.db.NewsEntity;
+import com.ampp8800.hochupomoch.db.NewsEntityDao;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 import com.google.gson.GsonBuilder;
 
@@ -20,16 +24,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsRepository {
     private static NewsRepository newsRepository;
+    private static boolean isConnect;
     @NonNull
     private static final ArrayList<NewsItem> news = new ArrayList<>();
 
     private NewsRepository() {
     }
 
-    public static NewsRepository newInstance() {
+    public static NewsRepository newInstance(boolean isConnect) {
         if (newsRepository == null) {
             newsRepository = new NewsRepository();
         }
+        NewsRepository.isConnect = isConnect;
         return newsRepository;
     }
 
@@ -61,12 +67,44 @@ public class NewsRepository {
             Call<List<NewsModel>> messages = newsInformation.getNewsInformation();
             try {
                 news.clear();
-                for (NewsModel item : messages.execute().body()) {
-                    news.add(new NewsItem(item.getImages().get(0),
-                            item.getFundName(),
-                            item.getDescription(),
-                            item.getStartDate(),
-                            item.getEndDate()));
+
+                AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
+                NewsEntityDao newsEntityDao = database.newsEntityDao();
+                if (isConnect) {
+                    if (newsEntityDao != null) {
+                        newsEntityDao.clearAll(newsEntityDao.getAll());
+                    }
+                    for (NewsModel item : messages.execute().body()) {
+                        news.add(new NewsItem(item.getImages().get(0),
+                                item.getFundName(),
+                                item.getDescription(),
+                                item.getStartDate(),
+                                item.getEndDate()));
+                        NewsEntity newsEntity = new NewsEntity();
+
+                        newsEntity.setGuid(item.getGuid());
+                        newsEntity.setName(item.getName());
+                        newsEntity.setFundName(item.getFundName());
+                        newsEntity.setDescription(item.getDescription());
+                        newsEntity.setAddress(item.getAddress());
+                        newsEntity.setStartDate(item.getStartDate());
+                        newsEntity.setEndDate(item.getEndDate());
+                        newsEntity.setPhones(item.getPhones().get(0));
+                        newsEntity.setImages(item.getImages().get(0));
+                        newsEntity.setEmail(item.getEmail());
+                        newsEntity.setWebsite(item.getWebsite());
+
+                        newsEntityDao.insert(newsEntity);
+                    }
+                } else {
+                    List<NewsEntity> newsEntities = newsEntityDao.getAll();
+                    for (NewsEntity newsEntity : newsEntities) {
+                        news.add(new NewsItem(newsEntity.getImages(),
+                                newsEntity.getFundName(),
+                                newsEntity.getDescription(),
+                                newsEntity.getStartDate(),
+                                newsEntity.getEndDate()));
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -81,4 +119,5 @@ public class NewsRepository {
         }
 
     }
+
 }

@@ -11,8 +11,8 @@ public class NewsEntity {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
-
-    private long guid;
+    @NonNull
+    private String guid;
     @NonNull
     private String name;
     @NonNull
@@ -23,7 +23,7 @@ public class NewsEntity {
     private String address;
     private long startDate;
     private long endDate;
-    private int phones;
+    private long phones;
     @NonNull
     private String images;
     @NonNull
@@ -34,7 +34,8 @@ public class NewsEntity {
     public long getId() {
         return id;
     }
-    public long getGuid() {
+    @NonNull
+    public String getGuid() {
         return guid;
     }
     @NonNull
@@ -59,7 +60,7 @@ public class NewsEntity {
     public long getEndDate() {
         return endDate;
     }
-    public int getPhones() {
+    public long getPhones() {
         return phones;
     }
     @NonNull
@@ -78,7 +79,7 @@ public class NewsEntity {
     public void setId(long id) {
         this.id = id;
     }
-    public void setGuid(long guid) {
+    public void setGuid(String guid) {
         this.guid = guid;
     }
     public void setName(@NonNull String name) {
@@ -99,7 +100,7 @@ public class NewsEntity {
     public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
-    public void setPhones(int phones) {
+    public void setPhones(long phones) {
         this.phones = phones;
     }
     public void setImages(@NonNull String images) {
