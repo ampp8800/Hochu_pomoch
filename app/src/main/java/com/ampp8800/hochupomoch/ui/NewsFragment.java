@@ -20,13 +20,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.NewsRepository;
+import com.ampp8800.hochupomoch.data.InternalNewsRepository;
+import com.ampp8800.hochupomoch.data.NewsRepositoryFromNetwork;
 
 import java.util.List;
 
 public class NewsFragment extends Fragment {
-
-    private NewsRepository newsRepository;
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -55,14 +54,28 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        newsRepository = NewsRepository.newInstance(networkInfo != null && networkInfo.isConnected());
-        newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
-            @Override
-            public void onNewsUpdate(List newsListItems) {
-                adapter.updateNewsListItems(newsListItems);
-                view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
-            }
-        });
+        if (networkInfo != null && networkInfo.isConnected()) {
+            NewsRepositoryFromNetwork newsRepositoryFromNetwork = NewsRepositoryFromNetwork.newInstance();
+            newsRepositoryFromNetwork.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
+                @Override
+                public void onNewsUpdate(List newsListItems) {
+                    refreshNewsListOnScreen(adapter, view, newsListItems);
+                }
+            });
+        } else {
+            InternalNewsRepository internalNewsRepository = InternalNewsRepository.newInstance();
+            internalNewsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
+                @Override
+                public void onNewsUpdate(List newsListItems) {
+                    refreshNewsListOnScreen(adapter, view, newsListItems);
+                }
+            });
+        }
+    }
+
+    private void refreshNewsListOnScreen(@NonNull NewsAdapter adapter, @NonNull View view, @NonNull List newsListItems) {
+        adapter.updateNewsListItems(newsListItems);
+        view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
     }
 
     private boolean isScreenRotatedHorizontally() {

@@ -1,8 +1,11 @@
-package com.ampp8800.hochupomoch.db;
+package com.ampp8800.hochupomoch.ui;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.room.Room;
+
+import com.ampp8800.hochupomoch.db.AppDatabase;
 
 public class HochuPomochApplication extends Application {
 
@@ -20,6 +23,7 @@ public class HochuPomochApplication extends Application {
         return instance;
     }
 
+    @NonNull
     public AppDatabase getDatabase(){
         return database;
     }

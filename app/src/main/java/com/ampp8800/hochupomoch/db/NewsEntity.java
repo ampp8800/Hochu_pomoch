@@ -79,7 +79,7 @@ public class NewsEntity {
     public void setId(long id) {
         this.id = id;
     }
-    public void setGuid(String guid) {
+    public void setGuid(@NonNull String guid) {
         this.guid = guid;
     }
     public void setName(@NonNull String name) {
