@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.InternalNewsRepository;
@@ -37,6 +38,15 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
+        swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initializeListOfNews(view, view.getContext());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         initializeListOfNews(view, view.getContext());
         return view;
     }
@@ -56,7 +66,7 @@ public class NewsFragment extends Fragment {
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             NewsRepositoryFromNetwork newsRepositoryFromNetwork = NewsRepositoryFromNetwork.newInstance();
-            newsRepositoryFromNetwork.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
+            newsRepositoryFromNetwork.NewsLoadingAsyncTask(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
                     refreshNewsListOnScreen(adapter, view, newsListItems);
@@ -64,7 +74,7 @@ public class NewsFragment extends Fragment {
             });
         } else {
             InternalNewsRepository internalNewsRepository = InternalNewsRepository.newInstance();
-            internalNewsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
+            internalNewsRepository.NewsLoadingAsyncTask(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
                     refreshNewsListOnScreen(adapter, view, newsListItems);
@@ -89,4 +99,5 @@ public class NewsFragment extends Fragment {
         requireActivity().findViewById(R.id.iv_filter).setVisibility(View.VISIBLE);
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.news);
     }
+
 }

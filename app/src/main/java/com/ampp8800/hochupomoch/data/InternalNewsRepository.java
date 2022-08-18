@@ -15,8 +15,6 @@ import java.util.List;
 
 public class InternalNewsRepository {
     private static InternalNewsRepository internalNewsRepository;
-    @NonNull
-    private static final ArrayList<NewsItem> news = new ArrayList<>();
 
     private InternalNewsRepository() {
     }
@@ -28,7 +26,7 @@ public class InternalNewsRepository {
         return internalNewsRepository;
     }
 
-    public void executeNewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
+    public void NewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
         InternalNewsRepository.NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new InternalNewsRepository.NewsItemsLoaderAsyncTask(newsLoadingCallback);
         newsItemsLoaderAsyncTask.execute();
     }
@@ -48,10 +46,10 @@ public class InternalNewsRepository {
 
         @Override
         protected ArrayList<NewsItem> doInBackground(Void... params) {
-            news.clear();
             AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
             NewsEntityDao newsEntityDao = database.newsEntityDao();
             List<NewsEntity> newsEntities = newsEntityDao.getAll();
+            ArrayList<NewsItem> news = new ArrayList<>();
             for (NewsEntity newsEntity : newsEntities) {
                 news.add(new NewsItem(newsEntity.getImages(),
                         newsEntity.getFundName(),

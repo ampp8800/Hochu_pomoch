@@ -24,9 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsRepositoryFromNetwork {
     private static NewsRepositoryFromNetwork newsRepositoryFromNetwork;
-    private static boolean isConnect;
-    @NonNull
-    private static final ArrayList<NewsItem> news = new ArrayList<>();
 
     private NewsRepositoryFromNetwork() {
     }
@@ -38,7 +35,7 @@ public class NewsRepositoryFromNetwork {
         return newsRepositoryFromNetwork;
     }
 
-    public void executeNewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
+    public void NewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
         NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new NewsItemsLoaderAsyncTask(newsLoadingCallback);
         newsItemsLoaderAsyncTask.execute();
     }
@@ -64,9 +61,8 @@ public class NewsRepositoryFromNetwork {
                     .build();
             NewsInformation newsInformation = retrofit.create(NewsInformation.class);
             Call<List<NewsModel>> messages = newsInformation.getNewsInformation();
+            ArrayList<NewsItem> news = new ArrayList<>();
             try {
-                news.clear();
-
                 AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
                 NewsEntityDao newsEntityDao = database.newsEntityDao();
                 if (newsEntityDao != null) {
@@ -92,8 +88,7 @@ public class NewsRepositoryFromNetwork {
                             item.getEmail(),
                             item.getWebsite());
                 }
-            } catch (
-                    IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return news;
