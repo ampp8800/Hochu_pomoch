@@ -2,6 +2,8 @@ package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +18,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.NewsRepository;
+import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
+import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
 
 import java.util.List;
 
 public class NewsFragment extends Fragment {
-
-    private NewsRepository newsRepository;
+    private NewsAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -36,12 +40,19 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
+        swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
+        swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initializeListOfNews(view, view.getContext());
+            }
+        });
         initializeListOfNews(view, view.getContext());
         return view;
     }
 
     private void initializeListOfNews(@NonNull View view, @NonNull Context context) {
-
         RecyclerView recyclerView = view.findViewById(R.id.news_list);
         recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
@@ -49,16 +60,33 @@ public class NewsFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        NewsAdapter adapter = new NewsAdapter(context);
+        adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
-        newsRepository = NewsRepository.newInstance();
-        newsRepository.executeNewsLoadingAsyncTask(new NewsLoadingCallback() {
-            @Override
-            public void onNewsUpdate(List newsListItems) {
-                adapter.updateNewsListItems(newsListItems);
-                view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
-            }
-        });
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            NetworkNewsRepository networkNewsRepository = NetworkNewsRepository.newInstance();
+            networkNewsRepository.loadNews(new NewsLoadingCallback() {
+                @Override
+                public void onNewsUpdate(List newsListItems) {
+                    refreshNewsListOnScreen(newsListItems);
+                }
+            });
+        } else {
+            DatabaseNewsRepository databaseNewsRepository = DatabaseNewsRepository.newInstance();
+            databaseNewsRepository.loadNews(new NewsLoadingCallback() {
+                @Override
+                public void onNewsUpdate(List newsListItems) {
+                    refreshNewsListOnScreen(newsListItems);
+                }
+            });
+        }
+    }
+
+    private void refreshNewsListOnScreen(@NonNull List newsListItems) {
+        adapter.updateNewsListItems(newsListItems);
+        super.getView().findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private boolean isScreenRotatedHorizontally() {
