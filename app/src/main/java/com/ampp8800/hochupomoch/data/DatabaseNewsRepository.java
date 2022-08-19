@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.db.AppDatabase;
-import com.ampp8800.hochupomoch.ui.HochuPomochApplication;
+import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
@@ -13,21 +13,21 @@ import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InternalNewsRepository {
-    private static InternalNewsRepository internalNewsRepository;
+public class DatabaseNewsRepository {
+    private static DatabaseNewsRepository databaseNewsRepository;
 
-    private InternalNewsRepository() {
+    private DatabaseNewsRepository() {
     }
 
-    public static InternalNewsRepository newInstance() {
-        if (internalNewsRepository == null) {
-            internalNewsRepository = new InternalNewsRepository();
+    public static DatabaseNewsRepository newInstance() {
+        if (databaseNewsRepository == null) {
+            databaseNewsRepository = new DatabaseNewsRepository();
         }
-        return internalNewsRepository;
+        return databaseNewsRepository;
     }
 
-    public void NewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
-        InternalNewsRepository.NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new InternalNewsRepository.NewsItemsLoaderAsyncTask(newsLoadingCallback);
+    public void newsLoading(@NonNull NewsLoadingCallback newsLoadingCallback) {
+        DatabaseNewsRepository.NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new DatabaseNewsRepository.NewsItemsLoaderAsyncTask(newsLoadingCallback);
         newsItemsLoaderAsyncTask.execute();
     }
 
@@ -37,11 +37,6 @@ public class InternalNewsRepository {
 
         public NewsItemsLoaderAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
             this.newsLoadingCallback = newsLoadingCallback;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override

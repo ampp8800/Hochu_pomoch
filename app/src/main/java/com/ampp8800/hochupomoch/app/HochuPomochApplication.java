@@ -1,4 +1,4 @@
-package com.ampp8800.hochupomoch.ui;
+package com.ampp8800.hochupomoch.app;
 
 import android.app.Application;
 

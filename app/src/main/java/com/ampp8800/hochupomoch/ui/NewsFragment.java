@@ -21,12 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.InternalNewsRepository;
-import com.ampp8800.hochupomoch.data.NewsRepositoryFromNetwork;
+import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
+import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
 
 import java.util.List;
 
 public class NewsFragment extends Fragment {
+    private NewsAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -38,13 +40,12 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
-        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
+        swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initializeListOfNews(view, view.getContext());
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
         initializeListOfNews(view, view.getContext());
@@ -52,7 +53,6 @@ public class NewsFragment extends Fragment {
     }
 
     private void initializeListOfNews(@NonNull View view, @NonNull Context context) {
-
         RecyclerView recyclerView = view.findViewById(R.id.news_list);
         recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
@@ -60,32 +60,33 @@ public class NewsFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        NewsAdapter adapter = new NewsAdapter(context);
+        adapter = new NewsAdapter(context);
         recyclerView.setAdapter(adapter);
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            NewsRepositoryFromNetwork newsRepositoryFromNetwork = NewsRepositoryFromNetwork.newInstance();
-            newsRepositoryFromNetwork.NewsLoadingAsyncTask(new NewsLoadingCallback() {
+            NetworkNewsRepository networkNewsRepository = NetworkNewsRepository.newInstance();
+            networkNewsRepository.newsLoading(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
-                    refreshNewsListOnScreen(adapter, view, newsListItems);
+                    refreshNewsListOnScreen(newsListItems);
                 }
             });
         } else {
-            InternalNewsRepository internalNewsRepository = InternalNewsRepository.newInstance();
-            internalNewsRepository.NewsLoadingAsyncTask(new NewsLoadingCallback() {
+            DatabaseNewsRepository databaseNewsRepository = DatabaseNewsRepository.newInstance();
+            databaseNewsRepository.newsLoading(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
-                    refreshNewsListOnScreen(adapter, view, newsListItems);
+                    refreshNewsListOnScreen(newsListItems);
                 }
             });
         }
     }
 
-    private void refreshNewsListOnScreen(@NonNull NewsAdapter adapter, @NonNull View view, @NonNull List newsListItems) {
+    private void refreshNewsListOnScreen(@NonNull List newsListItems) {
         adapter.updateNewsListItems(newsListItems);
-        view.findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+        super.getView().findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private boolean isScreenRotatedHorizontally() {
@@ -99,5 +100,4 @@ public class NewsFragment extends Fragment {
         requireActivity().findViewById(R.id.iv_filter).setVisibility(View.VISIBLE);
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.news);
     }
-
 }

@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.ampp8800.hochupomoch.api.NewsInformation;
 import com.ampp8800.hochupomoch.api.NewsModel;
 import com.ampp8800.hochupomoch.db.AppDatabase;
-import com.ampp8800.hochupomoch.ui.HochuPomochApplication;
+import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
@@ -22,20 +22,21 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class NewsRepositoryFromNetwork {
-    private static NewsRepositoryFromNetwork newsRepositoryFromNetwork;
+public class NetworkNewsRepository {
+    private static NetworkNewsRepository networkNewsRepository;
+    private final static String baseUrl = "https://eithernor.github.io/help-server/";
 
-    private NewsRepositoryFromNetwork() {
+    private NetworkNewsRepository() {
     }
 
-    public static NewsRepositoryFromNetwork newInstance() {
-        if (newsRepositoryFromNetwork == null) {
-            newsRepositoryFromNetwork = new NewsRepositoryFromNetwork();
+    public static NetworkNewsRepository newInstance() {
+        if (networkNewsRepository == null) {
+            networkNewsRepository = new NetworkNewsRepository();
         }
-        return newsRepositoryFromNetwork;
+        return networkNewsRepository;
     }
 
-    public void NewsLoadingAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
+    public void newsLoading(@NonNull NewsLoadingCallback newsLoadingCallback) {
         NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new NewsItemsLoaderAsyncTask(newsLoadingCallback);
         newsItemsLoaderAsyncTask.execute();
     }
@@ -49,14 +50,9 @@ public class NewsRepositoryFromNetwork {
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected ArrayList<NewsItem> doInBackground(Void... params) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://eithernor.github.io/help-server/")
+                    .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
             NewsInformation newsInformation = retrofit.create(NewsInformation.class);
@@ -75,8 +71,7 @@ public class NewsRepositoryFromNetwork {
                             item.getStartDate(),
                             item.getEndDate()));
 
-                    newsItemToNewsEntity(newsEntityDao,
-                            item.getGuid(),
+                    newsEntityDao.insert(newsItemToNewsEntity(item.getGuid(),
                             item.getName(),
                             item.getFundName(),
                             item.getDescription(),
@@ -86,7 +81,7 @@ public class NewsRepositoryFromNetwork {
                             item.getPhones().get(0),
                             item.getImages().get(0),
                             item.getEmail(),
-                            item.getWebsite());
+                            item.getWebsite()));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -101,8 +96,7 @@ public class NewsRepositoryFromNetwork {
         }
 
         @NonNull
-        public void newsItemToNewsEntity(@NonNull NewsEntityDao newsEntityDao,
-                                         @NonNull String guid,
+        public NewsEntity newsItemToNewsEntity(@NonNull String guid,
                                          @NonNull String name,
                                          @NonNull String fundName,
                                          @NonNull String description,
@@ -125,7 +119,7 @@ public class NewsRepositoryFromNetwork {
             newsEntity.setImages(image);
             newsEntity.setEmail(email);
             newsEntity.setWebsite(website);
-            newsEntityDao.insert(newsEntity);
+            return newsEntity;
         }
 
     }
