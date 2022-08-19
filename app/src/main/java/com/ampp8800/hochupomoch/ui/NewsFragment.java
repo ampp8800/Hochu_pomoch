@@ -66,7 +66,7 @@ public class NewsFragment extends Fragment {
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             NetworkNewsRepository networkNewsRepository = NetworkNewsRepository.newInstance();
-            networkNewsRepository.newsLoading(new NewsLoadingCallback() {
+            networkNewsRepository.loadNews(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
@@ -74,7 +74,7 @@ public class NewsFragment extends Fragment {
             });
         } else {
             DatabaseNewsRepository databaseNewsRepository = DatabaseNewsRepository.newInstance();
-            databaseNewsRepository.newsLoading(new NewsLoadingCallback() {
+            databaseNewsRepository.loadNews(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);

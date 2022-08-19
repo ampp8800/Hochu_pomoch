@@ -26,7 +26,7 @@ public class DatabaseNewsRepository {
         return databaseNewsRepository;
     }
 
-    public void newsLoading(@NonNull NewsLoadingCallback newsLoadingCallback) {
+    public void loadNews(@NonNull NewsLoadingCallback newsLoadingCallback) {
         DatabaseNewsRepository.NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new DatabaseNewsRepository.NewsItemsLoaderAsyncTask(newsLoadingCallback);
         newsItemsLoaderAsyncTask.execute();
     }

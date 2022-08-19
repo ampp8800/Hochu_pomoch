@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkNewsRepository {
     private static NetworkNewsRepository networkNewsRepository;
-    private final static String baseUrl = "https://eithernor.github.io/help-server/";
+    private final static String BASE_URL = "https://eithernor.github.io/help-server/";
 
     private NetworkNewsRepository() {
     }
@@ -36,7 +36,7 @@ public class NetworkNewsRepository {
         return networkNewsRepository;
     }
 
-    public void newsLoading(@NonNull NewsLoadingCallback newsLoadingCallback) {
+    public void loadNews(@NonNull NewsLoadingCallback newsLoadingCallback) {
         NewsItemsLoaderAsyncTask newsItemsLoaderAsyncTask = new NewsItemsLoaderAsyncTask(newsLoadingCallback);
         newsItemsLoaderAsyncTask.execute();
     }
@@ -52,7 +52,7 @@ public class NetworkNewsRepository {
         @Override
         protected ArrayList<NewsItem> doInBackground(Void... params) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
             NewsInformation newsInformation = retrofit.create(NewsInformation.class);
