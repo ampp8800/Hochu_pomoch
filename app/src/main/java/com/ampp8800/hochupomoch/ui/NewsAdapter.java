@@ -57,7 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
         NewsListItemViewHolder(@NonNull View view) {
             super(view);
             photoNews = view.findViewById(R.id.iv_news_assets);
-            newsHeadline = view.findViewById(R.id.tv_news_headline);
+            newsHeadline = view.findViewById(R.id.tv_news_name);
             briefDescriptionOfNews = view.findViewById(R.id.tv_brief_description_of_news);
             date = view.findViewById(R.id.tv_date);
         }

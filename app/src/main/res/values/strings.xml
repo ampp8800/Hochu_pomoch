@@ -33,4 +33,7 @@
     <string name="keywords">Ключевые слова:</string>
     <string name="searching_result">Результаты поиска:</string>
     <string name="enter_the_name_of_the_organization">Введите название организации</string>
+    <string name="do_you_have_a_question">У вас есть вопросы?</string>
+    <string name="write_to_us">Напишите нам</string>
+    <string name="go_to_organization_website">Перейти на сайт организаии</string>
 </resources>
