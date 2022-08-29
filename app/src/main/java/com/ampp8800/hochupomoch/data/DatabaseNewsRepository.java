@@ -4,8 +4,9 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
-import com.ampp8800.hochupomoch.db.AppDatabase;
+import com.ampp8800.hochupomoch.api.NewsItem;
 import com.ampp8800.hochupomoch.app.HochuPomochApplication;
+import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
@@ -46,11 +47,17 @@ public class DatabaseNewsRepository {
             List<NewsEntity> newsEntities = newsEntityDao.getAll();
             ArrayList<NewsItem> news = new ArrayList<>();
             for (NewsEntity newsEntity : newsEntities) {
-                news.add(new NewsItem(newsEntity.getImages(),
+                news.add(new NewsItem(newsEntity.getGuid(),
+                        newsEntity.getName(),
                         newsEntity.getFundName(),
                         newsEntity.getDescription(),
+                        newsEntity.getAddress(),
                         newsEntity.getStartDate(),
-                        newsEntity.getEndDate()));
+                        newsEntity.getEndDate(),
+                        newsEntity.getPhones(),
+                        newsEntity.getImages(),
+                        newsEntity.getEmail(),
+                        newsEntity.getWebsite()));
             }
             return news;
         }

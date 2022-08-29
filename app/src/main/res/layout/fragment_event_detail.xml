@@ -10,10 +10,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintVertical_weight="1"
+        android:layout_weight="1"
         android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline">
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,17 +42,17 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/ic_icon_calendar_grey"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_news_name"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_news_name"
+                app:srcCompat="@drawable/ic_icon_calendar_grey" />
 
             <TextView
                 android:id="@+id/tv_date"
                 style="@style/TextStyle18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_colendar"
                 app:layout_constraintTop_toBottomOf="@id/tv_news_name"
                 tools:text="Осталось 13 дней (21.09 – 20.10)" />
@@ -72,124 +72,120 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/ic_nav"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_fundName"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_fundName"
+                app:srcCompat="@drawable/ic_nav" />
 
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textSize="14sp"
-                android:textColor="@color/black_70"
                 android:lineSpacingExtra="6sp"
-                tools:text="Санкт-Петербург, Кирочная улица, д. 50А, каб. 208"
+                android:textColor="@color/black_70"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_nav"
-                app:layout_constraintTop_toBottomOf="@id/tv_fundName" />
+                app:layout_constraintTop_toBottomOf="@id/tv_fundName"
+                tools:text="Санкт-Петербург, Кирочная улица, д. 50А, каб. 208" />
 
             <ImageView
                 android:id="@+id/iv_icon_phone"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/ic_phone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_address"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_address"
+                app:srcCompat="@drawable/ic_phone" />
 
-            <TextView
-                android:id="@+id/tv_phones"
+            <ListView
+                android:id="@+id/lv_phone_numbers"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textSize="14sp"
-                android:textColor="@color/black_70"
-                android:lineSpacingExtra="6sp"
-                tools:text="+7 (937) 037 37-73\n+7 (937) 016 16-16"
+                android:layout_marginTop="15dp"
+                android:divider="@color/white"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_phone"
-                app:layout_constraintTop_toBottomOf="@id/tv_address"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_address"
+                tools:text="+7 (937) 037 37-73\n+7 (937) 016 16-16" />
 
             <ImageView
                 android:id="@+id/iv_icon_mail"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/ic_mail"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_phones" />
+                app:layout_constraintTop_toBottomOf="@id/lv_phone_numbers"
+                app:srcCompat="@drawable/ic_mail" />
 
             <TextView
                 android:id="@+id/tv_do_you_have_a_question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textSize="14sp"
-                android:textColor="@color/black_70"
                 android:lineSpacingExtra="6sp"
-                tools:text="@string/do_you_have_a_question"
+                android:text="@string/do_you_have_a_question"
+                android:textColor="@color/black_70"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_mail"
-                app:layout_constraintTop_toBottomOf="@id/tv_phones"/>
+                app:layout_constraintTop_toBottomOf="@id/lv_phone_numbers" />
 
             <TextView
                 android:id="@+id/tv_write_to_us"
                 style="@style/Link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginLeft="6dp"
-                tools:text="@string/write_to_us"
+                android:layout_marginTop="15dp"
+                android:text="@string/write_to_us"
                 app:layout_constraintStart_toEndOf="@id/tv_do_you_have_a_question"
-                app:layout_constraintTop_toBottomOf="@id/tv_phones"/>
-            
+                app:layout_constraintTop_toBottomOf="@id/lv_phone_numbers" />
+
             <ImageView
                 android:id="@+id/iv_cardimage"
                 android:layout_width="0dp"
                 android:layout_height="158dp"
-                app:layout_constraintHorizontal_weight="1"
                 android:layout_marginTop="19dp"
-                app:srcCompat="@drawable/ic_no_photo"
                 android:scaleType="centerCrop"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_cardimage_one"
-                app:layout_constraintTop_toBottomOf="@id/tv_do_you_have_a_question" />
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_do_you_have_a_question"
+                app:srcCompat="@drawable/ic_no_photo" />
 
             <ImageView
                 android:id="@+id/iv_cardimage_one"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
-                app:layout_constraintHorizontal_weight="0.5"
-                app:layout_constraintVertical_weight="1"
-                app:srcCompat="@drawable/ic_no_photo"
                 android:scaleType="centerCrop"
-                app:layout_constraintStart_toEndOf="@id/iv_cardimage"
+                app:layout_constraintBottom_toTopOf="@id/iv_cardimage_two"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/iv_cardimage"
                 app:layout_constraintTop_toTopOf="@id/iv_cardimage"
-                app:layout_constraintBottom_toTopOf="@id/iv_cardimage_two"/>
+                app:layout_constraintVertical_weight="1"
+                app:srcCompat="@drawable/ic_no_photo" />
 
             <ImageView
                 android:id="@+id/iv_cardimage_two"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
-                app:layout_constraintHorizontal_weight="0.5"
-                app:layout_constraintVertical_weight="1"
                 android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/ic_no_photo"
                 android:scaleType="centerCrop"
-                app:layout_constraintStart_toEndOf="@id/iv_cardimage"
+                app:layout_constraintBottom_toBottomOf="@id/iv_cardimage"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/iv_cardimage"
                 app:layout_constraintTop_toBottomOf="@id/iv_cardimage_one"
-                app:layout_constraintBottom_toBottomOf="@id/iv_cardimage"/>
+                app:layout_constraintVertical_weight="1"
+                app:srcCompat="@drawable/ic_no_photo" />
 
             <TextView
                 android:id="@+id/tv_description"
@@ -197,13 +193,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textSize="14sp"
-                android:textColor="@color/black_70"
                 android:lineSpacingExtra="6sp"
-                tools:text="Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям."
+                android:textColor="@color/black_70"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_cardimage"/>
+                app:layout_constraintTop_toBottomOf="@id/iv_cardimage"
+                tools:text="Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям." />
 
             <TextView
                 android:id="@+id/tv_go_to_organization_website"
@@ -211,9 +207,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                tools:text="@string/go_to_organization_website"
+                android:layout_marginBottom="20dp"
+                android:paddingBottom="20dp"
+                android:text="@string/go_to_organization_website"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_description"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -224,10 +223,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="124dp"/>
+        app:layout_constraintGuide_end="53dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/civ_friend_four"
+        circleimageview:civ_border_width="2dp"
+        circleimageview:civ_border_color="@color/light_grey_two"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="-8dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/civ_friend_three"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:srcCompat="@drawable/ic_no_photo" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/civ_friend_three"
+        circleimageview:civ_border_width="2dp"
+        circleimageview:civ_border_color="@color/light_grey_two"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="-8dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/civ_friend_two"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:srcCompat="@drawable/ic_no_photo" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/civ_friend_two"
+        circleimageview:civ_border_width="2dp"
+        circleimageview:civ_border_color="@color/light_grey_two"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="-8dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/civ_friend_one"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:srcCompat="@drawable/ic_no_photo" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/civ_friend_one"
+        circleimageview:civ_border_width="2dp"
+        circleimageview:civ_border_color="@color/light_grey_two"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="-8dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/civ_friend"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:srcCompat="@drawable/ic_no_photo" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
         android:id="@+id/civ_friend"
+        circleimageview:civ_border_width="2dp"
+        circleimageview:civ_border_color="@color/light_grey_two"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginLeft="20dp"
@@ -237,47 +295,14 @@
         app:layout_constraintTop_toTopOf="@id/guideline"
         app:srcCompat="@drawable/ic_no_photo" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_friend_one"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-2dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_friend_two"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-2dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_one"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_friend_three"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-2dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_two"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
     <TextView
         android:id="@+id/tv_friends_count"
         style="@style/TextStyle13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="+102"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_three"
-        app:layout_constraintTop_toTopOf="@id/guideline"/>
+        app:layout_constraintStart_toEndOf="@id/civ_friend_four"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        tools:text="+102" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

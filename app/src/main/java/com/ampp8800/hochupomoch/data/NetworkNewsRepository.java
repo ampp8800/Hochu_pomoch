@@ -5,9 +5,9 @@ import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsInformation;
-import com.ampp8800.hochupomoch.api.NewsModel;
-import com.ampp8800.hochupomoch.db.AppDatabase;
+import com.ampp8800.hochupomoch.api.NewsItem;
 import com.ampp8800.hochupomoch.app.HochuPomochApplication;
+import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
@@ -56,7 +56,7 @@ public class NetworkNewsRepository {
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
             NewsInformation newsInformation = retrofit.create(NewsInformation.class);
-            Call<List<NewsModel>> messages = newsInformation.getNewsInformation();
+            Call<List<NewsItem>> messages = newsInformation.getNewsInformation();
             ArrayList<NewsItem> news = new ArrayList<>();
             try {
                 AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
@@ -64,13 +64,8 @@ public class NetworkNewsRepository {
                 if (newsEntityDao != null) {
                     newsEntityDao.clearAll(newsEntityDao.getAll());
                 }
-                for (NewsModel item : messages.execute().body()) {
-                    news.add(new NewsItem(item.getImages().get(0),
-                            item.getFundName(),
-                            item.getDescription(),
-                            item.getStartDate(),
-                            item.getEndDate()));
-
+                for (NewsItem item : messages.execute().body()) {
+                    news.add(item);
                     newsEntityDao.insert(newsItemToNewsEntity(item.getGuid(),
                             item.getName(),
                             item.getFundName(),
@@ -78,8 +73,8 @@ public class NetworkNewsRepository {
                             item.getAddress(),
                             item.getStartDate(),
                             item.getEndDate(),
-                            item.getPhones().get(0),
-                            item.getImages().get(0),
+                            item.getPhones().toString(),
+                            item.getImages().toString(),
                             item.getEmail(),
                             item.getWebsite()));
                 }
@@ -103,7 +98,7 @@ public class NetworkNewsRepository {
                                          @NonNull String address,
                                          long startDate,
                                          long endDate,
-                                         long phones,
+                                         @NonNull String phones,
                                          @NonNull String image,
                                          @NonNull String email,
                                          @NonNull String website) {

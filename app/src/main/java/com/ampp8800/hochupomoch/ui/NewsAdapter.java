@@ -11,7 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.NewsItem;
+import com.ampp8800.hochupomoch.api.NewsItem;
+import com.ampp8800.hochupomoch.data.OnItemClickListener;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -21,11 +22,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
     private final LayoutInflater inflater;
     private final List<NewsItem> newsListItems;
     private final Context context;
+    private final OnItemClickListener onItemClickListener;
 
-    NewsAdapter(@NonNull Context context) {
+
+    NewsAdapter(@NonNull Context context, @NonNull OnItemClickListener onItemClickListener) {
         this.context = context;
         this.newsListItems = new ArrayList<>();
         this.inflater = LayoutInflater.from(context);
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -48,6 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
 
 
     public class NewsListItemViewHolder extends RecyclerView.ViewHolder {
+        private final View view;
         private final ImageView photoNews;
         private final TextView newsHeadline;
         private final TextView briefDescriptionOfNews;
@@ -56,6 +61,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
 
         NewsListItemViewHolder(@NonNull View view) {
             super(view);
+            this.view = view;
             photoNews = view.findViewById(R.id.iv_news_assets);
             newsHeadline = view.findViewById(R.id.tv_news_name);
             briefDescriptionOfNews = view.findViewById(R.id.tv_brief_description_of_news);
@@ -63,10 +69,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
         }
 
         public void bind(@NonNull NewsItem newsItem) {
-            setImageFromServer(photoNews, newsItem.getPhotoNews());
-            newsHeadline.setText(newsItem.getNewsHeadline());
-            briefDescriptionOfNews.setText(newsItem.getBriefDescriptionOfNews());
+            setImageFromServer(photoNews, newsItem.getImages().get(0));
+            newsHeadline.setText(newsItem.getFundName());
+            briefDescriptionOfNews.setText(newsItem.getDescription());
             date.setText(newsItem.getDate());
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.invoke(newsItem.getGuid());
+                }
+            });
         }
     }
 

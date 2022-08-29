@@ -23,6 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
+import com.ampp8800.hochupomoch.data.OnItemClickListener;
 
 import java.util.List;
 
@@ -60,21 +61,23 @@ public class NewsFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        adapter = new NewsAdapter(context);
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
+            @Override
+            public void invoke(String guid) {
+                openEventDetails(guid);
+            }
+        };
+        adapter = new NewsAdapter(context, onItemClickListener);
         recyclerView.setAdapter(adapter);
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            NetworkNewsRepository networkNewsRepository = NetworkNewsRepository.newInstance();
-            networkNewsRepository.loadNews(new NewsLoadingCallback() {
+        if (isConnected(context)) {
+            NetworkNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
                 }
             });
         } else {
-            DatabaseNewsRepository databaseNewsRepository = DatabaseNewsRepository.newInstance();
-            databaseNewsRepository.loadNews(new NewsLoadingCallback() {
+            DatabaseNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
@@ -100,4 +103,24 @@ public class NewsFragment extends Fragment {
         requireActivity().findViewById(R.id.iv_filter).setVisibility(View.VISIBLE);
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.news);
     }
+
+    private boolean isConnected(@NonNull Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void openEventDetails(@NonNull String guid) {
+        EvevntDetailFragment evevntDetailFragment = EvevntDetailFragment.newInstance();
+        evevntDetailFragment.setGuid(guid);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, evevntDetailFragment)
+                .commit();
+    }
+
 }
