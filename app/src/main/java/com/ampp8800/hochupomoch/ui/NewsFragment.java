@@ -2,8 +2,6 @@ package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +26,11 @@ import com.ampp8800.hochupomoch.data.OnItemClickListener;
 import java.util.List;
 
 public class NewsFragment extends Fragment {
+    @NonNull
     private NewsAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    @NonNull
+    private final String ARG_EVENT_DETAIL_FRAGMENT = "evevntDetailFragment";
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -69,17 +70,17 @@ public class NewsFragment extends Fragment {
         };
         adapter = new NewsAdapter(context, onItemClickListener);
         recyclerView.setAdapter(adapter);
-        if (isConnected(context)) {
+        if (NetworkStateHelper.isConnected(context)) {
             NetworkNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
-                public void onNewsUpdate(List newsListItems) {
+                public void onNewsUpdate(@NonNull List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
                 }
             });
         } else {
             DatabaseNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
-                public void onNewsUpdate(List newsListItems) {
+                public void onNewsUpdate(@NonNull List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
                 }
             });
@@ -104,22 +105,11 @@ public class NewsFragment extends Fragment {
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.news);
     }
 
-    private boolean isConnected(@NonNull Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private void openEventDetails(@NonNull String guid) {
-        EvevntDetailFragment evevntDetailFragment = EvevntDetailFragment.newInstance();
-        evevntDetailFragment.setGuid(guid);
+        EevntDetailFragment eevntDetailFragment = EevntDetailFragment.newInstance(guid);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, evevntDetailFragment)
+                .replace(R.id.fragmentContainerView, eevntDetailFragment, ARG_EVENT_DETAIL_FRAGMENT)
                 .commit();
     }
 

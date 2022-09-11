@@ -4,11 +4,12 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
-import com.ampp8800.hochupomoch.api.NewsItem;
+import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
+import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallback;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 
 import java.util.ArrayList;
@@ -32,8 +33,13 @@ public class DatabaseNewsRepository {
         newsItemsLoaderAsyncTask.execute();
     }
 
+    public void loadItemNews(@NonNull NewsItemLoadingCallback newsItemLoadingCallback, @NonNull String guid) {
+        DatabaseNewsRepository.NewsItemLoaderAsyncTask newsItemLoaderAsyncTask = new DatabaseNewsRepository.NewsItemLoaderAsyncTask(newsItemLoadingCallback, guid);
+        newsItemLoaderAsyncTask.execute();
+    }
 
-    private static class NewsItemsLoaderAsyncTask extends AsyncTask<Void, Void, ArrayList<NewsItem>> {
+
+    private static class NewsItemsLoaderAsyncTask extends AsyncTask<Void, Void, ArrayList<NewsItemModel>> {
         private final NewsLoadingCallback newsLoadingCallback;
 
         public NewsItemsLoaderAsyncTask(@NonNull NewsLoadingCallback newsLoadingCallback) {
@@ -41,31 +47,51 @@ public class DatabaseNewsRepository {
         }
 
         @Override
-        protected ArrayList<NewsItem> doInBackground(Void... params) {
+        protected ArrayList<NewsItemModel> doInBackground(Void... params) {
             AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
             NewsEntityDao newsEntityDao = database.newsEntityDao();
             List<NewsEntity> newsEntities = newsEntityDao.getAll();
-            ArrayList<NewsItem> news = new ArrayList<>();
+            ArrayList<NewsItemModel> news = new ArrayList<>();
             for (NewsEntity newsEntity : newsEntities) {
-                news.add(new NewsItem(newsEntity.getGuid(),
-                        newsEntity.getName(),
-                        newsEntity.getFundName(),
-                        newsEntity.getDescription(),
-                        newsEntity.getAddress(),
-                        newsEntity.getStartDate(),
-                        newsEntity.getEndDate(),
-                        newsEntity.getPhones(),
-                        newsEntity.getImages(),
-                        newsEntity.getEmail(),
-                        newsEntity.getWebsite()));
+                news.add(new NewsItemModel(newsEntity));
             }
             return news;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<NewsItem> news) {
+        protected void onPostExecute(ArrayList<NewsItemModel> news) {
             super.onPostExecute(news);
             newsLoadingCallback.onNewsUpdate(news);
+        }
+
+    }
+
+    private static class NewsItemLoaderAsyncTask extends AsyncTask<Void, Void, NewsItemModel> {
+        private final NewsItemLoadingCallback newsItemLoadingCallback;
+        private final String guid;
+
+        public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallback newsItemLoadingCallback, @NonNull String guid) {
+            this.newsItemLoadingCallback = newsItemLoadingCallback;
+            this.guid = guid;
+        }
+
+        @Override
+        protected NewsItemModel doInBackground(Void... params) {
+            AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
+            NewsEntityDao newsEntityDao = database.newsEntityDao();
+            List<NewsEntity> newsEntities = newsEntityDao.getAll();
+            for (NewsEntity newsEntity : newsEntities) {
+                if (newsEntity.getGuid().equals(guid)){
+                    return new NewsItemModel(newsEntity);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(NewsItemModel newsItemModel) {
+            super.onPostExecute(newsItemModel);
+            newsItemLoadingCallback.onNewsItemUpdate(newsItemModel);
         }
 
     }

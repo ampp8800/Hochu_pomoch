@@ -61,7 +61,6 @@ public class NewsEntity {
     public long getEndDate() {
         return endDate;
     }
-
     @NonNull
     public String getPhones() {
         return phones;

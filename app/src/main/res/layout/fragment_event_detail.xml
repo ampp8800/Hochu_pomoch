@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_grey_two">
+    android:layout_height="match_parent">
 
 
     <ScrollView
@@ -12,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -20,14 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="30dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:layout_marginBottom="30dp">
 
             <TextView
                 android:id="@+id/tv_news_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:lineSpacingExtra="2sp"
                 android:textColor="@color/blue_grey"
                 android:textSize="21sp"
@@ -42,6 +41,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_news_name"
                 app:srcCompat="@drawable/ic_icon_calendar_grey" />
@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_colendar"
                 app:layout_constraintTop_toBottomOf="@id/tv_news_name"
                 tools:text="Осталось 13 дней (21.09 – 20.10)" />
@@ -63,6 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_date"
                 tools:text="Благотворительный Фонд «Счастливый Мир»" />
@@ -72,6 +75,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_fundName"
                 app:srcCompat="@drawable/ic_nav" />
@@ -82,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/black_70"
@@ -96,6 +101,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_address"
                 app:srcCompat="@drawable/ic_phone" />
@@ -106,6 +112,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
                 android:divider="@color/white"
                 app:layout_constraintStart_toEndOf="@id/iv_icon_phone"
                 app:layout_constraintTop_toBottomOf="@id/tv_address"
@@ -116,6 +123,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lv_phone_numbers"
                 app:srcCompat="@drawable/ic_mail" />
@@ -152,6 +160,7 @@
                 android:layout_height="158dp"
                 android:layout_marginTop="19dp"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@id/iv_cardimage_one"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +172,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/iv_cardimage_two"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="0.5"
@@ -178,7 +189,9 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/iv_cardimage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="0.5"
@@ -192,12 +205,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/black_70"
                 android:textSize="14sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_cardimage"
                 tools:text="Участники и болельщики смогли весело и активно провести время на «Петербургском благотворительном марафоне» и при этом финансово поучаствовать в помощи детям." />
 
@@ -207,102 +223,105 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:text="@string/go_to_organization_website"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/iv_grey_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
+            <ImageView
+                android:id="@+id/iv_grey_background"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/light_grey_two"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_go_to_organization_website"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/civ_friend_four"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="-8dp"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_friend_three"
+                app:layout_constraintTop_toTopOf="@id/iv_grey_background"
+                app:srcCompat="@drawable/ic_no_photo"
+                circleimageview:civ_border_color="@color/light_grey_two"
+                circleimageview:civ_border_width="2dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/civ_friend_three"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="-8dp"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_friend_two"
+                app:layout_constraintTop_toTopOf="@id/iv_grey_background"
+                app:srcCompat="@drawable/ic_no_photo"
+                circleimageview:civ_border_color="@color/light_grey_two"
+                circleimageview:civ_border_width="2dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/civ_friend_two"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="-8dp"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_friend_one"
+                app:layout_constraintTop_toTopOf="@id/iv_grey_background"
+                app:srcCompat="@drawable/ic_no_photo"
+                circleimageview:civ_border_color="@color/light_grey_two"
+                circleimageview:civ_border_width="2dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/civ_friend_one"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="-8dp"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_friend"
+                app:layout_constraintTop_toTopOf="@id/iv_grey_background"
+                app:srcCompat="@drawable/ic_no_photo"
+                circleimageview:civ_border_color="@color/light_grey_two"
+                circleimageview:civ_border_width="2dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/civ_friend"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_grey_background"
+                app:srcCompat="@drawable/ic_no_photo"
+                circleimageview:civ_border_color="@color/light_grey_two"
+                circleimageview:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/tv_friends_count"
+                style="@style/TextStyle13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civ_friend_four"
+                app:layout_constraintTop_toTopOf="@id/iv_grey_background"
+                tools:text="+102" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="53dp" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/civ_friend_four"
-        circleimageview:civ_border_width="2dp"
-        circleimageview:civ_border_color="@color/light_grey_two"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-8dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_three"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/civ_friend_three"
-        circleimageview:civ_border_width="2dp"
-        circleimageview:civ_border_color="@color/light_grey_two"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-8dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_two"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/civ_friend_two"
-        circleimageview:civ_border_width="2dp"
-        circleimageview:civ_border_color="@color/light_grey_two"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-8dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_one"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/civ_friend_one"
-        circleimageview:civ_border_width="2dp"
-        circleimageview:civ_border_color="@color/light_grey_two"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="-8dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:circleimageview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/civ_friend"
-        circleimageview:civ_border_width="2dp"
-        circleimageview:civ_border_color="@color/light_grey_two"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="20dp"
-        android:padding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:srcCompat="@drawable/ic_no_photo" />
-
-    <TextView
-        android:id="@+id/tv_friends_count"
-        style="@style/TextStyle13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civ_friend_four"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        tools:text="+102" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

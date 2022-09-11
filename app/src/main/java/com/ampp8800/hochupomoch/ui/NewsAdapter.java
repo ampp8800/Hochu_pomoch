@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.api.NewsItem;
+import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.data.OnItemClickListener;
 import com.bumptech.glide.Glide;
 
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemViewHolder> {
     private final LayoutInflater inflater;
-    private final List<NewsItem> newsListItems;
+    private final List<NewsItemModel> newsListItems;
     private final Context context;
     private final OnItemClickListener onItemClickListener;
 
@@ -41,7 +41,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
 
     @Override
     public void onBindViewHolder(@NonNull NewsAdapter.NewsListItemViewHolder holder, int position) {
-        NewsItem news = newsListItems.get(position);
+        NewsItemModel news = newsListItems.get(position);
         holder.bind(news);
     }
 
@@ -68,15 +68,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
             date = view.findViewById(R.id.tv_date);
         }
 
-        public void bind(@NonNull NewsItem newsItem) {
-            setImageFromServer(photoNews, newsItem.getImages().get(0));
-            newsHeadline.setText(newsItem.getFundName());
-            briefDescriptionOfNews.setText(newsItem.getDescription());
-            date.setText(newsItem.getDate());
+        public void bind(@NonNull NewsItemModel newsItemModel) {
+            setImageFromServer(photoNews, newsItemModel.getImages().get(0));
+            newsHeadline.setText(newsItemModel.getFundName());
+            briefDescriptionOfNews.setText(newsItemModel.getDescription());
+            date.setText(Converter.getDate(newsItemModel.getStartDate(), newsItemModel.getEndDate()));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.invoke(newsItem.getGuid());
+                    onItemClickListener.invoke(newsItemModel.getGuid());
                 }
             });
         }
@@ -90,7 +90,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
                 .into(targetImageView);
     }
 
-    public void updateNewsListItems(@NonNull List<NewsItem> newsListItems) {
+    public void updateNewsListItems(@NonNull List<NewsItemModel> newsListItems) {
         this.newsListItems.clear();
         this.newsListItems.addAll(newsListItems);
         notifyDataSetChanged();
