@@ -117,11 +117,9 @@ public class NetworkNewsRepository {
         protected NewsItemModel doInBackground(Void... params) {
             AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
             NewsEntityDao newsEntityDao = database.newsEntityDao();
-            List<NewsEntity> newsEntities = newsEntityDao.getAll();
-            for (NewsEntity newsEntity : newsEntities) {
-                if (newsEntity.getGuid().equals(guid)){
-                    return new NewsItemModel(newsEntity);
-                }
+            NewsEntity newsEntity = newsEntityDao.selectNewsEntity(guid);
+            if (newsEntity != null){
+                return new NewsItemModel(newsEntity);
             }
             return null;
         }

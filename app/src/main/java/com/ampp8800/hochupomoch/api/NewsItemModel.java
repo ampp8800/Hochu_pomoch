@@ -3,7 +3,7 @@ package com.ampp8800.hochupomoch.api;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.db.NewsEntity;
-import com.ampp8800.hochupomoch.ui.Converter;
+import com.ampp8800.hochupomoch.ui.NewsDetailsDataConverter;
 
 import java.util.List;
 
@@ -41,8 +41,8 @@ public class NewsItemModel {
         this.address = newsEntity.getAddress();
         this.startDate = newsEntity.getStartDate();
         this.endDate = newsEntity.getEndDate();
-        this.phones = Converter.convertStringToArrayLongs(newsEntity.getPhones());
-        this.images = Converter.convertStringToArrayStrings(newsEntity.getImages());
+        this.phones = NewsDetailsDataConverter.convertStringToListOfLongs(newsEntity.getPhones());
+        this.images = NewsDetailsDataConverter.convertStringToListOfStrings(newsEntity.getImages());
         this.email = newsEntity.getEmail();
         this.website = newsEntity.getWebsite();
     }

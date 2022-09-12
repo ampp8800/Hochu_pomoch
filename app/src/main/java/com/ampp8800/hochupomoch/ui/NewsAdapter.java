@@ -72,7 +72,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsListItemVi
             setImageFromServer(photoNews, newsItemModel.getImages().get(0));
             newsHeadline.setText(newsItemModel.getFundName());
             briefDescriptionOfNews.setText(newsItemModel.getDescription());
-            date.setText(Converter.getDate(newsItemModel.getStartDate(), newsItemModel.getEndDate()));
+            date.setText(NewsDetailsDataConverter.getDate(newsItemModel.getStartDate(), newsItemModel.getEndDate(), view.getContext()));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

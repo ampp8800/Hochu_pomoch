@@ -13,6 +13,9 @@ public interface NewsEntityDao {
     @Query("SELECT * FROM newsEntity")
     List<NewsEntity> getAll();
 
+    @Query("SELECT * FROM newsEntity WHERE guid = :currentGuid")
+    NewsEntity selectNewsEntity(String currentGuid);
+
     @Delete
     void clearAll(List<NewsEntity> newsEntities);
 

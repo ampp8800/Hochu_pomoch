@@ -106,10 +106,10 @@ public class NewsFragment extends Fragment {
     }
 
     private void openEventDetails(@NonNull String guid) {
-        EevntDetailFragment eevntDetailFragment = EevntDetailFragment.newInstance(guid);
+        EventDetailsFragment eventDetailsFragment = EventDetailsFragment.newInstance(guid);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentContainerView, eevntDetailFragment, ARG_EVENT_DETAIL_FRAGMENT)
+                .replace(R.id.fragmentContainerView, eventDetailsFragment, ARG_EVENT_DETAIL_FRAGMENT)
                 .commit();
     }
 
