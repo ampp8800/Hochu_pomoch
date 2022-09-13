@@ -53,12 +53,10 @@ public class EventDetailsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         activity = requireActivity();
         String guid;
-        if (saveInstanceState != null) {
-            guid = saveInstanceState.getString(ARG_NEWS_ITEM_GUID);
-        } else if (getArguments() != null) {
+        if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
             guid = getArguments().getString(ARG_NEWS_ITEM_GUID);
         } else {
-            return view;
+            throw new IllegalArgumentException();
         }
         NewsItemLoadingCallback newsItemLoadingCallback = new NewsItemLoadingCallback() {
             @Override
@@ -73,14 +71,6 @@ public class EventDetailsFragment extends Fragment {
             DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
         }
         return view;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle onState) {
-        super.onSaveInstanceState(onState);
-        if (getArguments() != null) {
-            onState.putString(ARG_NEWS_ITEM_GUID, getArguments().getString(ARG_NEWS_ITEM_GUID));
-        }
     }
 
     private void setUpAppBar(@NonNull ActionBar actionBar, @NonNull NewsItemModel newsItemModel) {
