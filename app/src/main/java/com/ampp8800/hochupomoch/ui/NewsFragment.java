@@ -2,8 +2,6 @@ package com.ampp8800.hochupomoch.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +21,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
+import com.ampp8800.hochupomoch.data.OnItemClickListener;
 
 import java.util.List;
 
 public class NewsFragment extends Fragment {
+    @NonNull
     private NewsAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    @NonNull
+    private final String ARG_EVENT_DETAIL_FRAGMENT = "evevntDetailFragment";
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -60,23 +62,25 @@ public class NewsFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
-        adapter = new NewsAdapter(context);
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
+            @Override
+            public void invoke(String guid) {
+                openEventDetails(guid);
+            }
+        };
+        adapter = new NewsAdapter(context, onItemClickListener);
         recyclerView.setAdapter(adapter);
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            NetworkNewsRepository networkNewsRepository = NetworkNewsRepository.newInstance();
-            networkNewsRepository.loadNews(new NewsLoadingCallback() {
+        if (NetworkStateHelper.isConnected(context)) {
+            NetworkNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
-                public void onNewsUpdate(List newsListItems) {
+                public void onNewsUpdate(@NonNull List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
                 }
             });
         } else {
-            DatabaseNewsRepository databaseNewsRepository = DatabaseNewsRepository.newInstance();
-            databaseNewsRepository.loadNews(new NewsLoadingCallback() {
+            DatabaseNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
-                public void onNewsUpdate(List newsListItems) {
+                public void onNewsUpdate(@NonNull List newsListItems) {
                     refreshNewsListOnScreen(newsListItems);
                 }
             });
@@ -100,4 +104,13 @@ public class NewsFragment extends Fragment {
         requireActivity().findViewById(R.id.iv_filter).setVisibility(View.VISIBLE);
         ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.news);
     }
+
+    private void openEventDetails(@NonNull String guid) {
+        EventDetailsFragment eventDetailsFragment = EventDetailsFragment.newInstance(guid);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, eventDetailsFragment, ARG_EVENT_DETAIL_FRAGMENT)
+                .commit();
+    }
+
 }

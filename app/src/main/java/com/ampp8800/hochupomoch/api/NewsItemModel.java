@@ -2,9 +2,12 @@ package com.ampp8800.hochupomoch.api;
 
 import androidx.annotation.NonNull;
 
+import com.ampp8800.hochupomoch.db.NewsEntity;
+import com.ampp8800.hochupomoch.ui.NewsDetailsDataConverter;
+
 import java.util.List;
 
-public class NewsModel {
+public class NewsItemModel {
 
     @NonNull
     private String guid;
@@ -28,6 +31,21 @@ public class NewsModel {
     private String email;
     @NonNull
     private String website;
+
+
+    public NewsItemModel(@NonNull NewsEntity newsEntity){
+        this.guid = newsEntity.getGuid();
+        this.name =newsEntity.getName();
+        this.fundName =newsEntity.getFundName();
+        this.description = newsEntity.getDescription();
+        this.address = newsEntity.getAddress();
+        this.startDate = newsEntity.getStartDate();
+        this.endDate = newsEntity.getEndDate();
+        this.phones = NewsDetailsDataConverter.convertStringToListOfLongs(newsEntity.getPhones());
+        this.images = NewsDetailsDataConverter.convertStringToListOfStrings(newsEntity.getImages());
+        this.email = newsEntity.getEmail();
+        this.website = newsEntity.getWebsite();
+    }
 
     @NonNull
     public String getGuid() {

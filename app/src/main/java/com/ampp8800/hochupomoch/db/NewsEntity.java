@@ -23,7 +23,8 @@ public class NewsEntity {
     private String address;
     private long startDate;
     private long endDate;
-    private long phones;
+    @NonNull
+    private String phones;
     @NonNull
     private String images;
     @NonNull
@@ -60,7 +61,8 @@ public class NewsEntity {
     public long getEndDate() {
         return endDate;
     }
-    public long getPhones() {
+    @NonNull
+    public String getPhones() {
         return phones;
     }
     @NonNull
@@ -100,7 +102,7 @@ public class NewsEntity {
     public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
-    public void setPhones(long phones) {
+    public void setPhones(@NonNull String phones) {
         this.phones = phones;
     }
     public void setImages(@NonNull String images) {
