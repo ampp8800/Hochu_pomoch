@@ -36,16 +36,15 @@ public class EventDetailsFragment extends Fragment {
     @NonNull
     private Activity activity;
     @NonNull
-    private static String guid;
-    @NonNull
-    private final String ARG_NEWS_ITEM_GUID = "newsItemGuid";
-    private final int MAXIMUM_NUMBER_OF_IMAGES_TO_SHOW = 3;
-    private final int MAXIMUM_NUMBER_OF_FRIENDS_TO_SHOW = 5;
+    private static final String ARG_NEWS_ITEM_GUID = "newsItemGuid";
 
     @NonNull
     public static EventDetailsFragment newInstance(@NonNull String guid) {
-        EventDetailsFragment.guid = guid;
-        return new EventDetailsFragment();
+        EventDetailsFragment eventDetailsFragment = new EventDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_NEWS_ITEM_GUID, guid);
+        eventDetailsFragment.setArguments(args);
+        return eventDetailsFragment;
     }
 
     @Nullable
@@ -53,8 +52,13 @@ public class EventDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         activity = requireActivity();
+        String guid;
         if (saveInstanceState != null) {
             guid = saveInstanceState.getString(ARG_NEWS_ITEM_GUID);
+        } else if (getArguments() != null) {
+            guid = getArguments().getString(ARG_NEWS_ITEM_GUID);
+        } else {
+            return view;
         }
         NewsItemLoadingCallback newsItemLoadingCallback = new NewsItemLoadingCallback() {
             @Override
@@ -74,7 +78,9 @@ public class EventDetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle onState) {
         super.onSaveInstanceState(onState);
-        onState.putString(ARG_NEWS_ITEM_GUID, guid);
+        if (getArguments() != null) {
+            onState.putString(ARG_NEWS_ITEM_GUID, getArguments().getString(ARG_NEWS_ITEM_GUID));
+        }
     }
 
     private void setUpAppBar(@NonNull ActionBar actionBar, @NonNull NewsItemModel newsItemModel) {
@@ -122,7 +128,7 @@ public class EventDetailsFragment extends Fragment {
     private void setImages(@NonNull List<String> images) {
         int[] idsImage = {R.id.iv_cardimage, R.id.iv_cardimage_one, R.id.iv_cardimage_two};
         for (int i = 0; i < images.size(); i++) {
-            if (i >= MAXIMUM_NUMBER_OF_IMAGES_TO_SHOW) {
+            if (i >= idsImage.length) {
                 break;
             }
             setPhotoFromNetwork(idsImage[i], images.get(i));
@@ -135,15 +141,15 @@ public class EventDetailsFragment extends Fragment {
         int[] idsImageFriend = {R.id.civ_friend, R.id.civ_friend_one, R.id.civ_friend_two,
                 R.id.civ_friend_three, R.id.civ_friend_four};
         for (int i = 0; i < friends.size(); i++) {
-            if (i >= MAXIMUM_NUMBER_OF_FRIENDS_TO_SHOW) {
+            if (i >= idsImageFriend.length) {
                 break;
             }
             setPhotoFromNetwork(idsImageFriend[i], friends.get(i).getImageViewURL());
             view.findViewById(idsImageFriend[i]).setVisibility(View.VISIBLE);
         }
-        if (friends.size() > MAXIMUM_NUMBER_OF_FRIENDS_TO_SHOW) {
+        if (friends.size() > idsImageFriend.length) {
             ((TextView) view.findViewById(R.id.tv_friends_count))
-                    .setText("+" + (friends.size() - MAXIMUM_NUMBER_OF_FRIENDS_TO_SHOW));
+                    .setText("+" + (friends.size() - idsImageFriend.length));
         }
     }
 
