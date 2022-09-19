@@ -32,7 +32,9 @@ import java.util.List;
 
 import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
-import moxy.viewstate.strategy.OneExecutionStateStrategy;
+import moxy.viewstate.strategy.AddToEndSingleStrategy;
+import moxy.viewstate.strategy.AddToEndStrategy;
+import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
 
 public class EventDetailsFragment extends MvpAppCompatFragment implements EventDetailsView {
@@ -54,20 +56,15 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
-        return inflater.inflate(R.layout.fragment_event_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
+        eventDetailsPresenter.newsItemLoadingCallback();
+        return view;
     }
 
     @Override
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    public void loadEventDetails() {
+    @StateStrategyType(SkipStrategy.class)
+    public void downloadLocationSelection(@NonNull NewsItemLoadingCallback newsItemLoadingCallback) {
         String guid = getArguments().getString(ARG_NEWS_ITEM_GUID);
-        NewsItemLoadingCallback newsItemLoadingCallback = new NewsItemLoadingCallback() {
-            @Override
-            public void onNewsItemUpdate(@NonNull NewsItemModel newsItemModel) {
-                setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar(), newsItemModel);
-                setReceivedData(newsItemModel);
-            }
-        };
         if (NetworkStateHelper.isConnected(getContext())) {
             NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
         } else {
@@ -75,7 +72,10 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         }
     }
 
-    private void setUpAppBar(@NonNull ActionBar actionBar, @NonNull NewsItemModel newsItemModel) {
+    @Override
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    public void setUpAppBar(@NonNull NewsItemModel newsItemModel) {
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         requireActivity().findViewById(R.id.tv_toolbar_name).setVisibility(View.GONE);
@@ -90,7 +90,9 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         });
     }
 
-    private void setReceivedData(@NonNull NewsItemModel newsItemModel) {
+    @Override
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    public void setReceivedData(@NonNull NewsItemModel newsItemModel) {
         ((TextView) getView().findViewById(R.id.tv_news_name)).setText(newsItemModel.getName());
         ((TextView) getView().findViewById(R.id.tv_date))
                 .setText(NewsDetailsDataConverter.getDate(newsItemModel.getStartDate(), newsItemModel.getEndDate(), getContext()));
@@ -99,7 +101,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         ((ListView) getView().findViewById(R.id.lv_phone_numbers))
                 .setAdapter(getArrayAdapterWithPhoneNumbers(newsItemModel.getPhones()));
         getView().findViewById(R.id.tv_write_to_us).
-                setOnClickListener(clickedView -> sendEmail(newsItemModel));
+                setOnClickListener(clickedView -> eventDetailsPresenter.sendEmail(newsItemModel));
         setImages(newsItemModel.getImages());
         ((TextView) getView().findViewById(R.id.tv_description)).setText(newsItemModel.getDescription());
         getView().findViewById(R.id.tv_go_to_organization_website).
@@ -123,7 +125,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
             if (i >= idsImage.length) {
                 break;
             }
-            setPhotoFromNetwork(idsImage[i], images.get(i));
+            eventDetailsPresenter.setPhotoFromNetwork(idsImage[i], images.get(i));
             getView().findViewById(idsImage[i]).setVisibility(View.VISIBLE);
         }
     }
@@ -136,7 +138,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
             if (i >= idsImageFriend.length) {
                 break;
             }
-            setPhotoFromNetwork(idsImageFriend[i], friends.get(i).getImageViewURL());
+            eventDetailsPresenter.setPhotoFromNetwork(idsImageFriend[i], friends.get(i).getImageViewURL());
             getView().findViewById(idsImageFriend[i]).setVisibility(View.VISIBLE);
         }
         if (friends.size() > idsImageFriend.length) {
@@ -145,7 +147,9 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         }
     }
 
-    private void setPhotoFromNetwork(int idImageView, @NonNull String imageViewURL) {
+    @Override
+    @StateStrategyType(AddToEndStrategy.class)
+    public void setPhotoFromNetwork(int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) getView().findViewById(idImageView);
         Glide
                 .with(requireActivity())
@@ -154,7 +158,9 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
                 .into(targetImageView);
     }
 
-    private void sendEmail(@NonNull NewsItemModel newsItemModel) {
+    @Override
+    @StateStrategyType(AddToEndStrategy.class)
+    public void sendEmail(@NonNull NewsItemModel newsItemModel) {
         final Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{newsItemModel.getEmail()});
