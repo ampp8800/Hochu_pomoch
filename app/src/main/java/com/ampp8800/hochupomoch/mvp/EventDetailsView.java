@@ -6,7 +6,7 @@ import com.ampp8800.hochupomoch.api.NewsItemModel;
 
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
-import moxy.viewstate.strategy.AddToEndStrategy;
+import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
 
 public interface EventDetailsView extends MvpView {
@@ -14,6 +14,6 @@ public interface EventDetailsView extends MvpView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setReceivedData(@NonNull NewsItemModel newsItemModel);
 
-    @StateStrategyType(AddToEndStrategy.class)
+    @StateStrategyType(SkipStrategy.class)
     void sendEmail(@NonNull NewsItemModel newsItemModel);
 }

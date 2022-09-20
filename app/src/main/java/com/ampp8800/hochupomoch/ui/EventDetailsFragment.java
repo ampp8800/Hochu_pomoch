@@ -58,7 +58,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         activity = requireActivity();
         if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
-            eventDetailsPresenter.newsItemLoadingCallback(NetworkStateHelper.isConnected(getContext()), getArguments().getString(ARG_NEWS_ITEM_GUID));
+            eventDetailsPresenter.loadNews(NetworkStateHelper.isConnected(getContext()), getArguments().getString(ARG_NEWS_ITEM_GUID));
         } else {
             throw new IllegalArgumentException("required identifier not passed");
         }
@@ -135,7 +135,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         }
     }
 
-    public void setPhotoFromNetwork(int idImageView, @NonNull String imageViewURL) {
+    private void setPhotoFromNetwork(int idImageView, @NonNull String imageViewURL) {
         ImageView targetImageView = (ImageView) view.findViewById(idImageView);
         Glide
                 .with(activity)

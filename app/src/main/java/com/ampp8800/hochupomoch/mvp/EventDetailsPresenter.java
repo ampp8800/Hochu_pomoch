@@ -13,14 +13,14 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
 
-    public void newsItemLoadingCallback(boolean isConnect, @NonNull String guid) {
+    public void loadNews(boolean isConnected, @NonNull String guid) {
         NewsItemLoadingCallback newsItemLoadingCallback = new NewsItemLoadingCallback() {
             @Override
             public void onNewsItemUpdate(@NonNull NewsItemModel newsItemModel) {
                 getViewState().setReceivedData(newsItemModel);
             }
         };
-        if (isConnect) {
+        if (isConnected) {
             NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
         } else {
             DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
