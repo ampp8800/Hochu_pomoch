@@ -3,6 +3,9 @@ package com.ampp8800.hochupomoch.mvp;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsItemModel;
+import com.ampp8800.hochupomoch.data.ListItem;
+
+import java.util.List;
 
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
@@ -15,7 +18,7 @@ public interface EventDetailsView extends MvpView {
     void setReceivedData(@NonNull NewsItemModel newsItemModel);
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void setLineWithFriends();
+    void setLineWithFriends(@NonNull List<ListItem> friends);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void sendEmail(@NonNull NewsItemModel newsItemModel);

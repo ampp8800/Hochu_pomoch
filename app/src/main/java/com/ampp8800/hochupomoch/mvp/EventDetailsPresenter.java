@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
+import com.ampp8800.hochupomoch.data.ProfileRepository;
 import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallback;
 
 import moxy.InjectViewState;
@@ -32,7 +33,7 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
     }
 
     public void setLineWithFriends() {
-        getViewState().setLineWithFriends();
+        getViewState().setLineWithFriends(ProfileRepository.getInstance().getFrendsList());
     }
 
 }

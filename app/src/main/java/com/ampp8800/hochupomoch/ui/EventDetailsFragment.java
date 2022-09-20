@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.data.ListItem;
-import com.ampp8800.hochupomoch.data.ProfileRepository;
 import com.ampp8800.hochupomoch.mvp.EventDetailsPresenter;
 import com.ampp8800.hochupomoch.mvp.EventDetailsView;
 import com.bumptech.glide.Glide;
@@ -119,8 +118,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
     }
 
     @Override
-    public void setLineWithFriends() {
-        List<ListItem> friends = ProfileRepository.getInstance().getFrendsList();
+    public void setLineWithFriends(@NonNull List<ListItem> friends) {
         int[] idsImageFriend = {R.id.civ_friend, R.id.civ_friend_one, R.id.civ_friend_two,
                 R.id.civ_friend_three, R.id.civ_friend_four};
         for (int i = 0; i < friends.size(); i++) {
