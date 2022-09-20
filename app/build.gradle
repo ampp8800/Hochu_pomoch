@@ -42,7 +42,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //moxy
-    def moxy_version = "1.0.13"
+    def moxy_version = "2.2.2"
     implementation "com.github.moxy-community:moxy:$moxy_version"
     annotationProcessor "com.github.moxy-community:moxy-compiler:$moxy_version"
     implementation "com.github.moxy-community:moxy-androidx:$moxy_version"

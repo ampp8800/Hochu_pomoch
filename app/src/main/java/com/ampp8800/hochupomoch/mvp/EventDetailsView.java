@@ -3,18 +3,17 @@ package com.ampp8800.hochupomoch.mvp;
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsItemModel;
-import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallback;
 
 import moxy.MvpView;
+import moxy.viewstate.strategy.AddToEndSingleStrategy;
+import moxy.viewstate.strategy.AddToEndStrategy;
+import moxy.viewstate.strategy.StateStrategyType;
 
 public interface EventDetailsView extends MvpView {
-    void setUpAppBar(NewsItemModel newsItemModel);
 
-    void setReceivedData(NewsItemModel newsItemModel);
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setReceivedData(@NonNull NewsItemModel newsItemModel);
 
-    void downloadLocationSelection(NewsItemLoadingCallback newsItemLoadingCallback);
-
-    void setPhotoFromNetwork(int idImageView, String imageViewURL);
-
+    @StateStrategyType(AddToEndStrategy.class)
     void sendEmail(@NonNull NewsItemModel newsItemModel);
 }
