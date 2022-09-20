@@ -81,7 +81,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         view.findViewById(R.id.tv_go_to_organization_website).
                 setOnClickListener(clickedView
                         -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItemModel.getWebsite()))));
-        setLineWithFriends();
+        eventDetailsPresenter.setLineWithFriends();
         //setupAppBar
         ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
         actionBar.setCustomView(R.layout.toolbar);
@@ -118,7 +118,8 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         }
     }
 
-    private void setLineWithFriends() {
+    @Override
+    public void setLineWithFriends() {
         List<ListItem> friends = ProfileRepository.getInstance().getFrendsList();
         int[] idsImageFriend = {R.id.civ_friend, R.id.civ_friend_one, R.id.civ_friend_two,
                 R.id.civ_friend_three, R.id.civ_friend_four};

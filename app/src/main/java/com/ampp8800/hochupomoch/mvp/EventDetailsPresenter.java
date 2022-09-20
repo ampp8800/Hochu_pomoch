@@ -31,4 +31,8 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
         getViewState().sendEmail(newsItemModel);
     }
 
+    public void setLineWithFriends() {
+        getViewState().setLineWithFriends();
+    }
+
 }

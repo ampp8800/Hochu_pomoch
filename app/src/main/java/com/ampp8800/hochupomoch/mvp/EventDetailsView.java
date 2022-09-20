@@ -14,6 +14,9 @@ public interface EventDetailsView extends MvpView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void setReceivedData(@NonNull NewsItemModel newsItemModel);
 
+    @StateStrategyType(AddToEndSingleStrategy.class)
+    void setLineWithFriends();
+
     @StateStrategyType(OneExecutionStateStrategy.class)
     void sendEmail(@NonNull NewsItemModel newsItemModel);
 }
