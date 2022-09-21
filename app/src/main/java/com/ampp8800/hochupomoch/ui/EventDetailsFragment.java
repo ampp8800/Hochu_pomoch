@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,8 +37,7 @@ import moxy.presenter.InjectPresenter;
 public class EventDetailsFragment extends MvpAppCompatFragment implements EventDetailsView {
     @NonNull
     private Activity activity;
-    @NonNull
-    ActionBar actionBar;
+    private static boolean isInitialized = false;
     @NonNull
     private static final String ARG_NEWS_ITEM_GUID = "newsItemGuid";
 
@@ -104,7 +104,9 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         activity = requireActivity();
-        actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        actionBar.setCustomView(R.layout.toolbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         tvNewsName = view.findViewById(R.id.tv_news_name);
         tvDate = view.findViewById(R.id.tv_date);
         tvFundName = view.findViewById(R.id.tv_fundName);
@@ -126,10 +128,13 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         civFriendThree = view.findViewById(R.id.civ_friend_three);
         civFriendFour = view.findViewById(R.id.civ_friend_four);
         lvPhoneNumbers = view.findViewById(R.id.lv_phone_numbers);
-        if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
-            eventDetailsPresenter.loadNews(NetworkStateHelper.isConnected(getContext()), getArguments().getString(ARG_NEWS_ITEM_GUID));
-        } else {
-            throw new IllegalArgumentException("required identifier not passed");
+        if(!isInitialized){
+            if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
+                eventDetailsPresenter.loadNews(getArguments().getString(ARG_NEWS_ITEM_GUID));
+                isInitialized = true;
+            } else {
+                throw new IllegalArgumentException("required identifier not passed");
+            }
         }
         return view;
     }
@@ -147,9 +152,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         tvGoToOrganizationWbsite.setOnClickListener(clickedView ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItemModel.getWebsite()))));
         eventDetailsPresenter.setLineWithFriends();
-        //setupAppBar
-        actionBar.setCustomView(R.layout.toolbar);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //actionBar elements
         tvToolbarName.setVisibility(View.GONE);
         ivShare.setVisibility(View.VISIBLE);
         tvEventName.setVisibility(View.VISIBLE);
@@ -213,6 +216,12 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{newsItemModel.getEmail()});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.want_to_help));
         activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    @Override
+    public void showToast(@NonNull String string) {
+        Toast toast = Toast.makeText(getContext(), string, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

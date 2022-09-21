@@ -22,4 +22,8 @@ public interface EventDetailsView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void sendEmail(@NonNull NewsItemModel newsItemModel);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showToast(@NonNull String string);
+
 }
