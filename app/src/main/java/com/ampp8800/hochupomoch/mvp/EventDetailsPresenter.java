@@ -2,6 +2,7 @@ package com.ampp8800.hochupomoch.mvp;
 
 import androidx.annotation.NonNull;
 
+import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
@@ -24,14 +25,11 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
             }
         };
         if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
-            NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
             try {
-                Thread.sleep(3000);
-                if (!NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
-                    getViewState().showToast("no response from the network");
-                }
-            } catch (InterruptedException e) {
+                NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
+            } catch (Exception e) {
                 e.printStackTrace();
+                getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
             }
         } else {
             DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);

@@ -38,4 +38,5 @@
     <string name="write_to_us">Напишите нам</string>
     <string name="go_to_organization_website">Перейти на сайт организаии</string>
     <string name="left">Осталось</string>
+    <string name="no_response_from_the_network">no response from the network</string>
 </resources>
