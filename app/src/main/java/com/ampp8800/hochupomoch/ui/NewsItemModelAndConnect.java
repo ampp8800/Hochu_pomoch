@@ -7,11 +7,11 @@ import com.ampp8800.hochupomoch.api.NewsItemModel;
 public class NewsItemModelAndConnect {
     @NonNull
     private NewsItemModel newsItemModel;
-    boolean isConnected;
+    private boolean isExeption;
 
-    public NewsItemModelAndConnect(@NonNull NewsItemModel newsItemModel, boolean isConnected) {
+    public NewsItemModelAndConnect(@NonNull NewsItemModel newsItemModel, boolean isExeption) {
         this.newsItemModel = newsItemModel;
-        this.isConnected = isConnected;
+        this.isExeption = isExeption;
     }
 
     @NonNull
@@ -19,7 +19,7 @@ public class NewsItemModelAndConnect {
         return newsItemModel;
     }
 
-    public boolean isConnected() {
-        return isConnected;
+    public boolean isExeption() {
+        return isExeption;
     }
 }

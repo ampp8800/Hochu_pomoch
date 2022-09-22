@@ -19,22 +19,21 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
 
-    private boolean isConnected;
-
     public void loadNews(@NonNull String guid) {
         if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
             NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
                 @Override
                 public void onNewsItemUpdate(@NonNull NewsItemModelAndConnect newsItemModelAndConnect) {
-                    getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
-                    isConnected = newsItemModelAndConnect.isConnected();
+                    if (newsItemModelAndConnect.isExeption()) {
+                        getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
+                        loadNewsFromDatabase(guid);
+                    } else {
+                        getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
+                    }
                 }
             };
             NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOnline, guid);
-            if (isConnected) {
-                getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
-                loadNewsFromDatabase(guid);
-            }
+
         } else {
             loadNewsFromDatabase(guid);
         }

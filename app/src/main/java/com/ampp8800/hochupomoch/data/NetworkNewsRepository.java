@@ -10,7 +10,6 @@ import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
-import com.ampp8800.hochupomoch.ui.NetworkStateHelper;
 import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallbackOnline;
 import com.ampp8800.hochupomoch.ui.NewsItemModelAndConnect;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
@@ -109,6 +108,7 @@ public class NetworkNewsRepository {
     private static class NewsItemLoaderAsyncTask extends AsyncTask<Void, Void, NewsItemModelAndConnect> {
         private final NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline;
         private final String guid;
+        private boolean isExeption;
 
         public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline, @NonNull String guid) {
             this.newsItemLoadingCallbackOnline = newsItemLoadingCallbackOnline;
@@ -117,15 +117,17 @@ public class NetworkNewsRepository {
 
         @Override
         protected NewsItemModelAndConnect doInBackground(Void... params) {
-            AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
-            NewsEntityDao newsEntityDao = database.newsEntityDao();
-            NewsEntity newsEntity = newsEntityDao.selectNewsEntity(guid);
-            if (newsEntity != null){
-                NewsItemModel newsItemModel = new NewsItemModel(newsEntity);
-                return new NewsItemModelAndConnect(newsItemModel,
-                        NetworkStateHelper.isConnected(HochuPomochApplication.getInstance()));
+            NewsItemModel newsItemModel = null;
+            try {
+                AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
+                NewsEntityDao newsEntityDao = database.newsEntityDao();
+                NewsEntity newsEntity = newsEntityDao.selectNewsEntity(guid);
+                newsItemModel = new NewsItemModel(newsEntity);
+            } catch (Exception e) {
+                e.printStackTrace();
+                isExeption = true;
             }
-            return null;
+            return new NewsItemModelAndConnect(newsItemModel, isExeption);
         }
 
         @Override
