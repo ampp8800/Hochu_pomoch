@@ -12,31 +12,83 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.api.NewsItemModel;
-import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.ListItem;
-import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
-import com.ampp8800.hochupomoch.data.ProfileRepository;
+import com.ampp8800.hochupomoch.mvp.EventDetailsPresenter;
+import com.ampp8800.hochupomoch.mvp.EventDetailsView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class EventDetailsFragment extends Fragment {
-    @NonNull
-    private View view;
+import de.hdodenhof.circleimageview.CircleImageView;
+import moxy.MvpAppCompatFragment;
+import moxy.presenter.InjectPresenter;
+
+public class EventDetailsFragment extends MvpAppCompatFragment implements EventDetailsView {
     @NonNull
     private Activity activity;
+    private static boolean isInitialized = false;
     @NonNull
     private static final String ARG_NEWS_ITEM_GUID = "newsItemGuid";
+
+    @NonNull
+    private TextView tvNewsName;
+    @NonNull
+    private TextView tvDate;
+    @NonNull
+    private TextView tvFundName;
+    @NonNull
+    private TextView tvAddress;
+    @NonNull
+    private TextView tvWriteToUs;
+    @NonNull
+    private TextView tvDescription;
+    @NonNull
+    private TextView tvGoToOrganizationWbsite;
+    @NonNull
+    private TextView tvToolbarName;
+    @NonNull
+    private TextView tvEventName;
+    @NonNull
+    private TextView tvFriendsCount;
+
+    @NonNull
+    private ImageView ivShare;
+    @NonNull
+    private ImageView ivIconBack;
+    @NonNull
+    private ImageView ivCardimage;
+    @NonNull
+    private ImageView ivCardimageOne;
+    @NonNull
+    private ImageView ivCardimageTwo;
+
+    @NonNull
+    private CircleImageView civFriend;
+    @NonNull
+    private CircleImageView civFriendOne;
+    @NonNull
+    private CircleImageView civFriendTwo;
+    @NonNull
+    private CircleImageView civFriendThree;
+    @NonNull
+    private CircleImageView civFriendFour;
+
+    @NonNull
+    private ListView lvPhoneNumbers;
+
+    @InjectPresenter
+    EventDetailsPresenter eventDetailsPresenter;
 
     @NonNull
     public static EventDetailsFragment newInstance(@NonNull String guid) {
@@ -47,63 +99,70 @@ public class EventDetailsFragment extends Fragment {
         return eventDetailsFragment;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
-        view = inflater.inflate(R.layout.fragment_event_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         activity = requireActivity();
-        String guid;
-        if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
-            guid = getArguments().getString(ARG_NEWS_ITEM_GUID);
-        } else {
-            throw new IllegalArgumentException();
-        }
-        NewsItemLoadingCallback newsItemLoadingCallback = new NewsItemLoadingCallback() {
-            @Override
-            public void onNewsItemUpdate(@NonNull NewsItemModel newsItemModel) {
-                setUpAppBar(((AppCompatActivity) activity).getSupportActionBar(), newsItemModel);
-                setReceivedData(newsItemModel);
+        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        actionBar.setCustomView(R.layout.toolbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        tvNewsName = view.findViewById(R.id.tv_news_name);
+        tvDate = view.findViewById(R.id.tv_date);
+        tvFundName = view.findViewById(R.id.tv_fundName);
+        tvAddress = view.findViewById(R.id.tv_address);
+        tvWriteToUs = view.findViewById(R.id.tv_write_to_us);
+        tvDescription = view.findViewById(R.id.tv_description);
+        tvGoToOrganizationWbsite = view.findViewById(R.id.tv_go_to_organization_website);
+        tvFriendsCount = view.findViewById(R.id.tv_friends_count);
+        tvToolbarName = activity.findViewById(R.id.tv_toolbar_name);
+        tvEventName = activity.findViewById(R.id.tv_event_name);
+        ivShare = activity.findViewById(R.id.iv_share);
+        ivIconBack = activity.findViewById(R.id.iv_icon_back);
+        ivCardimage = view.findViewById(R.id.iv_cardimage);
+        ivCardimageOne = view.findViewById(R.id.iv_cardimage_one);
+        ivCardimageTwo = view.findViewById(R.id.iv_cardimage_two);
+        civFriend = view.findViewById(R.id.civ_friend);
+        civFriendOne = view.findViewById(R.id.civ_friend_one);
+        civFriendTwo = view.findViewById(R.id.civ_friend_two);
+        civFriendThree = view.findViewById(R.id.civ_friend_three);
+        civFriendFour = view.findViewById(R.id.civ_friend_four);
+        lvPhoneNumbers = view.findViewById(R.id.lv_phone_numbers);
+        if(!isInitialized){
+            if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
+                eventDetailsPresenter.loadNews(getArguments().getString(ARG_NEWS_ITEM_GUID));
+                isInitialized = true;
+            } else {
+                throw new IllegalArgumentException("required identifier not passed");
             }
-        };
-        if (NetworkStateHelper.isConnected(getContext())) {
-            NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
-        } else {
-            DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
         }
         return view;
     }
 
-    private void setUpAppBar(@NonNull ActionBar actionBar, @NonNull NewsItemModel newsItemModel) {
-        actionBar.setCustomView(R.layout.toolbar);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        activity.findViewById(R.id.tv_toolbar_name).setVisibility(View.GONE);
-        activity.findViewById(R.id.iv_share).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.tv_event_name).setVisibility(View.VISIBLE);
-        ((TextView) activity.findViewById(R.id.tv_event_name)).setText(newsItemModel.getName());
-        activity.findViewById(R.id.iv_icon_back).setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void setReceivedData(@NonNull NewsItemModel newsItemModel) {
+        tvNewsName.setText(newsItemModel.getName());
+        tvDate.setText(NewsDetailsDataConverter.getDate(newsItemModel.getStartDate(), newsItemModel.getEndDate(), getContext()));
+        tvFundName.setText(newsItemModel.getFundName());
+        tvAddress.setText(newsItemModel.getAddress());
+        lvPhoneNumbers.setAdapter(getArrayAdapterWithPhoneNumbers(newsItemModel.getPhones()));
+        tvWriteToUs.setOnClickListener(clickedView -> eventDetailsPresenter.sendEmail(newsItemModel));
+        setImages(newsItemModel.getImages());
+        tvDescription.setText(newsItemModel.getDescription());
+        tvGoToOrganizationWbsite.setOnClickListener(clickedView ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItemModel.getWebsite()))));
+        eventDetailsPresenter.setLineWithFriends();
+        //actionBar elements
+        tvToolbarName.setVisibility(View.GONE);
+        ivShare.setVisibility(View.VISIBLE);
+        tvEventName.setVisibility(View.VISIBLE);
+        tvEventName.setText(newsItemModel.getName());
+        ivIconBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
             }
         });
-    }
-
-    private void setReceivedData(@NonNull NewsItemModel newsItemModel) {
-        ((TextView) view.findViewById(R.id.tv_news_name)).setText(newsItemModel.getName());
-        ((TextView) view.findViewById(R.id.tv_date))
-                .setText(NewsDetailsDataConverter.getDate(newsItemModel.getStartDate(), newsItemModel.getEndDate(), getContext()));
-        ((TextView) view.findViewById(R.id.tv_fundName)).setText(newsItemModel.getFundName());
-        ((TextView) view.findViewById(R.id.tv_address)).setText(newsItemModel.getAddress());
-        ((ListView) view.findViewById(R.id.lv_phone_numbers))
-                .setAdapter(getArrayAdapterWithPhoneNumbers(newsItemModel.getPhones()));
-        view.findViewById(R.id.tv_write_to_us).
-                setOnClickListener(clickedView -> sendEmail(newsItemModel));
-        setImages(newsItemModel.getImages());
-        ((TextView) view.findViewById(R.id.tv_description)).setText(newsItemModel.getDescription());
-        view.findViewById(R.id.tv_go_to_organization_website).
-                setOnClickListener(clickedView
-                        -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(newsItemModel.getWebsite()))));
-        setLineWithFriends();
     }
 
     @NonNull
@@ -116,48 +175,53 @@ public class EventDetailsFragment extends Fragment {
     }
 
     private void setImages(@NonNull List<String> images) {
-        int[] idsImage = {R.id.iv_cardimage, R.id.iv_cardimage_one, R.id.iv_cardimage_two};
+        List<ImageView> imageViews = new ArrayList<>(Arrays.asList(ivCardimage, ivCardimageOne, ivCardimageTwo));
         for (int i = 0; i < images.size(); i++) {
-            if (i >= idsImage.length) {
+            if (i >= imageViews.size()) {
                 break;
             }
-            setPhotoFromNetwork(idsImage[i], images.get(i));
-            view.findViewById(idsImage[i]).setVisibility(View.VISIBLE);
+            setPhotoFromNetwork(imageViews.get(i), images.get(i));
+            imageViews.get(i).setVisibility(View.VISIBLE);
         }
     }
 
-    private void setLineWithFriends() {
-        List<ListItem> friends = ProfileRepository.getInstance().getFrendsList();
-        int[] idsImageFriend = {R.id.civ_friend, R.id.civ_friend_one, R.id.civ_friend_two,
-                R.id.civ_friend_three, R.id.civ_friend_four};
+    @Override
+    public void setLineWithFriends(@NonNull List<ListItem> friends) {
+        List<CircleImageView> circleImageViews = new ArrayList<>(Arrays.asList(civFriend, civFriendOne,
+                civFriendTwo, civFriendThree, civFriendFour));
         for (int i = 0; i < friends.size(); i++) {
-            if (i >= idsImageFriend.length) {
+            if (i >= circleImageViews.size()) {
                 break;
             }
-            setPhotoFromNetwork(idsImageFriend[i], friends.get(i).getImageViewURL());
-            view.findViewById(idsImageFriend[i]).setVisibility(View.VISIBLE);
+            setPhotoFromNetwork(circleImageViews.get(i), friends.get(i).getImageViewURL());
+            circleImageViews.get(i).setVisibility(View.VISIBLE);
         }
-        if (friends.size() > idsImageFriend.length) {
-            ((TextView) view.findViewById(R.id.tv_friends_count))
-                    .setText("+" + (friends.size() - idsImageFriend.length));
+        if (friends.size() > circleImageViews.size()) {
+            tvFriendsCount.setText("+" + (friends.size() - circleImageViews.size()));
         }
     }
 
-    private void setPhotoFromNetwork(int idImageView, @NonNull String imageViewURL) {
-        ImageView targetImageView = (ImageView) view.findViewById(idImageView);
+    private void setPhotoFromNetwork(@NonNull ImageView imageView, @NonNull String imageViewURL) {
         Glide
                 .with(activity)
                 .load(imageViewURL)
                 .placeholder(R.drawable.ic_no_photo)
-                .into(targetImageView);
+                .into(imageView);
     }
 
-    private void sendEmail(@NonNull NewsItemModel newsItemModel) {
+    @Override
+    public void sendEmail(@NonNull NewsItemModel newsItemModel) {
         final Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("message/rfc822");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{newsItemModel.getEmail()});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.want_to_help));
         activity.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    @Override
+    public void showToast(@NonNull String string) {
+        Toast toast = Toast.makeText(getContext(), string, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

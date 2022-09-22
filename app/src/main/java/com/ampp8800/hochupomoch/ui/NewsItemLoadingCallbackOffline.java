@@ -4,6 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsItemModel;
 
-public interface NewsItemLoadingCallback {
+public interface NewsItemLoadingCallbackOffline {
     void onNewsItemUpdate(@NonNull NewsItemModel newsItemModel);
 }

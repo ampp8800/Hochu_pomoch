@@ -9,7 +9,7 @@ import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
-import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallback;
+import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallbackOffline;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ public class DatabaseNewsRepository {
         newsItemsLoaderAsyncTask.execute();
     }
 
-    public void loadItemNews(@NonNull NewsItemLoadingCallback newsItemLoadingCallback, @NonNull String guid) {
-        DatabaseNewsRepository.NewsItemLoaderAsyncTask newsItemLoaderAsyncTask = new DatabaseNewsRepository.NewsItemLoaderAsyncTask(newsItemLoadingCallback, guid);
+    public void loadItemNews(@NonNull NewsItemLoadingCallbackOffline newsItemLoadingCallbackOffline, @NonNull String guid) {
+        DatabaseNewsRepository.NewsItemLoaderAsyncTask newsItemLoaderAsyncTask = new DatabaseNewsRepository.NewsItemLoaderAsyncTask(newsItemLoadingCallbackOffline, guid);
         newsItemLoaderAsyncTask.execute();
     }
 
@@ -67,11 +67,11 @@ public class DatabaseNewsRepository {
     }
 
     private static class NewsItemLoaderAsyncTask extends AsyncTask<Void, Void, NewsItemModel> {
-        private final NewsItemLoadingCallback newsItemLoadingCallback;
+        private final NewsItemLoadingCallbackOffline newsItemLoadingCallbackOffline;
         private final String guid;
 
-        public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallback newsItemLoadingCallback, @NonNull String guid) {
-            this.newsItemLoadingCallback = newsItemLoadingCallback;
+        public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallbackOffline newsItemLoadingCallbackOffline, @NonNull String guid) {
+            this.newsItemLoadingCallbackOffline = newsItemLoadingCallbackOffline;
             this.guid = guid;
         }
 
@@ -89,7 +89,7 @@ public class DatabaseNewsRepository {
         @Override
         protected void onPostExecute(NewsItemModel newsItemModel) {
             super.onPostExecute(newsItemModel);
-            newsItemLoadingCallback.onNewsItemUpdate(newsItemModel);
+            newsItemLoadingCallbackOffline.onNewsItemUpdate(newsItemModel);
         }
 
     }
