@@ -27,9 +27,10 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
         if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
             try {
                 NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
-            } catch (Exception e) {
-                e.printStackTrace();
+            }
+            catch (Exception e) {
                 getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
+                DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
             }
         } else {
             DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
