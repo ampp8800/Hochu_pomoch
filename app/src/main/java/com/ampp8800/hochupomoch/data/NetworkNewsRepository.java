@@ -10,7 +10,9 @@ import com.ampp8800.hochupomoch.app.HochuPomochApplication;
 import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
-import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallback;
+import com.ampp8800.hochupomoch.ui.NetworkStateHelper;
+import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallbackOnline;
+import com.ampp8800.hochupomoch.ui.NewsItemModelAndConnect;
 import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 import com.google.gson.GsonBuilder;
 
@@ -42,8 +44,8 @@ public class NetworkNewsRepository {
         newsItemsLoaderAsyncTask.execute();
     }
 
-    public void loadItemNews(@NonNull NewsItemLoadingCallback newsItemLoadingCallback, @NonNull String guid) {
-        NetworkNewsRepository.NewsItemLoaderAsyncTask newsItemLoaderAsyncTask = new NetworkNewsRepository.NewsItemLoaderAsyncTask(newsItemLoadingCallback, guid);
+    public void loadItemNews(@NonNull NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline, @NonNull String guid) {
+        NetworkNewsRepository.NewsItemLoaderAsyncTask newsItemLoaderAsyncTask = new NetworkNewsRepository.NewsItemLoaderAsyncTask(newsItemLoadingCallbackOnline, guid);
         newsItemLoaderAsyncTask.execute();
     }
 
@@ -104,30 +106,32 @@ public class NetworkNewsRepository {
 
     }
 
-    private static class NewsItemLoaderAsyncTask extends AsyncTask<Void, Void, NewsItemModel> {
-        private final NewsItemLoadingCallback newsItemLoadingCallback;
+    private static class NewsItemLoaderAsyncTask extends AsyncTask<Void, Void, NewsItemModelAndConnect> {
+        private final NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline;
         private final String guid;
 
-        public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallback newsItemLoadingCallback, @NonNull String guid) {
-            this.newsItemLoadingCallback = newsItemLoadingCallback;
+        public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline, @NonNull String guid) {
+            this.newsItemLoadingCallbackOnline = newsItemLoadingCallbackOnline;
             this.guid = guid;
         }
 
         @Override
-        protected NewsItemModel doInBackground(Void... params) {
+        protected NewsItemModelAndConnect doInBackground(Void... params) {
             AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
             NewsEntityDao newsEntityDao = database.newsEntityDao();
             NewsEntity newsEntity = newsEntityDao.selectNewsEntity(guid);
             if (newsEntity != null){
-                return new NewsItemModel(newsEntity);
+                NewsItemModel newsItemModel = new NewsItemModel(newsEntity);
+                return new NewsItemModelAndConnect(newsItemModel,
+                        NetworkStateHelper.isConnected(HochuPomochApplication.getInstance()));
             }
             return null;
         }
 
         @Override
-        protected void onPostExecute(NewsItemModel newsItemModel) {
-            super.onPostExecute(newsItemModel);
-            newsItemLoadingCallback.onNewsItemUpdate(newsItemModel);
+        protected void onPostExecute(NewsItemModelAndConnect newsItemModelAndConnect) {
+            super.onPostExecute(newsItemModelAndConnect);
+            newsItemLoadingCallbackOnline.onNewsItemUpdate(newsItemModelAndConnect);
         }
 
     }

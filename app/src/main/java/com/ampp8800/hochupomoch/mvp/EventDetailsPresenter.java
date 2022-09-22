@@ -9,7 +9,9 @@ import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
 import com.ampp8800.hochupomoch.data.ProfileRepository;
 import com.ampp8800.hochupomoch.ui.NetworkStateHelper;
-import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallback;
+import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallbackOffline;
+import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallbackOnline;
+import com.ampp8800.hochupomoch.ui.NewsItemModelAndConnect;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
@@ -17,24 +19,35 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
 
+    private boolean isConnected;
+
     public void loadNews(@NonNull String guid) {
-        NewsItemLoadingCallback newsItemLoadingCallback = new NewsItemLoadingCallback() {
+        if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
+            NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
+                @Override
+                public void onNewsItemUpdate(@NonNull NewsItemModelAndConnect newsItemModelAndConnect) {
+                    getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
+                    isConnected = newsItemModelAndConnect.isConnected();
+                }
+            };
+            NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOnline, guid);
+            if (isConnected) {
+                getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
+                loadNewsFromDatabase(guid);
+            }
+        } else {
+            loadNewsFromDatabase(guid);
+        }
+    }
+
+    private void loadNewsFromDatabase(@NonNull String guid){
+        NewsItemLoadingCallbackOffline newsItemLoadingCallbackOffline = new NewsItemLoadingCallbackOffline() {
             @Override
             public void onNewsItemUpdate(@NonNull NewsItemModel newsItemModel) {
                 getViewState().setReceivedData(newsItemModel);
             }
         };
-        if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
-            try {
-                NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
-            }
-            catch (Exception e) {
-                getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
-                DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
-            }
-        } else {
-            DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallback, guid);
-        }
+        DatabaseNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOffline, guid);
     }
 
     public void sendEmail(@NonNull NewsItemModel newsItemModel) {
