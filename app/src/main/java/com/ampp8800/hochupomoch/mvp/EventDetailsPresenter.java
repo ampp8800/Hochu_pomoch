@@ -22,12 +22,11 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
     private boolean isInitialized = false;
 
     public boolean isIsInitialized() {
-        boolean result = isInitialized;
-        isInitialized = true;
-        return result;
+        return isInitialized;
     }
 
     public void loadNews(@NonNull String guid) {
+        isInitialized = true;
         if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
             NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
                 @Override
