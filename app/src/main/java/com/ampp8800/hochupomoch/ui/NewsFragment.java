@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,16 @@ public class NewsFragment extends Fragment {
     private NewsAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     @NonNull
+    private RecyclerView recyclerView;
+    @NonNull
+    private ProgressBar progressBar;
+    @NonNull
+    private ImageView ivIconBack;
+    @NonNull
+    private ImageView ivFilter;
+    @NonNull
+    private TextView tvToolbarName;
+    @NonNull
     private final String ARG_EVENT_DETAIL_FRAGMENT = "evevntDetailFragment";
 
     @NonNull
@@ -42,6 +54,11 @@ public class NewsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
+        ivIconBack = requireActivity().findViewById(R.id.iv_icon_back);
+        ivFilter = requireActivity().findViewById(R.id.iv_filter);
+        tvToolbarName = (TextView) getActivity().findViewById(R.id.tv_toolbar_name);
+        progressBar = view.findViewById(R.id.pb_progress_bar);
+        recyclerView = view.findViewById(R.id.news_list);
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -55,7 +72,6 @@ public class NewsFragment extends Fragment {
     }
 
     private void initializeListOfNews(@NonNull View view, @NonNull Context context) {
-        RecyclerView recyclerView = view.findViewById(R.id.news_list);
         recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
             recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
@@ -89,7 +105,7 @@ public class NewsFragment extends Fragment {
 
     private void refreshNewsListOnScreen(@NonNull List newsListItems) {
         adapter.updateNewsListItems(newsListItems);
-        super.getView().findViewById(R.id.pb_progress_bar).setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -100,9 +116,9 @@ public class NewsFragment extends Fragment {
     private void setUpAppBar(ActionBar actionBar) {
         actionBar.setCustomView(R.layout.toolbar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        requireActivity().findViewById(R.id.iv_icon_back).setVisibility(View.GONE);
-        requireActivity().findViewById(R.id.iv_filter).setVisibility(View.VISIBLE);
-        ((TextView) getActivity().findViewById(R.id.tv_toolbar_name)).setText(R.string.news);
+        ivIconBack.setVisibility(View.GONE);
+        ivFilter.setVisibility(View.VISIBLE);
+        tvToolbarName.setText(R.string.news);
     }
 
     private void openEventDetails(@NonNull String guid) {
