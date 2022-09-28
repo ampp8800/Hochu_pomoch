@@ -19,6 +19,16 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
 
+    private boolean isInitialized = false;
+
+    public boolean isIsInitialized() {
+        return isInitialized;
+    }
+
+    public void setIsInitialized(boolean isInitialized) {
+        this.isInitialized = isInitialized;
+    }
+
     public void loadNews(@NonNull String guid) {
         if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
             NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
@@ -56,5 +66,6 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
     public void setLineWithFriends() {
         getViewState().setLineWithFriends(ProfileRepository.getInstance().getFrendsList());
     }
+
 
 }

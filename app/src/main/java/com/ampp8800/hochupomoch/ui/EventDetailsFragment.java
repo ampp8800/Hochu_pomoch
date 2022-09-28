@@ -37,7 +37,6 @@ import moxy.presenter.InjectPresenter;
 public class EventDetailsFragment extends MvpAppCompatFragment implements EventDetailsView {
     @NonNull
     private Activity activity;
-    private static boolean isInitialized = false;
     @NonNull
     private static final String ARG_NEWS_ITEM_GUID = "newsItemGuid";
 
@@ -129,10 +128,10 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         civFriendFour = view.findViewById(R.id.civ_friend_four);
         lvPhoneNumbers = view.findViewById(R.id.lv_phone_numbers);
         //тут ошибка
-        if(!isInitialized){
+        if(!eventDetailsPresenter.isIsInitialized()){
             if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
                 eventDetailsPresenter.loadNews(getArguments().getString(ARG_NEWS_ITEM_GUID));
-                isInitialized = true;
+                eventDetailsPresenter.setIsInitialized(true);
             } else {
                 throw new IllegalArgumentException("required identifier not passed");
             }
