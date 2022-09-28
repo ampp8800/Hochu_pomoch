@@ -22,11 +22,9 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
     private boolean isInitialized = false;
 
     public boolean isIsInitialized() {
-        return isInitialized;
-    }
-
-    public void setIsInitialized(boolean isInitialized) {
-        this.isInitialized = isInitialized;
+        boolean result = isInitialized;
+        isInitialized = true;
+        return result;
     }
 
     public void loadNews(@NonNull String guid) {

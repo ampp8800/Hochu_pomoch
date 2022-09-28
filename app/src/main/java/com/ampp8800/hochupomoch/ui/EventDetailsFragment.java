@@ -130,7 +130,6 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         if(!eventDetailsPresenter.isIsInitialized()){
             if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
                 eventDetailsPresenter.loadNews(getArguments().getString(ARG_NEWS_ITEM_GUID));
-                eventDetailsPresenter.setIsInitialized(true);
             } else {
                 throw new IllegalArgumentException("required identifier not passed");
             }
