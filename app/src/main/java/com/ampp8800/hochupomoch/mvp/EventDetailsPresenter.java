@@ -19,23 +19,28 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
 
-    public void loadNews(@NonNull String guid) {
-        if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
-            NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
-                @Override
-                public void onNewsItemUpdate(@NonNull NewsItemModelAndConnect newsItemModelAndConnect) {
-                    if (newsItemModelAndConnect.isExeption()) {
-                        getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
-                        loadNewsFromDatabase(guid);
-                    } else {
-                        getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
-                    }
-                }
-            };
-            NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOnline, guid);
+    private boolean isInitialized = false;
 
-        } else {
-            loadNewsFromDatabase(guid);
+    public void loadNews(@NonNull String guid) {
+        if(!isInitialized) {
+            isInitialized = true;
+            if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
+                NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
+                    @Override
+                    public void onNewsItemUpdate(@NonNull NewsItemModelAndConnect newsItemModelAndConnect) {
+                        if (newsItemModelAndConnect.isExeption()) {
+                            getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
+                            loadNewsFromDatabase(guid);
+                        } else {
+                            getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
+                        }
+                    }
+                };
+                NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOnline, guid);
+
+            } else {
+                loadNewsFromDatabase(guid);
+            }
         }
     }
 
@@ -56,5 +61,6 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
     public void setLineWithFriends() {
         getViewState().setLineWithFriends(ProfileRepository.getInstance().getFrendsList());
     }
+
 
 }
