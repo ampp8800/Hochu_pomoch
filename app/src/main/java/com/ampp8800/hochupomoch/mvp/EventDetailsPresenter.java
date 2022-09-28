@@ -21,28 +21,26 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
 
     private boolean isInitialized = false;
 
-    public boolean isIsInitialized() {
-        return isInitialized;
-    }
-
     public void loadNews(@NonNull String guid) {
-        isInitialized = true;
-        if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
-            NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
-                @Override
-                public void onNewsItemUpdate(@NonNull NewsItemModelAndConnect newsItemModelAndConnect) {
-                    if (newsItemModelAndConnect.isExeption()) {
-                        getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
-                        loadNewsFromDatabase(guid);
-                    } else {
-                        getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
+        if(!isInitialized) {
+            isInitialized = true;
+            if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
+                NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline = new NewsItemLoadingCallbackOnline() {
+                    @Override
+                    public void onNewsItemUpdate(@NonNull NewsItemModelAndConnect newsItemModelAndConnect) {
+                        if (newsItemModelAndConnect.isExeption()) {
+                            getViewState().showToast(HochuPomochApplication.getInstance().getString(R.string.no_response_from_the_network));
+                            loadNewsFromDatabase(guid);
+                        } else {
+                            getViewState().setReceivedData(newsItemModelAndConnect.getNewsItemModel());
+                        }
                     }
-                }
-            };
-            NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOnline, guid);
+                };
+                NetworkNewsRepository.newInstance().loadItemNews(newsItemLoadingCallbackOnline, guid);
 
-        } else {
-            loadNewsFromDatabase(guid);
+            } else {
+                loadNewsFromDatabase(guid);
+            }
         }
     }
 

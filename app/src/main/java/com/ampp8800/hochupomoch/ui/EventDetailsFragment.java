@@ -127,12 +127,10 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
         civFriendThree = view.findViewById(R.id.civ_friend_three);
         civFriendFour = view.findViewById(R.id.civ_friend_four);
         lvPhoneNumbers = view.findViewById(R.id.lv_phone_numbers);
-        if(!eventDetailsPresenter.isIsInitialized()){
-            if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
-                eventDetailsPresenter.loadNews(getArguments().getString(ARG_NEWS_ITEM_GUID));
-            } else {
-                throw new IllegalArgumentException("required identifier not passed");
-            }
+        if (getArguments().getString(ARG_NEWS_ITEM_GUID) != null) {
+            eventDetailsPresenter.loadNews(getArguments().getString(ARG_NEWS_ITEM_GUID));
+        } else {
+            throw new IllegalArgumentException("required identifier not passed");
         }
         return view;
     }
