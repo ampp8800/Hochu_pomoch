@@ -1,5 +1,6 @@
 package com.ampp8800.hochupomoch.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class NewsFragment extends Fragment {
     @NonNull
     private TextView tvToolbarName;
     @NonNull
-    private final String ARG_EVENT_DETAIL_FRAGMENT = "evevntDetailFragment";
+    private final String ARG_EVENT_DETAIL_FRAGMENT = "eventDetailFragment";
 
     @NonNull
     public static NewsFragment newInstance() {
@@ -53,10 +54,11 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, @Nullable Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-        setUpAppBar(((AppCompatActivity) requireActivity()).getSupportActionBar());
-        ivIconBack = requireActivity().findViewById(R.id.iv_icon_back);
-        ivFilter = requireActivity().findViewById(R.id.iv_filter);
-        tvToolbarName = (TextView) getActivity().findViewById(R.id.tv_toolbar_name);
+        Activity activity = requireActivity();
+        ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        ivIconBack = activity.findViewById(R.id.iv_icon_back);
+        ivFilter = activity.findViewById(R.id.iv_filter);
+        tvToolbarName = (TextView) activity.findViewById(R.id.tv_toolbar_name);
         progressBar = view.findViewById(R.id.pb_progress_bar);
         recyclerView = view.findViewById(R.id.news_list);
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
@@ -68,6 +70,7 @@ public class NewsFragment extends Fragment {
             }
         });
         initializeListOfNews(view, view.getContext());
+        setUpAppBar(actionBar);
         return view;
     }
 

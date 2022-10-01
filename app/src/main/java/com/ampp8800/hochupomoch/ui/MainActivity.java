@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @NonNull
     private final String ARG_PRESS_BUTTON = "argPressButton";
     @NonNull
-    private final String ARG_EVENT_DETAIL_FRAGMENT = "evevntDetailFragment";
+    private final String ARG_EVENT_DETAIL_FRAGMENT = "eventDetailFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
