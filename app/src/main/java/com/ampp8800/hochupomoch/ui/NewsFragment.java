@@ -1,7 +1,6 @@
 package com.ampp8800.hochupomoch.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,12 +23,18 @@ import com.ampp8800.hochupomoch.R;
 import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
 import com.ampp8800.hochupomoch.data.OnItemClickListener;
+import com.ampp8800.hochupomoch.mvp.NewsPresenter;
+import com.ampp8800.hochupomoch.mvp.NewsView;
 
 import java.util.List;
 
-public class NewsFragment extends Fragment {
+import moxy.MvpAppCompatFragment;
+import moxy.presenter.InjectPresenter;
+
+public class NewsFragment extends MvpAppCompatFragment implements NewsView {
     @NonNull
     private NewsAdapter adapter;
+    @NonNull
     private SwipeRefreshLayout swipeRefreshLayout;
     @NonNull
     private RecyclerView recyclerView;
@@ -45,6 +49,9 @@ public class NewsFragment extends Fragment {
     @NonNull
     private final String ARG_EVENT_DETAIL_FRAGMENT = "eventDetailFragment";
 
+    @InjectPresenter
+    NewsPresenter newsPresenter;
+
     @NonNull
     public static NewsFragment newInstance() {
         return new NewsFragment();
@@ -56,28 +63,30 @@ public class NewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         Activity activity = requireActivity();
         ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+        actionBar.setCustomView(R.layout.toolbar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         ivIconBack = activity.findViewById(R.id.iv_icon_back);
         ivFilter = activity.findViewById(R.id.iv_filter);
-        tvToolbarName = (TextView) activity.findViewById(R.id.tv_toolbar_name);
+        tvToolbarName = activity.findViewById(R.id.tv_toolbar_name);
         progressBar = view.findViewById(R.id.pb_progress_bar);
         recyclerView = view.findViewById(R.id.news_list);
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initializeListOfNews(view, view.getContext());
-            }
-        });
-        initializeListOfNews(view, view.getContext());
-        setUpAppBar(actionBar);
+        newsPresenter.showNewsScreen();
         return view;
     }
 
-    private void initializeListOfNews(@NonNull View view, @NonNull Context context) {
+    @Override
+    public void showNews() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                newsPresenter.showNews();
+            }
+        });
         recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
-            recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
@@ -87,9 +96,9 @@ public class NewsFragment extends Fragment {
                 openEventDetails(guid);
             }
         };
-        adapter = new NewsAdapter(context, onItemClickListener);
+        adapter = new NewsAdapter(getContext(), onItemClickListener);
         recyclerView.setAdapter(adapter);
-        if (NetworkStateHelper.isConnected(context)) {
+        if (NetworkStateHelper.isConnected(getContext())) {
             NetworkNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
                 public void onNewsUpdate(@NonNull List newsListItems) {
@@ -116,9 +125,8 @@ public class NewsFragment extends Fragment {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    private void setUpAppBar(ActionBar actionBar) {
-        actionBar.setCustomView(R.layout.toolbar);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+    @Override
+    public void setUpAppBar() {
         ivIconBack.setVisibility(View.GONE);
         ivFilter.setVisibility(View.VISIBLE);
         tvToolbarName.setText(R.string.news);
