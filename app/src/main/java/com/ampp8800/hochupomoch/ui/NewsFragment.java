@@ -68,21 +68,24 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
         ivIconBack = activity.findViewById(R.id.iv_icon_back);
         ivFilter = activity.findViewById(R.id.iv_filter);
         tvToolbarName = activity.findViewById(R.id.tv_toolbar_name);
+        ivIconBack.setVisibility(View.GONE);
+        ivFilter.setVisibility(View.VISIBLE);
+        tvToolbarName.setText(R.string.news);
         progressBar = view.findViewById(R.id.pb_progress_bar);
         recyclerView = view.findViewById(R.id.news_list);
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
-        return view;
-    }
-
-    @Override
-    public void showNews() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 newsPresenter.showNews();
             }
         });
+        return view;
+    }
+
+    @Override
+    public void showNews() {
         recyclerView.setHasFixedSize(false);
         if (isScreenRotatedHorizontally()) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -122,13 +125,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
 
     private boolean isScreenRotatedHorizontally() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-    }
-
-    @Override
-    public void setUpAppBar() {
-        ivIconBack.setVisibility(View.GONE);
-        ivFilter.setVisibility(View.VISIBLE);
-        tvToolbarName.setText(R.string.news);
     }
 
     private void openEventDetails(@NonNull String guid) {

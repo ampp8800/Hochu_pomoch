@@ -9,7 +9,4 @@ public interface NewsView extends MvpView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void showNews();
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
-    void setUpAppBar();
-
 }

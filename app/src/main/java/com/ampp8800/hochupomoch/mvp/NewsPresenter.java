@@ -9,7 +9,6 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
     @Override
     public void onFirstViewAttach() {
         super.onFirstViewAttach();
-        setUpAppBar();
         showNews();
     }
 
@@ -17,7 +16,4 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
         getViewState().showNews();
     }
 
-    public void setUpAppBar() {
-        getViewState().setUpAppBar();
-    }
 }
