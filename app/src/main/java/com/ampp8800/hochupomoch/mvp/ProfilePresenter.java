@@ -4,12 +4,10 @@ import moxy.MvpPresenter;
 
 public class ProfilePresenter extends MvpPresenter<ProfileView> {
 
-    private boolean isInitialized = false;
-
-    public void loadProfile() {
-        if (!isInitialized) {
-            isInitialized = true;
-            getViewState().showProfile();
-        }
+    @Override
+    public void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        getViewState().showProfile();
     }
+
 }

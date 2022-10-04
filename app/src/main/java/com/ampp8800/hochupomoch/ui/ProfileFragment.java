@@ -89,7 +89,6 @@ public class ProfileFragment extends MvpAppCompatFragment implements ProfileView
         ivEdit = activity.findViewById(R.id.iv_edit);
         ivIconBack = activity.findViewById(R.id.iv_icon_back);
         bSignOut = view.findViewById(R.id.b_sign_out);
-        profilePresenter.loadProfile();
         return view;
     }
 
