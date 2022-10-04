@@ -6,14 +6,11 @@ import moxy.MvpPresenter;
 @InjectViewState
 public class NewsPresenter extends MvpPresenter<NewsView> {
 
-    private boolean isInitialized = false;
-
-    public void showNewsScreen() {
-        if (!isInitialized) {
-            isInitialized = true;
-            setUpAppBar();
-            showNews();
-        }
+    @Override
+    public void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        setUpAppBar();
+        showNews();
     }
 
     public void showNews() {

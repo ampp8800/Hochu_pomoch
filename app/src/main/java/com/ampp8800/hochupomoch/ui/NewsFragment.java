@@ -72,7 +72,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
         recyclerView = view.findViewById(R.id.news_list);
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
-        newsPresenter.showNewsScreen();
         return view;
     }
 
