@@ -18,9 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.AuthorizationRepository;
 import com.ampp8800.hochupomoch.data.ListItem;
-import com.ampp8800.hochupomoch.data.ProfileRepository;
 import com.ampp8800.hochupomoch.mvp.ProfilePresenter;
 import com.ampp8800.hochupomoch.mvp.ProfileView;
 import com.bumptech.glide.Glide;
@@ -33,15 +31,6 @@ import moxy.presenter.InjectPresenter;
 public class ProfileFragment extends MvpAppCompatFragment implements ProfileView {
     @NonNull
     private Activity activity;
-    @NonNull
-    private final ProfileRepository repository = ProfileRepository.getInstance();
-    @NonNull
-    private final AuthorizationRepository authorizationRepository = AuthorizationRepository.getInstance();
-    @NonNull
-    private final List<ListItem> friends = repository.getFrendsList();
-    @NonNull
-    private final ListItem userListItem = repository.getUserListItem();
-
     @NonNull
     RecyclerView recyclerView;
 
@@ -93,7 +82,7 @@ public class ProfileFragment extends MvpAppCompatFragment implements ProfileView
     }
 
     @Override
-    public void showProfile() {
+    public void showProfile(@NonNull ListItem userListItem, @NonNull List<ListItem> friends) {
         setPhotoFromNetwork(ivProfile, userListItem.getImageViewURL());
         tvProfileName.setText(userListItem.getName());
         tvDateOfBirth.setText(userListItem.getDateOfBirth());
@@ -104,13 +93,18 @@ public class ProfileFragment extends MvpAppCompatFragment implements ProfileView
         bSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                disconnect();
                 startActivity(new Intent(getContext(), AuthorizationActivity.class));
-                authorizationRepository.setAuthorized(false);
             }
         });
         ivEdit.setVisibility(View.VISIBLE);
         ivIconBack.setVisibility(View.GONE);
         tvToolbarName.setText(R.string.profile);
+    }
+
+    @Override
+    public void disconnect() {
+        profilePresenter.disconnect();
     }
 
     private void setPhotoFromNetwork(@NonNull ImageView imageView, @NonNull String imageViewURL) {
