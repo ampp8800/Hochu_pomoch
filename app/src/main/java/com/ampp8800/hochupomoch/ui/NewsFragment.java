@@ -73,6 +73,12 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
         tvToolbarName.setText(R.string.news);
         progressBar = view.findViewById(R.id.pb_progress_bar);
         recyclerView = view.findViewById(R.id.news_list);
+        recyclerView.setHasFixedSize(false);
+        if (isScreenRotatedHorizontally()) {
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,12 +92,6 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
 
     @Override
     public void showNews() {
-        recyclerView.setHasFixedSize(false);
-        if (isScreenRotatedHorizontally()) {
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
         OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
             public void invoke(String guid) {
@@ -100,24 +100,10 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
         };
         adapter = new NewsAdapter(getContext(), onItemClickListener);
         recyclerView.setAdapter(adapter);
-        if (NetworkStateHelper.isConnected(getContext())) {
-            NetworkNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
-                @Override
-                public void onNewsUpdate(@NonNull List newsListItems) {
-                    refreshNewsListOnScreen(newsListItems);
-                }
-            });
-        } else {
-            DatabaseNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
-                @Override
-                public void onNewsUpdate(@NonNull List newsListItems) {
-                    refreshNewsListOnScreen(newsListItems);
-                }
-            });
-        }
     }
 
-    private void refreshNewsListOnScreen(@NonNull List newsListItems) {
+    @Override
+    public void refreshNewsListOnScreen(@NonNull List newsListItems) {
         adapter.updateNewsListItems(newsListItems);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
