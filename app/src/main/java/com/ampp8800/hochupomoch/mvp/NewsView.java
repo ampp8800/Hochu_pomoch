@@ -11,9 +11,6 @@ import moxy.viewstate.strategy.StateStrategyType;
 public interface NewsView extends MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
-    void showNews();
-
-    @StateStrategyType(AddToEndSingleStrategy.class)
     void refreshNewsListOnScreen(@NonNull List newsListItems);
 
 }

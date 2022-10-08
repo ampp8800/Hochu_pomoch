@@ -19,11 +19,10 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
     @Override
     public void onFirstViewAttach() {
         super.onFirstViewAttach();
-        showNews();
+        loadNews();
     }
 
-    public void showNews() {
-        getViewState().showNews();
+    public void loadNews() {
         if (NetworkStateHelper.isConnected(HochuPomochApplication.getInstance())) {
             NetworkNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
                 @Override
