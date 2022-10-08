@@ -11,7 +11,7 @@ public interface AuthorizationView extends MvpView {
     void loadingInteractiveFunctionality();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void entry();
+    void startAuthorization();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void showToastWrongPassword();

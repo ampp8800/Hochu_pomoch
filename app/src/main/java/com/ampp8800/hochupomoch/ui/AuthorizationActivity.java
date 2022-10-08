@@ -83,7 +83,7 @@ public class AuthorizationActivity extends MvpAppCompatActivity implements Autho
     }
 
     @Override
-    public void entry() {
+    public void startAuthorization() {
         startActivity(new Intent(AuthorizationActivity.this, MainActivity.class));
     }
 

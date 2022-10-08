@@ -11,9 +11,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
 
     @Override
     public void onFirstViewAttach() {
-        super.onFirstViewAttach();
         getViewState().loadingInteractiveFunctionality();
-
     }
 
     public void login(@NonNull String login, @NonNull String password) {
@@ -21,7 +19,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
         if (authorizationRepository.getLogin().equals(login)) {
             if (authorizationRepository.getPassword().equals(password)) {
                 authorizationRepository.setAuthorized(true);
-                getViewState().entry();
+                getViewState().startAuthorization();
             } else {
                 getViewState().showToastWrongPassword();
                 authorizationRepository.setAuthorized(false);

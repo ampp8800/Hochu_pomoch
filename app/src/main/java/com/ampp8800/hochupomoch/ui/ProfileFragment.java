@@ -93,18 +93,13 @@ public class ProfileFragment extends MvpAppCompatFragment implements ProfileView
         bSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                disconnect();
+                profilePresenter.disconnect();
                 startActivity(new Intent(getContext(), AuthorizationActivity.class));
             }
         });
         ivEdit.setVisibility(View.VISIBLE);
         ivIconBack.setVisibility(View.GONE);
         tvToolbarName.setText(R.string.profile);
-    }
-
-    @Override
-    public void disconnect() {
-        profilePresenter.disconnect();
     }
 
     private void setPhotoFromNetwork(@NonNull ImageView imageView, @NonNull String imageViewURL) {

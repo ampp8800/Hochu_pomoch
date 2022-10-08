@@ -16,7 +16,4 @@ public interface ProfileView extends MvpView {
     @StateStrategyType(AddToEndSingleStrategy.class)
     void showProfile(@NonNull ListItem userListItem, @NonNull List<ListItem> friends);
 
-    @StateStrategyType(OneExecutionStateStrategy.class)
-    void disconnect();
-
 }

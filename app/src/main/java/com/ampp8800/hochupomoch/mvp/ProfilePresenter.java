@@ -17,7 +17,6 @@ public class ProfilePresenter extends MvpPresenter<ProfileView> {
         ListItem userListItem = repository.getUserListItem();
         List<ListItem> friends = repository.getFrendsList();
         getViewState().showProfile(userListItem, friends);
-        getViewState().showProfile(userListItem, friends);
     }
 
     public void disconnect() {
