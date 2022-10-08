@@ -79,19 +79,20 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
+            @Override
+            public void invoke(String guid) {
+                openEventDetails(guid);
+            }
+        };
+        adapter = new NewsAdapter(getContext(), onItemClickListener);
+        recyclerView.setAdapter(adapter);
         swipeRefreshLayout = view.findViewById(R.id.srl_news_fragment);
         swipeRefreshLayout.setColorSchemeResources(R.color.leaf);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                OnItemClickListener onItemClickListener = new OnItemClickListener() {
-                    @Override
-                    public void invoke(String guid) {
-                        openEventDetails(guid);
-                    }
-                };
-                adapter = new NewsAdapter(getContext(), onItemClickListener);
-                recyclerView.setAdapter(adapter);
+                newsPresenter.loadNews();
             }
         });
         return view;
