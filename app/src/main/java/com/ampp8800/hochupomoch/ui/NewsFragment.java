@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ampp8800.hochupomoch.R;
-import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
-import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
 import com.ampp8800.hochupomoch.data.OnItemClickListener;
 import com.ampp8800.hochupomoch.mvp.NewsPresenter;
 import com.ampp8800.hochupomoch.mvp.NewsView;
