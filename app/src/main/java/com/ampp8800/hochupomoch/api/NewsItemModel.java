@@ -4,32 +4,44 @@ import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.ui.NewsDetailsDataConverter;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class NewsItemModel {
 
     @NonNull
+    @SerializedName("guid")
     private String guid;
     @NonNull
+    @SerializedName("name")
     private String name;
     @NonNull
+    @SerializedName("fundName")
     private String fundName;
     @NonNull
+    @SerializedName("description")
     private String description;
     @NonNull
+    @SerializedName("address")
     private String address;
     @NonNull
+    @SerializedName("startDate")
     private Long startDate;
     @NonNull
+    @SerializedName("endDate")
     private Long endDate;
     @NonNull
+    @SerializedName("phones")
     private List<Long> phones;
     @NonNull
+    @SerializedName("images")
     private List<String> images;
     @NonNull
+    @SerializedName("email")
     private String email;
     @NonNull
+    @SerializedName("website")
     private String website;
 
 
