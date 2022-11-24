@@ -1,16 +1,13 @@
 package com.ampp8800.hochupomoch.data;
 
-import android.os.AsyncTask;
-
 import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.app.HochuPomochApplication;
-import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
-import com.ampp8800.hochupomoch.ui.NewsItemLoadingCallbackOnline;
-import com.ampp8800.hochupomoch.ui.NewsItemModelAndConnect;
+
+import java.util.List;
 
 
 public class NetworkNewsRepository {
@@ -43,42 +40,14 @@ public class NetworkNewsRepository {
         return newsEntity;
     }
 
-    public void loadItemNews(@NonNull NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline, @NonNull String guid) {
-        NetworkNewsRepository.NewsItemLoaderAsyncTask newsItemLoaderAsyncTask = new NetworkNewsRepository.NewsItemLoaderAsyncTask(newsItemLoadingCallbackOnline, guid);
-        newsItemLoaderAsyncTask.execute();
-    }
-
-    private static class NewsItemLoaderAsyncTask extends AsyncTask<Void, Void, NewsItemModelAndConnect> {
-        private final NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline;
-        private final String guid;
-        private boolean isExeption;
-
-        public NewsItemLoaderAsyncTask(@NonNull NewsItemLoadingCallbackOnline newsItemLoadingCallbackOnline, @NonNull String guid) {
-            this.newsItemLoadingCallbackOnline = newsItemLoadingCallbackOnline;
-            this.guid = guid;
+    public void writeToDatabaseListOfNews(List<NewsItemModel> newsItemModels) {
+        NewsEntityDao newsEntityDao = HochuPomochApplication.getInstance().getDatabase().newsEntityDao();
+        if (newsEntityDao != null) {
+            newsEntityDao.clearAll((List<NewsEntity>) newsEntityDao.getAll());
         }
-
-        @Override
-        protected NewsItemModelAndConnect doInBackground(Void... params) {
-            NewsItemModel newsItemModel = null;
-            try {
-                AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
-                NewsEntityDao newsEntityDao = database.newsEntityDao();
-                NewsEntity newsEntity = newsEntityDao.selectNewsEntity(guid);
-                newsItemModel = new NewsItemModel(newsEntity);
-            } catch (Exception e) {
-                e.printStackTrace();
-                isExeption = true;
-            }
-            return new NewsItemModelAndConnect(newsItemModel, isExeption);
+        for (NewsItemModel item : newsItemModels) {
+            newsEntityDao.insert(networkNewsRepository.newsItemToNewsEntity(item));
         }
-
-        @Override
-        protected void onPostExecute(NewsItemModelAndConnect newsItemModelAndConnect) {
-            super.onPostExecute(newsItemModelAndConnect);
-            newsItemLoadingCallbackOnline.onNewsItemUpdate(newsItemModelAndConnect);
-        }
-
     }
 
 }

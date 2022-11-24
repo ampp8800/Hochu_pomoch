@@ -7,14 +7,16 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 @Dao
 public interface NewsEntityDao {
 
     @Query("SELECT * FROM newsEntity")
-    List<NewsEntity> getAll();
+    Single<List<NewsEntity>> getAll();
 
     @Query("SELECT * FROM newsEntity WHERE guid = :currentGuid")
-    NewsEntity selectNewsEntity(String currentGuid);
+    Single<NewsEntity> selectNewsEntity(String currentGuid);
 
     @Delete
     void clearAll(List<NewsEntity> newsEntities);

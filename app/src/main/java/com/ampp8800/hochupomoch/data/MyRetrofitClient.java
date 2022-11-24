@@ -34,7 +34,7 @@ public class MyRetrofitClient {
         return myRetrofitClient;
     }
 
-    public io.reactivex.Observable<List<NewsItemModel>> getStarredRepose() {
+    public io.reactivex.Single<List<NewsItemModel>> getStarredRepose() {
         return newsInformation.getNewsInformation();
     }
 }

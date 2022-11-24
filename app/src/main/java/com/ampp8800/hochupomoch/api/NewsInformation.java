@@ -7,5 +7,5 @@ import retrofit2.http.GET;
 
 public interface NewsInformation {
     @GET("static-response.json")
-    io.reactivex.Observable<List<NewsItemModel>> getNewsInformation();
+    io.reactivex.Single<List<NewsItemModel>> getNewsInformation();
 }

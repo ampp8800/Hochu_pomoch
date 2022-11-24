@@ -6,13 +6,11 @@ import androidx.annotation.NonNull;
 
 import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.app.HochuPomochApplication;
-import com.ampp8800.hochupomoch.data.DatabaseNewsRepository;
 import com.ampp8800.hochupomoch.data.MyRetrofitClient;
 import com.ampp8800.hochupomoch.data.NetworkNewsRepository;
 import com.ampp8800.hochupomoch.db.AppDatabase;
-import com.ampp8800.hochupomoch.db.NewsEntityDao;
+import com.ampp8800.hochupomoch.db.NewsEntity;
 import com.ampp8800.hochupomoch.ui.NetworkStateHelper;
-import com.ampp8800.hochupomoch.ui.NewsLoadingCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,6 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
     private Disposable disposable;
     @NonNull
     private NetworkNewsRepository networkNewsRepository;
-    @NonNull
-    private ArrayList<NewsItemModel> news;
 
     @Override
     public void onFirstViewAttach() {
@@ -45,22 +41,16 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
             disposable = MyRetrofitClient.getInstance()
                     .getStarredRepose()
                     .subscribeOn(Schedulers.io())
+                    .map(newsItemModels -> {
+                        networkNewsRepository.writeToDatabaseListOfNews(newsItemModels);
+                        return newsItemModels;
+                    })
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<List<NewsItemModel>>() {
                         @Override
                         public void accept(List<NewsItemModel> newsItemModels) throws Exception {
-                            Log.i("", "RxJava2: Respose from server");
-                            news = new ArrayList<>();
-                            AppDatabase database = HochuPomochApplication.getInstance().getDatabase();
-                            NewsEntityDao newsEntityDao = database.newsEntityDao();
-                            if (newsEntityDao != null) {
-                                newsEntityDao.clearAll(newsEntityDao.getAll());
-                            }
-                            for (NewsItemModel item : newsItemModels) {
-                                news.add(item);
-                                newsEntityDao.insert(networkNewsRepository.newsItemToNewsEntity(item));
-                            }
-                                       getViewState().refreshNewsListOnScreen(news);
+                            Log.i("", "RxJava2: Response from server");
+                            getViewState().refreshNewsListOnScreen(newsItemModels);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -69,12 +59,29 @@ public class NewsPresenter extends MvpPresenter<NewsView> {
                         }
                     });
         } else {
-            DatabaseNewsRepository.newInstance().loadNews(new NewsLoadingCallback() {
-                @Override
-                public void onNewsUpdate(@NonNull List newsListItems) {
-                    getViewState().refreshNewsListOnScreen(newsListItems);
-                }
-            });
+            AppDatabase appDatabase = HochuPomochApplication.getInstance().getDatabase();
+            disposable = appDatabase.newsEntityDao().getAll()
+                    .subscribeOn(Schedulers.io())
+                    .map(newsEntities -> {
+                        ArrayList<NewsItemModel> news = new ArrayList<>();
+                        for (NewsEntity newsEntity : newsEntities) {
+                            news.add(new NewsItemModel(newsEntity));
+                        }
+                        return news;
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<NewsItemModel>>() {
+                        @Override
+                        public void accept(List<NewsItemModel> newsItemModels) throws Exception {
+                            Log.i("", "RxJava2: Respose from database");
+                            getViewState().refreshNewsListOnScreen(newsItemModels);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Log.i("", "RxJava: Database Error: " + throwable.getMessage());
+                        }
+                    });
         }
     }
 
