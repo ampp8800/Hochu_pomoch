@@ -14,6 +14,8 @@ import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.ampp8800.hochupomoch.db.NewsEntityDao;
 import com.ampp8800.hochupomoch.ui.NetworkStateHelper;
 
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -42,7 +44,7 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
                         .subscribeOn(Schedulers.io())
                         .map(newsItemModels -> {
                             networkNewsRepository.writeToDatabaseListOfNews(newsItemModels);
-                            return getNewsItemModelFromEthernet(guid);
+                            return getNewsItemModelFromEthernet(newsItemModels, guid);
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<NewsItemModel>() {
@@ -96,14 +98,13 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
         getViewState().setLineWithFriends(ProfileRepository.getInstance().getFrendsList());
     }
 
-    public NewsItemModel getNewsItemModelFromEthernet(@NonNull String guid) {
-        NewsItemModel newsItemModel = null;
-        try {
-            newsEntityDao = HochuPomochApplication.getInstance().getDatabase().newsEntityDao();
-        } catch (Exception e) {
-            e.printStackTrace();
+    public NewsItemModel getNewsItemModelFromEthernet(@NonNull List<NewsItemModel> newsItemModels, @NonNull String guid) {
+        for (NewsItemModel news : newsItemModels) {
+            if (news.getGuid().equals(guid)) {
+                return news;
+            }
         }
-        return newsItemModel;
+        return null;
     }
 
 }
