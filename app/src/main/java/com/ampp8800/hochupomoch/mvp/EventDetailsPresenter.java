@@ -96,7 +96,7 @@ public class EventDetailsPresenter extends MvpPresenter<EventDetailsView> {
         getViewState().setLineWithFriends(ProfileRepository.getInstance().getFrendsList());
     }
 
-    public NewsItemModel getNewsItemModelFromEthernet(String guid) {
+    public NewsItemModel getNewsItemModelFromEthernet(@NonNull String guid) {
         NewsItemModel newsItemModel = null;
         try {
             newsEntityDao = HochuPomochApplication.getInstance().getDatabase().newsEntityDao();
