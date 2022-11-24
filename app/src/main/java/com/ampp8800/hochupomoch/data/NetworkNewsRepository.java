@@ -9,8 +9,6 @@ import com.ampp8800.hochupomoch.db.NewsEntityDao;
 
 import java.util.List;
 
-import io.reactivex.schedulers.Schedulers;
-
 
 public class NetworkNewsRepository {
     private static NetworkNewsRepository networkNewsRepository;
@@ -45,9 +43,7 @@ public class NetworkNewsRepository {
     public void writeToDatabaseListOfNews(@NonNull List<NewsItemModel> newsItemModels) {
         NewsEntityDao newsEntityDao = HochuPomochApplication.getInstance().getDatabase().newsEntityDao();
         if (newsEntityDao != null) {
-            newsEntityDao.getAll()
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(newsEntities -> newsEntityDao.clearAll(newsEntities));
+            newsEntityDao.clearAll(newsEntityDao.getAllAsList());
         }
         for (NewsItemModel item : newsItemModels) {
             newsEntityDao.insert(networkNewsRepository.newsItemToNewsEntity(item));

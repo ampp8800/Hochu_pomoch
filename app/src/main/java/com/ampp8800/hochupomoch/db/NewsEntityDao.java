@@ -15,6 +15,9 @@ public interface NewsEntityDao {
     @Query("SELECT * FROM newsEntity")
     Single<List<NewsEntity>> getAll();
 
+    @Query("SELECT * FROM newsentity")
+    List<NewsEntity> getAllAsList();
+
     @Query("SELECT * FROM newsEntity WHERE guid = :currentGuid")
     Single<NewsEntity> selectNewsEntity(String currentGuid);
 
