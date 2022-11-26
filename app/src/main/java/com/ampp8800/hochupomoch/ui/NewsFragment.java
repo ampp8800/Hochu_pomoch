@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -101,6 +102,12 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
         adapter.updateNewsListItems(newsListItems);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showToast(@NonNull String string) {
+        Toast toast = Toast.makeText(getContext(), string, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     private boolean isScreenRotatedHorizontally() {

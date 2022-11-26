@@ -39,4 +39,5 @@
     <string name="go_to_organization_website">Перейти на сайт организаии</string>
     <string name="left">Осталось</string>
     <string name="no_response_from_the_network">no response from the network</string>
+    <string name="failed_to_load_news">failed to load news</string>
 </resources>
