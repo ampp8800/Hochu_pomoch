@@ -29,7 +29,7 @@ public class FirstRxJavaTest {
         Disposable ignored = resultObservable.subscribe(resultList::add);
         
         // Expected result
-        Assert.assertEquals(resultList.size(), 7);
+        Assert.assertEquals(7, resultList.size());
         Assertions.assertIterableEquals(Arrays.asList("1a", "2b", "3c", "4d", "5e", "6f", "7g"), resultList);
     }
 
@@ -42,7 +42,7 @@ public class FirstRxJavaTest {
         Disposable ignored = resultObservable.subscribe(resultList::add);
 
         // Expected result
-        Assert.assertEquals(resultList.size(), 4);
+        Assert.assertEquals(4, resultList.size());
         Assertions.assertIterableEquals(Arrays.asList("1a", "3b", "5c", "7d"), resultList);
     }
 
@@ -55,7 +55,7 @@ public class FirstRxJavaTest {
         Disposable ignored = resultObservable.subscribe(resultList::add);
 
         // Expected result
-        Assert.assertEquals(resultList.size(), 4);
+        Assert.assertEquals(4, resultList.size());
         Assertions.assertIterableEquals(Arrays.asList("1A", "3C", "5E", "7G"), resultList);
     }
 }

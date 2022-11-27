@@ -43,7 +43,7 @@ public class SecondRxJavaTest {
                 });
 
         countDownLatch.await();
-        Assert.assertEquals(resultList.size(), 6);
+        Assert.assertEquals(6, resultList.size());
         // Expected result
         Assertions.assertIterableEquals(Arrays.asList("1a", "2a", "3a", "3b", "4b", "4c"), resultList);
     }
@@ -64,7 +64,7 @@ public class SecondRxJavaTest {
                 });
 
         countDownLatch.await();
-        Assert.assertEquals(resultList.size(), 16);
+        Assert.assertEquals(16, resultList.size());
         // Expected result
         Assertions.assertIterableEquals(Arrays.asList("a1", "b1", "c1", "d1", "a2", "b2", "c2", "d2", "a3", "b3", "c3", "d3", "a4", "b4", "c4", "d4"), resultList);
     }
