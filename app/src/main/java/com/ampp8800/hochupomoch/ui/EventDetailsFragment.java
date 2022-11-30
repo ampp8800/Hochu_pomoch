@@ -216,8 +216,7 @@ public class EventDetailsFragment extends MvpAppCompatFragment implements EventD
 
     @Override
     public void showToast(@NonNull String string) {
-        Toast toast = Toast.makeText(getContext(), string, Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(getContext(), string, Toast.LENGTH_SHORT).show();
     }
 
 }

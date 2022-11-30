@@ -6,11 +6,15 @@ import java.util.List;
 
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
+import moxy.viewstate.strategy.OneExecutionStateStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
 
 public interface NewsView extends MvpView {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     void refreshNewsListOnScreen(@NonNull List newsListItems);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showToast(@NonNull String string);
 
 }
