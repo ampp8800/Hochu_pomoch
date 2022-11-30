@@ -106,8 +106,7 @@ public class NewsFragment extends MvpAppCompatFragment implements NewsView {
 
     @Override
     public void showToast(@NonNull String string) {
-        Toast toast = Toast.makeText(getContext(), string, Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(getContext(), string, Toast.LENGTH_SHORT).show();
     }
 
     private boolean isScreenRotatedHorizontally() {

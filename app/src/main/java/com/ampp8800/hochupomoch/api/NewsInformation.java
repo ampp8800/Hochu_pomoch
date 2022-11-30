@@ -8,5 +8,5 @@ import retrofit2.http.GET;
 
 public interface NewsInformation {
     @GET("static-response.json")
-    Single<List<NewsItemModel>> getNewsInformation();
+    Single<List<NewsItemModel>> getApi();
 }

@@ -6,23 +6,19 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 
 import com.ampp8800.hochupomoch.api.NewsInformation;
-import com.ampp8800.hochupomoch.api.NewsItemModel;
 import com.ampp8800.hochupomoch.db.AppDatabase;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.List;
-
-import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HochuPomochApplication extends Application {
+public class RestApi extends Application {
 
-    public static HochuPomochApplication instance;
+    public static RestApi instance;
     private AppDatabase database;
     private NewsInformation newsInformation;
     @NonNull
@@ -44,7 +40,7 @@ public class HochuPomochApplication extends Application {
         newsInformation = retrofit.create(NewsInformation.class);
     }
 
-    public static HochuPomochApplication getInstance() {
+    public static RestApi getInstance() {
         return instance;
     }
 
@@ -53,8 +49,8 @@ public class HochuPomochApplication extends Application {
         return database;
     }
 
-    public Single<List<NewsItemModel>> getNewsInformation() {
-        return newsInformation.getNewsInformation();
+    public NewsInformation getNewsInformation() {
+        return newsInformation;
     }
 
 }
